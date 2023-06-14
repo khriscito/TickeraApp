@@ -1,20 +1,86 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NativeBaseProvider, Box } from "native-base";
-import { Button } from "native-base";
+import React from 'react'
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './src/components/Main.jsx';
+import Dashboard from './src/Pages/Dashboard.jsx'
+import Landing from './src/Pages/Landing.jsx'
+import Login from './src/Pages/Login.jsx'
+import Register from './src/Pages/Register.jsx'
 
-export default function App() {
+
+function MainScreen({navigation}) {
   return (
-<View style={styles.container}> 
-<Text>Hola Mundo!</Text>
-</View>
-
-);
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Main/>
+      <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate('Login')}
+      />
+    </View>
+  );
 }
 
+function DashboardScreen({navigation}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Dashboard/>
+      <Button
+        title="Go to Dashboard"
+        onPress={() => navigation.navigate('Dashboard')}
+      />
+    </View>
+  );
+}
+
+function LandingScreen({navigation}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Landing/>
+      <Button
+        title="Go to Landing"
+        onPress={() => navigation.navigate('Landing')}
+      />
+    </View>
+  );}
+
+  function LoginScreen({navigation}) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Login/>
+        <Button
+          title="Go to Login"
+          onPress={() => navigation.navigate('Login')}
+        />
+      </View>
+    );}
 
 
+    function RegisterScreen({navigation}) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Register/>
+          <Button
+            title="Go to Register"
+            onPress={() => navigation.navigate('Register')}
+          />
+        </View>
+      );}
+
+const Stack = createNativeStackNavigator();
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Main'>
+        <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Landing" component={LandingScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+);
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -23,3 +89,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
