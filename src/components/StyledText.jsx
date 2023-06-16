@@ -25,7 +25,10 @@ subheading:{
 container:{
     padding:20,
     paddingBottom: 5,
-    paddingTop: 5
+    paddingTop: 5,
+},
+error:{
+    color:'red',
 }
 })
 
@@ -36,6 +39,7 @@ styles.text,
 styles.container,
 color === 'primary' && styles.colorPrimary,
 color === 'secondary' && styles.colorSecondary,
+color === 'error' && styles.error,
 fontSize === 'subheading' && styles.subheading,
 fontWeight === 'bold' && styles.bold
 ]

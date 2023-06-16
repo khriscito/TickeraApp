@@ -5,7 +5,6 @@ import Constants from 'expo-constants'
 import theme from '../../theme.js'
 
 const styles= StyleSheet.create({
-
     container: {
         backgroundColor: theme.appBar.primary,
         paddingTop: Constants.statusBarHeight+10,

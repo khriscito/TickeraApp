@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './src/components/Main.jsx';
@@ -12,13 +12,11 @@ import Register from './src/Pages/Register.jsx'
 function MainScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Main/>
-      <Button
-        title="Go to Login"
-        onPress={() => navigation.navigate('Login')}
-      />
+      <Main navigation={navigation}/>
     </View>
   );
+
+  
 }
 
 function DashboardScreen({navigation}) {
@@ -47,11 +45,7 @@ function LandingScreen({navigation}) {
   function LoginScreen({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Login/>
-        <Button
-          title="Go to Login"
-          onPress={() => navigation.navigate('Login')}
-        />
+        <Login navigation={navigation}/>
       </View>
     );}
 
@@ -89,5 +83,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-
