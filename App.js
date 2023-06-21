@@ -22,7 +22,7 @@ function MainScreen({navigation}) {
 function DashboardScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Dashboard/>
+      <Dashboard navigation={navigation}/>
       <Button
         title="Go to Dashboard"
         onPress={() => navigation.navigate('Dashboard')}
@@ -34,7 +34,7 @@ function DashboardScreen({navigation}) {
 function LandingScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Landing/>
+      <Landing navigation={navigation}/>
       <Button
         title="Go to Landing"
         onPress={() => navigation.navigate('Landing')}
@@ -53,7 +53,7 @@ function LandingScreen({navigation}) {
     function RegisterScreen({navigation}) {
       return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Register/>
+          <Register navigation={navigation}/>
           <Button
             title="Go to Register"
             onPress={() => navigation.navigate('Register')}

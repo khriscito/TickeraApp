@@ -7,7 +7,6 @@ textInput:{
 
 borderRadius:5,
 borderWidth: 1,
-borderColor: '#21918',
 paddingHorizontal: 20,
 paddingVertical: 10, 
 marginBottom: 10

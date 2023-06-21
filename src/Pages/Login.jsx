@@ -23,7 +23,6 @@ const styles= StyleSheet.create({
 
 const FormikInputValue= ({name, ...props})=>{
     const [field,meta,helpers] =useField(name)
-
     return(
 
       <>
@@ -37,8 +36,6 @@ const FormikInputValue= ({name, ...props})=>{
         </>
     )
 }
-
-
 
 
 
@@ -59,7 +56,9 @@ const Login = ({ navigation }) => {
                 secureTextEntry
               />
               <Button title="Go to Main" onPress={() => navigation.navigate('Main')} />
+              <Button title="Go to Register" onPress={() => navigation.navigate('Register')} />
               <Button title="Login" onPress={handleSubmit} />
+              
             </View>
           );
         }}
