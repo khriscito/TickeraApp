@@ -1,57 +1,80 @@
-import 'react-native-gesture-handler';
 import React from 'react'
-import { StyleSheet, View,Text, } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import {createDrawerNavigator, DrawerContentScrollView,DrawerItemList, DrawerItem,} from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Main from './src/components/Main.jsx';
+import Dashboard from './src/Pages/Dashboard.jsx'
+import Landing from './src/Pages/Landing.jsx'
+import Login from './src/Pages/Login.jsx'
+import Register from './src/Pages/Register.jsx'
 
-function Feed() {
+
+function MainScreen({navigation}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Feed Screen</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Main navigation={navigation}/>
+    </View>
+  );
+
+  
+}
+
+function DashboardScreen({navigation}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Dashboard navigation={navigation}/>
+      <Button
+        title="Go to Dashboard"
+        onPress={() => navigation.navigate('Dashboard')}
+      />
     </View>
   );
 }
 
-function Article() {
+function LandingScreen({navigation}) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Article Screen</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Landing navigation={navigation}/>
+      <Button
+        title="Go to Landing"
+        onPress={() => navigation.navigate('Landing')}
+      />
     </View>
-  );
-}
+  );}
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Help" onPress={() => alert('Link to help')} />
-    </DrawerContentScrollView>
-  );
-}
+  function LoginScreen({navigation}) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Login navigation={navigation}/>
+      </View>
+    );}
 
-const Drawer = createDrawerNavigator();
 
-function MyDrawer() {
-  return (
-    <Drawer.Navigator
-      useLegacyImplementation
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen name="Feed" component={Feed} />
-      <Drawer.Screen name="Article" component={Article} />
-    </Drawer.Navigator>
-  );
-}
+    function RegisterScreen({navigation}) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Register navigation={navigation}/>
+          <Button
+            title="Go to Register"
+            onPress={() => navigation.navigate('Register')}
+          />
+        </View>
+      );}
 
+const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <MyDrawer />
+      <Stack.Navigator initialRouteName='Main'>
+        <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+        <Stack.Screen name="Landing" component={LandingScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
-  );
+);
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,5 +83,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-
