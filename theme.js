@@ -7,16 +7,16 @@ appBar:{
 },
 colors: {
     textPrimary: '#24292e',
-    textSecondary: '#586069',
+    textSecondary: '#ffffff',
     primary: '#0366d6',
     white: '#fefefe'
 },
 fontSizes: {
     body:14,
-    subheading:16
+    subheading:20,
+    heading:60,
 },
 fonts: {
-
     main:'System'
 },
 fontWeights:{
@@ -24,7 +24,6 @@ fontWeights:{
     normal: '400',
     bold: '700'
 }
-
 
 }
 

@@ -22,10 +22,14 @@ bold:{
 subheading:{
     fontSize: theme.fontSizes.subheading
 },
+heading:{
+    fontSize: theme.fontSizes.heading
+},
 container:{
     padding:20,
     paddingBottom: 5,
     paddingTop: 5,
+    marginBottom: 10
 },
 error:{
     color:'red',
@@ -41,6 +45,7 @@ color === 'primary' && styles.colorPrimary,
 color === 'secondary' && styles.colorSecondary,
 color === 'error' && styles.error,
 fontSize === 'subheading' && styles.subheading,
+fontSize === 'heading' && styles.heading,
 fontWeight === 'bold' && styles.bold
 ]
 

@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 function MainScreen({ navigation }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View>
       <Text>Home Screen</Text>
       <Button
         title="Go to Login"
