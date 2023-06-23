@@ -9,7 +9,7 @@ email: yup
 
 password: yup
 .string()
-.min(5, 'contraseña corta')
+.min(4, 'contraseña corta')
 .max(1000, 'contraseña muy larga')
 .required('contraseña es requerida')
 })

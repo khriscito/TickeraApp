@@ -7,6 +7,7 @@ import Dashboard from './src/Pages/Dashboard.jsx'
 import Landing from './src/Pages/Landing.jsx'
 import Login from './src/Pages/Login.jsx'
 import Register from './src/Pages/Register.jsx'
+import { TokenProvider } from './src/components/tokenContext.js'
 
 
 function MainScreen({navigation}) {
@@ -64,6 +65,7 @@ function LandingScreen({navigation}) {
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
+    <TokenProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Main'>
         <Stack.Screen name="Main" component={MainScreen} />
@@ -73,6 +75,7 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </TokenProvider>
 );
 }
 const styles = StyleSheet.create({
