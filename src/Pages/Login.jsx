@@ -50,8 +50,8 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     console.log(apiResponse);
     if (apiResponse && apiResponse.success) {
-      setToken(apiResponse.token);
-      console.log(apiResponse.token);
+      setToken(apiResponse.data.token);
+      console.log(apiResponse.data.token);
       navigation.navigate('Dashboard');
     } else if (apiResponse && !apiResponse.success) {
       setError(apiResponse.status);

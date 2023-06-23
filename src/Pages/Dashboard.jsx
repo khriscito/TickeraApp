@@ -1,27 +1,23 @@
-import React, {useContext} from "react";
-import {View, Button} from 'react-native'
+import React, { useContext } from "react";
+import { View, Button } from 'react-native'
 import StyledText from '../components/StyledText.jsx'
-import {TokenContext} from '../components/tokenContext.js'
+import { TokenContext } from '../components/tokenContext.js'
 
-const Dashboard=({navigation})=>{
-    const { token } = useContext(TokenContext);
-    if (!token || token === null)
-    return (
-        <View>
-          <StyledText>Solo puedes ingresar si has iniciado sesion previamente</StyledText>
-          <Button
-        title="Regresar a Login"
-        onPress={() => navigation.navigate('Login')}
-        />
-        </View>
-      );
-    return(
-        <View >
+const Dashboard = ({ navigation }) => {
+  const { token } = useContext(TokenContext);
+  return (
+    <View>
+      {!token || token === null ?
+        (<><StyledText>Solo puedes ingresar si has iniciado sesion previamente</StyledText>
+        <Button
+      title="Regresar a Login"
+      onPress={() => navigation.navigate('Login')}
+      /></>)
+        :
         <StyledText>
-            Este es el dashboard
-        </StyledText>
-        </View>
-    )
+          Este es el dashboard
+        </StyledText>}</View>
+  )
 }
 
 export default Dashboard
