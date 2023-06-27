@@ -24,10 +24,6 @@ function DashboardScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Dashboard navigation={navigation}/>
-      <Button
-        title="Go to Dashboard"
-        onPress={() => navigation.navigate('Dashboard')}
-      />
     </View>
   );
 }

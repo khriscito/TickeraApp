@@ -12,9 +12,9 @@ colors: {
     white: '#fefefe'
 },
 fontSizes: {
-    body:14,
+    body:16,
     subheading:20,
-    heading:60,
+    heading:40
 },
 fonts: {
     main:'System'

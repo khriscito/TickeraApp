@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Button } from 'react-native'
+import { StyleSheet, View} from 'react-native'
+import { Button } from '@rneui/themed';
 import StyledText from '../components/StyledText.jsx'
 import { Formik, useField } from "formik";
 import StyledTextInput from "../components/StyledTextInput.jsx";
@@ -45,6 +46,7 @@ const Login = ({ navigation }) => {
   const [apiResponse, setApiResponse] = useState(null);
   const [error, setError] = useState(null);
   const { token, setToken } = useContext(TokenContext);
+  const [loading, setLoading] = useState(false);
   
 
   useEffect(() => {
@@ -60,13 +62,15 @@ const Login = ({ navigation }) => {
 
   const handleSubmit = async (values) => {
     try {
+      setLoading(true);
       const apiUrl = `https://makeidsystems.com/makeid/index.php?r=site/LoginApi&email=${values.email}&password=${values.password}`;
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         }
-      });
+      })
+      setLoading(false);
 
       const data = await response.json();
       setApiResponse(data);
@@ -82,7 +86,7 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.log(error);
-      // Manejar el error de la llamada a la API
+      setLoading(false);
     }
   };
 
@@ -98,9 +102,15 @@ const Login = ({ navigation }) => {
           return (
             <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'flex-end' }}>
               <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'flex-start' }}>
-                <Button title="Go to Main" onPress={() => navigation.navigate('Main')} />
-                <Button title="Go to Register" onPress={() => navigation.navigate('Register')} />
-                <Button title="Go to Dashboard" onPress={() => navigation.navigate('Dashboard')} />
+                <Button title="Go to Dashboard"
+                buttonStyle={{
+                  backgroundColor: 'red',
+                  width: 200,
+                  height: 50,
+                  padding: 10,
+                  borderRadius: 30
+                  }}                
+                onPress={() => navigation.navigate('Dashboard')} />
               </View>
               <FormikInputValue
                 name='email'
@@ -112,7 +122,19 @@ const Login = ({ navigation }) => {
                 secureTextEntry
               />
               {error && <StyledText style={styles.error}>{error}</StyledText>}
-              <Button title="Login" onPress={handleSubmit} />
+              <Button title="Login" 
+              buttonStyle={{
+          backgroundColor: 'green',
+          width: 200,
+          height: 50,
+          padding: 10,
+          borderRadius: 30
+        }} containerStyle={{
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+        loading={loading} onPress={handleSubmit} />
+              
             </View>
           );
         }}
