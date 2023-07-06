@@ -6,7 +6,7 @@ import { Formik, useField } from "formik";
 import StyledTextInput from "../components/StyledTextInput.jsx";
 import { loginValidationSchema } from "../validationsSchemas/login.js";
 import { Dimensions } from 'react-native';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, Image } from 'react-native';
 import { TokenContext } from "../components/tokenContext.js";
 
 let screenWidth = Dimensions.get('window').width;
@@ -50,10 +50,8 @@ const Login = ({ navigation }) => {
   
 
   useEffect(() => {
-    console.log(apiResponse);
     if (apiResponse && apiResponse.success) {
       setToken(apiResponse.data.token);
-      console.log(apiResponse.data.token);
       navigation.navigate('Dashboard');
     } else if (apiResponse && !apiResponse.success) {
       setError(apiResponse.status);
@@ -101,16 +99,11 @@ const Login = ({ navigation }) => {
         {({ handleSubmit }) => {
           return (
             <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'flex-end' }}>
-              <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'flex-start' }}>
-                <Button title="Go to Dashboard"
-                buttonStyle={{
-                  backgroundColor: 'red',
-                  width: 200,
-                  height: 50,
-                  padding: 10,
-                  borderRadius: 30
-                  }}                
-                onPress={() => navigation.navigate('Dashboard')} />
+              <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Image 
+                style={{width:400, height:400}}
+                source={require("../../assets/defaultImage.png")}
+                ></Image>
               </View>
               <FormikInputValue
                 name='email'

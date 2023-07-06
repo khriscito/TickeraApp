@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Button, Image, ScrollView } from 'react-native';
+import { View, Button, ScrollView } from 'react-native';
 import StyledText from '../components/StyledText.jsx';
 import { TokenContext } from '../components/tokenContext.js';
 import EventCard from "../components/EventCard.jsx";
@@ -14,7 +14,6 @@ const Dashboard = ({ navigation }) => {
         const apiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EventUserApi&key=${token}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
-
         if (data.success) {
           setEvents(data.events);
         } else {
@@ -40,7 +39,7 @@ const Dashboard = ({ navigation }) => {
         events.map((event) => (
           <View key={event.id_event}>
             <EventCard event={event} key={event.id_event} />
-          </View>
+            </View>
         ))
       )}
     </ScrollView>
@@ -48,3 +47,4 @@ const Dashboard = ({ navigation }) => {
 };
 
 export default Dashboard;
+
