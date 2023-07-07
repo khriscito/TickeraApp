@@ -7,7 +7,7 @@ import StyledTextInput from "../components/StyledTextInput.jsx";
 import { loginValidationSchema } from "../validationsSchemas/login.js";
 import { Dimensions } from 'react-native';
 import { ImageBackground, Image } from 'react-native';
-import { TokenContext } from "../components/tokenContext.js";
+import { APIContext } from "../components/APIContext";
 
 let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
@@ -45,18 +45,18 @@ const Login = ({ navigation }) => {
   const image = require('../../assets/background.jpg');
   const [apiResponse, setApiResponse] = useState(null);
   const [error, setError] = useState(null);
-  const { token, setToken } = useContext(TokenContext);
+  const { token, setToken } = useContext(APIContext);
   const [loading, setLoading] = useState(false);
   
 
   useEffect(() => {
     if (apiResponse && apiResponse.success) {
       setToken(apiResponse.data.token);
-      navigation.navigate('Dashboard');
+      navigation.navigate('Drawer', { screen: 'Dashboard' });
     } else if (apiResponse && !apiResponse.success) {
       setError(apiResponse.status);
     }
-  }, [apiResponse]);
+  }, [apiResponse, setToken, navigation]);
 
   const handleSubmit = async (values) => {
     try {
@@ -77,7 +77,7 @@ const Login = ({ navigation }) => {
       if (data.success) {
         setToken(data.token);
         setError(null);
-        navigation.navigate('Dashboard');
+        navigation.navigate('Drawer', { screen: 'Dashboard' });
       } else {
         setError(data.status);
         setToken(null);

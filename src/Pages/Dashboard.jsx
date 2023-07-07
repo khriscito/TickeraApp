@@ -1,29 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { View, Button, ScrollView } from 'react-native';
 import StyledText from '../components/StyledText.jsx';
-import { TokenContext } from '../components/tokenContext.js';
+import { APIContext } from '../components/APIContext.js';
 import EventCard from "../components/EventCard.jsx";
 
 const Dashboard = ({ navigation }) => {
-  const { token } = useContext(TokenContext);
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const apiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EventUserApi&key=${token}`;
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        if (data.success) {
-          setEvents(data.events);
-        } else {
-        }
-      } catch (error) {
-      }
-    };
-
-    fetchEvents();
-  }, [token]);
+  const { token, events, secondData } = useContext(APIContext);
 
   return (
     <ScrollView>
@@ -36,10 +18,10 @@ const Dashboard = ({ navigation }) => {
           />
         </>
       ) : (
-        events.map((event) => (
+        events.map((event, index) => (
           <View key={event.id_event}>
-            <EventCard event={event} key={event.id_event} />
-            </View>
+            <EventCard event={event} secondData={secondData[index]} key={event.id_event} />
+          </View>
         ))
       )}
     </ScrollView>
@@ -47,4 +29,3 @@ const Dashboard = ({ navigation }) => {
 };
 
 export default Dashboard;
-
