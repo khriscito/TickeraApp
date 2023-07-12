@@ -40,7 +40,7 @@ const VentasCard = ({ event, secondData }) => {
         <Text style={[styles.cardValue]}>{secondData.pagado}</Text>
       </Card>
 
-      <Card containerStyle={styles.card}>
+      {/* <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
       <AntDesign name='printer' size={40} color='white'/>
                     </Text>
@@ -54,7 +54,7 @@ const VentasCard = ({ event, secondData }) => {
                     </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>No impresas:</Text>
         <Text style={[styles.cardValue]}>{secondData.noimpreso}</Text>
-      </Card>
+      </Card> */}
     </View>
   );
 }

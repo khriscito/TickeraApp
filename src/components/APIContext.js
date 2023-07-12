@@ -6,6 +6,8 @@ export const APIProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [events, setEvents] = useState([]);
   const [secondData, setSecondData] = useState([]);
+  const [thirdData, setThirdData] = useState([]);
+  const [fourthData, setFourthData] = useState([]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -17,17 +19,44 @@ export const APIProvider = ({ children }) => {
           const secondDataPromise = data.events.map(async (event) => {
             const secondApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventarordenn&key=${token}&id_event=${event.id_event}`;
             const res = await fetch(secondApiUrl);
-            return res.json(); 
+            return res.json();
           });
-          const secondData = await Promise.all(secondDataPromise); 
-          setSecondData(secondData); 
+          const secondData = await Promise.all(secondDataPromise);
+          setSecondData(secondData);
           setEvents(data.events);
-        } else {
+
+          const thirdFourthPromises = data.events.map(async (event) => {
+            const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
+            const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
+
+            const [thirdResponse, fourthResponse] = await Promise.all([
+              fetch(thirdApiUrl),
+              fetch(fourthApiUrl)
+            ]);
+
+            const thirdData = await thirdResponse.json();
+            const fourthData = await fourthResponse.json();
+
+            return { thirdData, fourthData };
+          });
+
+          const thirdFourthData = await Promise.all(thirdFourthPromises);
+
+          const thirdDataArray = [];
+          const fourthDataArray = [];
+
+          thirdFourthData.forEach(({ thirdData, fourthData }) => {
+            thirdDataArray.push(thirdData);
+            fourthDataArray.push(fourthData);
+          });
+
+          setThirdData(thirdDataArray);
+          setFourthData(fourthDataArray);
         }
       } catch (error) {
+        // Manejar el error aquí
       }
     };
-
     if (token) {
       fetchEvents();
     }
@@ -37,10 +66,22 @@ export const APIProvider = ({ children }) => {
     setToken(null);
     setEvents([]);
     setSecondData([]);
+    setThirdData([]);
+    setFourthData([]);
   };
 
   return (
-    <APIContext.Provider value={{ token, setToken, events, secondData, logout }}>
+    <APIContext.Provider
+      value={{
+        token,
+        setToken,
+        events,
+        secondData,
+        thirdData,
+        fourthData,
+        logout,
+      }}
+    >
       {children}
     </APIContext.Provider>
   );
