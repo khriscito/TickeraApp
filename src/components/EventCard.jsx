@@ -6,14 +6,13 @@ import defaultImage from '../../assets/defaultImage.png';
 
 const EventCard = ({ event, secondData }) => {
     const imageSource = event.url ? { uri: event.image } : defaultImage;
-    console.log(imageSource)
     return (
         <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 80 }}>
             <View key={event.id_event} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Image source={imageSource} style={{ width: 300, height: 300 }} resizeMode="contain" />
                 <View>
-                    <Text style={styles.propertyText}>
-                        <AntDesign name='filetext1' size={20} color='white' style={{ marginRight: 10 }}/> Nombre: {event.name}
+                    <Text style={styles.headText}>
+                        Nombre: {event.name}
                     </Text>
                     
                     <Text style={styles.propertyText}>
@@ -24,42 +23,42 @@ const EventCard = ({ event, secondData }) => {
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='calendar' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Ordenes:</Text>
+                            <Text style={styles.orderLabel}>Órdenes generadas:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.ordenes}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='pluscircleo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Abiertas:</Text>
+                            <Text style={styles.orderLabel}>Órdenes abiertas:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.abiertas}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='checkcircleo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Verificadas:</Text>
+                            <Text style={styles.orderLabel}>Órdenes en verificación de pago:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.verificacion}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='creditcard' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Pagadas:</Text>
+                            <Text style={styles.orderLabel}>Órdenes pagadas:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.pagado}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='printer' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Impresas:</Text>
+                            <Text style={styles.orderLabel}>Órdenes canjeadas:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.impreso}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                             <AntDesign name='closesquare' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>No impresas:</Text>
+                            <Text style={styles.orderLabel}>Órdenes por canjear:</Text>
                         </View>
                         <Text style={styles.orderText}>{secondData.noimpreso}</Text>
                     </View>
@@ -73,6 +72,11 @@ const styles = StyleSheet.create({
     propertyText: {
         marginBottom: 30,
         fontSize: 15
+    },
+    headText: {
+        marginBottom: 30,
+        fontSize: 20,
+        textAlign: 'center'
     },
     title: {
         marginBottom: 30,

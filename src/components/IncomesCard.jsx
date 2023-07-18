@@ -11,16 +11,16 @@ const IncomesCard = ({ event, fourthData }) => {
       <AntDesign name='wallet' size={40} color='white'/>
                     </Text>
          <Text style={[styles.cardText, styles.leftAlign]}>
-          Total Recaudado</Text>
-        <Text style={[styles.cardValue]}>{fourthData.recaudado ?? 0}</Text>
+          Total dinero recaudado</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $</Text>
       </Card>
 
       <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
       <AntDesign name='creditcard' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total Recaudado en el día:</Text>
-        <Text style={[styles.cardValue]}>{fourthData.recaudadodia ?? 0}</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total recaudado hoy:</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(fourthData.recaudadoDia) || 0).toLocaleString('es-ES')} $</Text>
       </Card>
     </View>
   );

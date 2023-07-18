@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View} from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { Button } from '@rneui/themed';
 import StyledText from '../components/StyledText.jsx'
 import { Formik, useField } from "formik";
@@ -23,7 +23,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 50,
     marginTop: -5
-  }
+  },
+  prelogin: {
+    margin: 10,
+    marginTop: 25,
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 })
 
 const FormikInputValue = ({ name, ...props }) => {
@@ -45,18 +52,19 @@ const Login = ({ navigation }) => {
   const image = require('../../assets/background.jpg');
   const [apiResponse, setApiResponse] = useState(null);
   const [error, setError] = useState(null);
-  const { token, setToken } = useContext(APIContext);
+  const { setToken, setNameLastname } = useContext(APIContext);
   const [loading, setLoading] = useState(false);
-  
+  const [formInteracted, setFormInteracted] = useState(false); // Track if the form has been interacted with
 
   useEffect(() => {
     if (apiResponse && apiResponse.success) {
       setToken(apiResponse.data.token);
+      setNameLastname(apiResponse.data.name_lastname);
       navigation.navigate('Drawer', { screen: 'Dashboard' });
     } else if (apiResponse && !apiResponse.success) {
       setError(apiResponse.status);
     }
-  }, [apiResponse, setToken, navigation]);
+  }, [apiResponse, setToken, setNameLastname, navigation]);
 
   const handleSubmit = async (values) => {
     try {
@@ -67,20 +75,15 @@ const Login = ({ navigation }) => {
         headers: {
           "Content-Type": "application/json",
         }
-      })
+      });
       setLoading(false);
-
       const data = await response.json();
       setApiResponse(data);
-      setToken(null);
 
       if (data.success) {
-        setToken(data.token);
         setError(null);
-        navigation.navigate('Drawer', { screen: 'Dashboard' });
       } else {
         setError(data.status);
-        setToken(null);
       }
     } catch (error) {
       console.log(error);
@@ -88,6 +91,9 @@ const Login = ({ navigation }) => {
     }
   };
 
+  const handleFormInteract = () => {
+    setFormInteracted(true);
+  };
 
   return (
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
@@ -100,34 +106,42 @@ const Login = ({ navigation }) => {
           return (
             <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'flex-end' }}>
               <View style={{ width: screenWidth, height: screenHeight, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image 
-                style={{width:400, height:400}}
-                source={require("../../assets/defaultImage.png")}
+                <Image
+                  style={{ width: 400, height: 400 }}
+                  source={require("../../assets/defaultImage.png")}
                 ></Image>
+                {!formInteracted && (
+                  <Text style={styles.prelogin}>Utilice su correo electrónico y su contraseña para ingresar</Text>
+                )}
               </View>
               <FormikInputValue
                 name='email'
-                placeholder='email'
+                placeholder='Correo electrónico'
+                onFocus={handleFormInteract} // Set formInteracted to true when the email input is focused
               />
               <FormikInputValue
                 name='password'
-                placeholder='password'
+                placeholder='Contraseña'
                 secureTextEntry
+                onFocus={handleFormInteract} // Set formInteracted to true when the password input is focused
               />
               {error && <StyledText style={styles.error}>{error}</StyledText>}
-              <Button title="Login" 
-              buttonStyle={{
-          backgroundColor: 'green',
-          width: 200,
-          height: 50,
-          padding: 10,
-          borderRadius: 30
-        }} containerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        loading={loading} onPress={handleSubmit} />
-              
+              <Button
+                title="Login"
+                buttonStyle={{
+                  backgroundColor: 'green',
+                  width: 200,
+                  height: 50,
+                  padding: 10,
+                  borderRadius: 30
+                }}
+                containerStyle={{
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                loading={loading}
+                onPress={handleSubmit}
+              />
             </View>
           );
         }}
@@ -137,3 +151,5 @@ const Login = ({ navigation }) => {
 };
 
 export default Login;
+
+

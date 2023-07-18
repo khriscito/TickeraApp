@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
-import { Icon } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
 const VentasCard = ({ event, secondData }) => {
@@ -12,32 +11,32 @@ const VentasCard = ({ event, secondData }) => {
       <AntDesign name='calendar' size={40} color='white'/>
                     </Text>
          <Text style={[styles.cardText, styles.leftAlign]}>
-          Total de Ordenes:</Text>
-        <Text style={[styles.cardValue]}>{secondData.ordenes}</Text>
+          Órdenes vendidas:</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(secondData.ordenes || 0)).toLocaleString('es-ES')}</Text> 
       </Card>
 
       <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
       <AntDesign name='pluscircleo' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Abiertas:</Text>
-        <Text style={[styles.cardValue]}>{secondData.abiertas}</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Órdenes ocupadas:</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(secondData.abiertas || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
       <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
       <AntDesign name='checkcircleo' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Verificadas:</Text>
-        <Text style={[styles.cardValue]}>{secondData.verificacion}</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Órdenes en verificación:</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(secondData.verificacion || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
       <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
       <AntDesign name='creditcard' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Pagadas:</Text>
-        <Text style={[styles.cardValue]}>{secondData.pagado}</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Órdenes pagadas:</Text>
+        <Text style={[styles.cardValue]}>{(parseFloat(secondData.pagado || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
       {/* <Card containerStyle={styles.card}>

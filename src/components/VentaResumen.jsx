@@ -30,6 +30,7 @@ const VentaResumen = () => {
           items={dropdownItems}
           setOpen={setOpen}
           setValue={handleDropdownChange}
+          placeholder="Seleccione su evento"
         />
       </View>
 

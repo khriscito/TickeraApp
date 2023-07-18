@@ -30,6 +30,7 @@ const MisVentas = () => {
           items={dropdownItems}
           setOpen={setOpen}
           setValue={handleDropdownChange}
+          placeholder="Seleccione su evento"
         />
       </View>
 

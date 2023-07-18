@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,6 +9,7 @@ import Landing from './src/Pages/Landing.jsx';
 import Login from './src/Pages/Login.jsx';
 import MisVentas from './src/components/MisVentas.jsx';
 import VentaResumen from './src/components/VentaResumen.jsx';
+import Graficas from './src/components/Graficas.jsx';
 import { APIProvider, APIContext } from './src/components/APIContext.js';
 import { BackHandler } from 'react-native';
 import { Button } from '@rneui/themed';
@@ -71,17 +72,21 @@ function LoginScreen({ navigation }) {
 
 function CustomDrawerContent(props) {
   const { navigation } = props;
-  const { logout } = useContext(APIContext);
+  const { logout, nameLastname } = useContext(APIContext);
 
   const handleLogout = () => {
     logout();
     navigation.navigate('Main');
   };
 
+
   return (
     <View style={{ flex: 1}}>
 
     <DrawerContentScrollView {...props}>
+      <View style={styles.profileContainer}>
+    <AntDesign name="user" size={30} color="white" /><Text style={styles.profile}>{nameLastname}</Text>
+      </View>
       <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
@@ -135,6 +140,13 @@ function DrawerNavigator() {
           <AntDesign name="areachart" size={25} color={'white'} />
         ),
       }}/>
+
+<Drawer.Screen name="Graficas" component={Graficas} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="piechart" size={25} color={'white'} />
+        ),
+      }}/>
     </Drawer.Navigator>
   );
 }
@@ -160,6 +172,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  profile:{
+    fontSize: 15, 
+    fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 5,
+    padding: 5,
+  },
+  profileContainer: {
+    backgroundColor: 'grey',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal: 10,
   },
 });
 

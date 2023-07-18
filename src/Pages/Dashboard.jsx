@@ -6,7 +6,7 @@ import EventCard from "../components/EventCard.jsx";
 import { Image } from 'react-native'
 
 const Dashboard = ({ navigation }) => {
-  const { token, events, secondData } = useContext(APIContext);
+  const { token, events, secondData, nameLastname } = useContext(APIContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -31,6 +31,8 @@ const Dashboard = ({ navigation }) => {
   }
 
   return (
+    <View>
+      <Text style={styles.header}>Resumen de tus eventos</Text>
     <ScrollView>
       {!token || token === null ? (
         <>
@@ -38,16 +40,18 @@ const Dashboard = ({ navigation }) => {
           <Button
             title="Regresar a Login"
             onPress={() => navigation.navigate('Login')}
-          />
+            />
         </>
-      ) : (
+      ) :        
+      (     
         events.map((event, index) => (
           <View key={event.id_event}>
             <EventCard event={event} secondData={secondData[index]} key={event.id_event} />
           </View>
         ))
-      )}
+        )}
     </ScrollView>
+        </View>
   );
 };
 
@@ -57,7 +61,14 @@ const styles = StyleSheet.create({
       fontWeight: 'bold', 
       fontSize: 30,
       textAlign: 'center',        
-  }
+  },
+  header: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
 });
 
 export default Dashboard;
