@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { BarChart, PieChart } from 'react-native-chart-kit';
@@ -32,12 +32,11 @@ const Graficas = () => {
     value: event.name,
   }));
 
-  const transformData = (data) => {
-    const labels = data.map((item) => item.fechas);
-    const dataSet = data.map((item) => parseFloat(item.fechaCant));
-    console.log(data)
-    console.log(labels)
-    console.log(dataSet)
+
+  const transformDataFecha = (data) => {
+    const labels = data.flatMap((item) => item.fechas);
+    const dataSet = data.flatMap((item) => (item.fechaCant));
+
     
     return {
       labels: labels,
@@ -46,6 +45,15 @@ const Graficas = () => {
   };
   
 
+  const transformDataArticulo = (data) => {
+    const labels = data.flatMap((item) => item.nameArticulo);
+    const dataSet = data.flatMap((item) => (item.cantArticulo));    
+    return {
+      labels: labels,
+      datasets: [{ data: dataSet }],
+    };
+  };
+
   const chartConfig = {
     backgroundGradientFrom: '#ffffff', // Cambiar a color blanco
     backgroundGradientFromOpacity: 1, // Cambiar a opacidad completa
@@ -53,12 +61,13 @@ const Graficas = () => {
     backgroundGradientToOpacity: 1, // Cambiar a opacidad completa
     fillShadowGradient: '#ed0c0c',
     fillShadowGradientOpacity: 1,
+    barPercentage: 0.5,
+    labelFontSize: 50,
     color: (opacity = 1) => `#007BFF`,
     labelColor: (opacity = 1) => `#333`,
-    strokeWidth: 2,
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false,
-    decimalPlaces: 0,
+    propsForLabels: {
+      fontSize: 8,
+    },
   };
 
   const transformDataForPieChart = (data) => {
@@ -89,6 +98,7 @@ const Graficas = () => {
 
 
   return (
+    
     <View>
       <View style={styles.dropdownContainer}>
         <DropDownPicker
@@ -98,7 +108,7 @@ const Graficas = () => {
           setOpen={setOpen}
           setValue={handleDropdownChange}
           placeholder="Seleccione su evento"
-        />
+          />
       </View>
 
       <FlatList
@@ -106,22 +116,36 @@ const Graficas = () => {
         keyExtractor={(event) => event.id_event.toString()}
         renderItem={({ item, index }) => (
           <View
-            key={item.id_event}
-            style={styles.cardContainer}
+          key={item.id_event}
+          style={styles.cardContainer}
           >
           </View>
         )}
-      />
-
+        />
+        
+        <ScrollView>
+        <Text style={styles.title}>Por 7 días:</Text>
 <BarChart
-        data={transformData(filteredfifthData)}
+        data={transformDataFecha(filteredfifthData)}
         width={screenWidth}
-        height={220}
+        height={450}
         chartConfig={chartConfig}
         fromZero={true}
-        style={{ marginVertical: 40  }}
-      />
+        style={{ marginVertical: 60  }}
+        verticalLabelRotation={90}
+        />
+<Text style={styles.title}>Por articulo:</Text>
+<BarChart
+        data={transformDataArticulo(filteredfifthData)}
+        width={screenWidth}
+        height={600}
+        chartConfig={chartConfig}
+        fromZero={true}
+        style={{ marginVertical: 40 }}
+        verticalLabelRotation={90}
+        />
 
+<Text style={styles.title}>Ventas Online vs Taquilla:</Text>
 <PieChart
   data={transformDataForPieChart(filteredfifthData)}
   width={screenWidth}
@@ -135,28 +159,28 @@ const Graficas = () => {
 
 
 
-      <Text>Información de la Quinta API:</Text>
-      {filteredfifthData.map((fifthData, index) => (
-        <View key={index}>
-          <Text>{fifthData.taquilla}</Text>
-          <Text>{fifthData.web}</Text>
-        </View>
-      ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    dropdownContainer: {
-      position: 'absolute',
-      zIndex: 9999,
-      marginBottom: 20
-    },
+  dropdownContainer: {
+    position: 'absolute',
+    zIndex: 9999,
+    marginBottom: 20
+  },
   
-    cardContainer: {
-      marginTop: 25
-    },
-  });
+  title: {
+    marginTop: 30,
+    fontWeight: 'bold',
+    fontSize: 25,
+    textAlign: 'center',
+},
+  cardContainer: {
+    marginTop: 25
+  },
+});
   
 
 export default Graficas;

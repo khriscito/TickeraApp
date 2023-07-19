@@ -96,6 +96,7 @@ export const APIProvider = ({ children }) => {
         fourthData,
         fifthDataArray, // Use the correct state variable here
         logout,
+        setThirdData
       }}
     >
       {children}

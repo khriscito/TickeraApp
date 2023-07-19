@@ -15,7 +15,7 @@ return(
   <View style={{width: screenWidth, height: screenHeight, flex:1, justifyContent: 'flex-end'}}>
     <StyledText fontWeight='bold' fontSize="heading" color="secondary">¿Preparado para disfrutar del mejor evento de tu vida?</StyledText>
     <View style={{flex: 1, justifyContent: 'flex-end'}}>
-    <StyledText fontWeight='bold' fontSize="subheading" color="secondary">ingresa aqui para la gestion de todos los eventos</StyledText>
+    <StyledText fontWeight='bold' fontSize="subheading" color="secondary">Ingresa aquí para la gestión de todos los eventos</StyledText>
     <Button
 
 title="Ir al Login"

@@ -21,7 +21,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='profile' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total de ordenes:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total tickets:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.ordenes || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -30,7 +30,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='closesquareo' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total de ordenes bloqueadas:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total tickets bloqueados:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.bloqueo || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -39,7 +39,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='carryout' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total ordenes del dia:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total tickets del día:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.ordenesDia || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -49,7 +49,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='back' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Ordenes ayer:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Tickets de ayer:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.ordenesAyer || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -58,7 +58,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='smileo' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total de ordenes por cortesía:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Tickets de cortesía:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.ordenesCortesia || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -66,7 +66,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='minuscircleo' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total de ordenes por descuento:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Tickets por descuento:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(thirdData.ordenesDescuento || 0)).toLocaleString('es-ES')}</Text>
       </Card>
 
@@ -75,7 +75,7 @@ const VentaResumenCard = ({ event, thirdData }) => {
       <Text style={styles.cardValue}>
       <AntDesign name='shoppingcart' size={40} color='white'/>
                     </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Total de ordenes para la venta:</Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total de tickets para la venta:</Text>
         <Text style={[styles.cardValue]}>{(ordenesVenta).toLocaleString('es-ES')}</Text>
       </Card>
     </View>

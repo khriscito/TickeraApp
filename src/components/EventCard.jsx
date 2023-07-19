@@ -4,8 +4,9 @@ import { Card } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 import defaultImage from '../../assets/defaultImage.png';
 
-const EventCard = ({ event, secondData }) => {
+const EventCard = ({ event, thirdData }) => {
     const imageSource = event.url ? { uri: event.image } : defaultImage;
+    const ordenesVenta = thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesAyer - thirdData.ordenesCortesia - thirdData.ordenesDescuento;
     return (
         <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 80 }}>
             <View key={event.id_event} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -22,45 +23,59 @@ const EventCard = ({ event, secondData }) => {
                     <Text style={styles.title}>ESTATUS DE ORDENES </Text>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='calendar' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes generadas:</Text>
+                        <AntDesign name='team' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Aforo:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.ordenes}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.aforo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='pluscircleo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes abiertas:</Text>
+                        <AntDesign name='profile' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Total tickets:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.abiertas}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenes || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='checkcircleo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes en verificación de pago:</Text>
+                        <AntDesign name='closesquareo' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Total tickets bloqueados:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.verificacion}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.bloqueo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='creditcard' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes pagadas:</Text>
+                        <AntDesign name='carryout' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Total tickets del día:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.pagado}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDia || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='printer' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes canjeadas:</Text>
+                        <AntDesign name='back' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Tickets de ayer:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.impreso}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesAyer || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
-                            <AntDesign name='closesquare' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Órdenes por canjear:</Text>
+                        <AntDesign name='smileo' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Tickets de cortesía:</Text>
                         </View>
-                        <Text style={styles.orderText}>{secondData.noimpreso}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesCortesia || 0)).toLocaleString('es-ES')}</Text>
+                    </View>
+                    <View style={styles.orderContainer}>
+                        <View style={styles.orderLeft}>
+                        <AntDesign name='minuscircleo' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Tickets por descuento:</Text>
+                        </View>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDescuento || 0)).toLocaleString('es-ES')}</Text>
+                    </View>
+                    <View style={styles.orderContainer}>
+                        <View style={styles.orderLeft}>
+                        <AntDesign name='shoppingcart' size={20} color='white'/>
+                            <Text style={styles.orderLabel}>Total de tickets para la venta:</Text>
+                        </View>
+                        <Text style={styles.orderText}>{(ordenesVenta).toLocaleString('es-ES')}</Text>
                     </View>
                 </View>
             </View>
