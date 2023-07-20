@@ -11,7 +11,7 @@ const VentasCard = ({ event, secondData }) => {
       <AntDesign name='calendar' size={40} color='white'/>
                     </Text>
          <Text style={[styles.cardText, styles.leftAlign]}>
-          Órdenes vendidas:</Text>
+          Tickets vendidos:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(secondData.ordenes || 0)).toLocaleString('es-ES')}</Text> 
       </Card>
 

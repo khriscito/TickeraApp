@@ -11,7 +11,7 @@ const Graficas = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState('Natalia Jimenez');
 
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
@@ -34,20 +34,19 @@ const Graficas = () => {
 
 
   const transformDataFecha = (data) => {
-    const labels = data.flatMap((item) => item.fechas);
-    const dataSet = data.flatMap((item) => (item.fechaCant));
-
-    
+    const labels = data.flatMap((item) => item.fechas.slice(0, 10)); // Limit to first 10 labels
+    const dataSet = data.flatMap((item) => item.fechaCant.slice(0, 10)); // Limit to first 10 datasets
+  
     return {
       labels: labels,
       datasets: [{ data: dataSet }],
     };
   };
   
-
   const transformDataArticulo = (data) => {
-    const labels = data.flatMap((item) => item.nameArticulo);
-    const dataSet = data.flatMap((item) => (item.cantArticulo));    
+    const labels = data.flatMap((item) => item.nameArticulo.slice(0, 10)); // Limit to first 10 labels
+    const dataSet = data.flatMap((item) => item.cantArticulo.slice(0, 10)); // Limit to first 10 datasets
+  
     return {
       labels: labels,
       datasets: [{ data: dataSet }],
@@ -66,7 +65,7 @@ const Graficas = () => {
     color: (opacity = 1) => `#007BFF`,
     labelColor: (opacity = 1) => `#333`,
     propsForLabels: {
-      fontSize: 8,
+      fontSize: 9
     },
   };
 
@@ -89,10 +88,7 @@ const Graficas = () => {
       },
     ];
   };
-  
-  
-  
-  
+    
 
   const screenWidth = Dimensions.get('window').width;
 
@@ -138,18 +134,18 @@ const Graficas = () => {
 <BarChart
         data={transformDataArticulo(filteredfifthData)}
         width={screenWidth}
-        height={600}
+        height={800}
         chartConfig={chartConfig}
         fromZero={true}
         style={{ marginVertical: 40 }}
-        verticalLabelRotation={90}
+        verticalLabelRotation={120}
         />
 
 <Text style={styles.title}>Ventas Online vs Taquilla:</Text>
 <PieChart
   data={transformDataForPieChart(filteredfifthData)}
   width={screenWidth}
-  height={220}
+  height={280}
   chartConfig={chartConfig}
   accessor={'population'}
   backgroundColor={'transparent'}
@@ -184,5 +180,8 @@ const styles = StyleSheet.create({
   
 
 export default Graficas;
+
+
+
 
 
