@@ -9,7 +9,10 @@ export const APIProvider = ({ children }) => {
   const [secondData, setSecondData] = useState([]);
   const [thirdData, setThirdData] = useState([]);
   const [fourthData, setFourthData] = useState([]);
-  const [fifthDataArray, setFifthDataArray] = useState([]); // Rename fifthData to fifthDataArray
+  const [fifthDataArray, setFifthDataArray] = useState([]);
+  const [sixthData, setSixthData] = useState([]);
+  
+  
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -31,18 +34,21 @@ export const APIProvider = ({ children }) => {
             const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
             const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
             const fifthApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/reporteriagraficaApi&id_event=${event.id_event}&key=${token}`;
+            const sixthApiUrl= `https://www.makeidsystems.com/makeid/index.php?r=site/pdfSemanal&id_event=${event.id_event}&key=${token} `
 
-            const [thirdResponse, fourthResponse, fifthResponse] = await Promise.all([
+            const [thirdResponse, fourthResponse, fifthResponse, sixthResponse] = await Promise.all([
               fetch(thirdApiUrl),
               fetch(fourthApiUrl),
-              fetch(fifthApiUrl)
+              fetch(fifthApiUrl),
+              fetch(sixthApiUrl)
             ]);
 
             const thirdData = await thirdResponse.json();
             const fourthData = await fourthResponse.json();
-            const fifthData = await fifthResponse.json(); // Correct the variable name here
+            const fifthData = await fifthResponse.json();
+            const sixthData = await sixthResponse.json();
 
-            return { thirdData, fourthData, fifthData };
+            return { thirdData, fourthData, fifthData, sixthData };
           });
 
           const restOfApisData = await Promise.all(restOfApisPromises);
@@ -50,16 +56,19 @@ export const APIProvider = ({ children }) => {
           const thirdDataArray = [];
           const fourthDataArray = [];
           const fifthDataArray = [];
+          const sixthDataArray = [];
 
-          restOfApisData.forEach(({ thirdData, fourthData, fifthData }) => { // Update the destructuring here
+          restOfApisData.forEach(({ thirdData, fourthData, fifthData, sixthData }) => { // Update the destructuring here
             thirdDataArray.push(thirdData);
             fourthDataArray.push(fourthData);
             fifthDataArray.push(fifthData);
+            sixthDataArray.push(sixthData);
           });
 
           setThirdData(thirdDataArray);
           setFourthData(fourthDataArray);
-          setFifthDataArray(fifthDataArray); // Set the correct state variable here
+          setFifthDataArray(fifthDataArray);
+          setSixthData(sixthDataArray); // Set the correct state variable here
         }
       } catch (error) {
         // Handle the error here
@@ -78,10 +87,10 @@ export const APIProvider = ({ children }) => {
     setSecondData([]);
     setThirdData([]);
     setFourthData([]);
-    setFifthDataArray([]); // Set the correct state variable here
+    setFifthDataArray([]);
+    setSixthDataArray([]);// Set the correct state variable here
   };
 
-  console.log(token)
 
   return (
     <APIContext.Provider
@@ -94,7 +103,8 @@ export const APIProvider = ({ children }) => {
         secondData,
         thirdData,
         fourthData,
-        fifthDataArray, // Use the correct state variable here
+        fifthDataArray,
+        sixthData, // Use the correct state variable here
         logout,
         setThirdData
       }}

@@ -15,6 +15,7 @@ import { BackHandler } from 'react-native';
 import { Button } from '@rneui/themed';
 import ResumenIncomes from './src/components/ResumenIncomes.jsx';
 import { AntDesign } from '@expo/vector-icons';
+import Reportes from './src/components/Reportes.jsx';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -145,6 +146,14 @@ function DrawerNavigator() {
       options={{
         drawerIcon: ({ color, size }) => (
           <AntDesign name="piechart" size={25} color={'white'} />
+        ),
+      }}/>
+
+
+<Drawer.Screen name="Reportes" component={Reportes} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="areachart" size={25} color={'white'} />
         ),
       }}/>
     </Drawer.Navigator>
