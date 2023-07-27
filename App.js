@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Alert  } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,12 +10,13 @@ import Login from './src/Pages/Login.jsx';
 import MisVentas from './src/components/MisVentas.jsx';
 import VentaResumen from './src/components/VentaResumen.jsx';
 import Graficas from './src/components/Graficas.jsx';
+import Sillas from './src/components/Sillas.jsx'
 import { APIProvider, APIContext } from './src/components/APIContext.js';
 import { BackHandler } from 'react-native';
 import { Button } from '@rneui/themed';
 import ResumenIncomes from './src/components/ResumenIncomes.jsx';
 import { AntDesign } from '@expo/vector-icons';
-import Reportes from './src/components/Reportes.jsx';
+import ReportesDescargables from './src/components/ReportesDescargables.jsx';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -32,10 +33,6 @@ function DashboardScreen() {
   const { token, logout, events, secondData } = useContext(APIContext);
   const navigation = useNavigation();
 
-  const handleLogout = () => {
-    logout();
-    navigation.navigate('Main');
-  };
 
   useEffect(() => {
     const backAction = () => {
@@ -76,10 +73,22 @@ function CustomDrawerContent(props) {
   const { logout, nameLastname } = useContext(APIContext);
 
   const handleLogout = () => {
-    logout();
-    navigation.navigate('Main');
+    Alert.alert(
+      "Cerrar Sesión",
+      "¿Estás seguro de que deseas cerrar sesión?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => {
+            logout();
+            navigation.navigate('Main');
+        }}
+      ]
+    );
   };
-
 
   return (
     <View style={{ flex: 1}}>
@@ -150,15 +159,27 @@ function DrawerNavigator() {
       }}/>
 
 
-<Drawer.Screen name="Reportes" component={Reportes} 
+<Drawer.Screen name="Reportes Descargables" component={ReportesDescargables} 
       options={{
         drawerIcon: ({ color, size }) => (
           <AntDesign name="areachart" size={25} color={'white'} />
         ),
       }}/>
+
+
+<Drawer.Screen name="Sillas" component={Sillas} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="team" size={25} color={'white'} />
+        ),
+      }}/>
     </Drawer.Navigator>
+
+    
   );
 }
+
+
 
 export default function App() {
   return (

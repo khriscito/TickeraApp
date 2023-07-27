@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -11,7 +11,14 @@ const Graficas = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [selectedEvent, setSelectedEvent] = useState('Natalia Jimenez');
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+useEffect(() => {
+  if (filteredEvents.length > 0) {
+    setSelectedEvent(filteredEvents[0].name);
+  }
+}, [filteredEvents]);
+
 
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);

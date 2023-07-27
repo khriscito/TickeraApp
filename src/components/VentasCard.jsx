@@ -17,7 +17,7 @@ const VentasCard = ({ event, secondData }) => {
 
       <Card containerStyle={styles.card}>
       <Text style={styles.cardValue}>
-      <AntDesign name='pluscircleo' size={40} color='white'/>
+      <AntDesign name='lock1' size={40} color='white'/>
                     </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>Órdenes ocupadas:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(secondData.abiertas || 0)).toLocaleString('es-ES')}</Text>

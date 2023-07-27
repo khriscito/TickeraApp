@@ -13,11 +13,11 @@ const EventCard = ({ event, thirdData }) => {
                 <Image source={imageSource} style={{ width: 300, height: 300 }} resizeMode="contain" />
                 <View>
                     <Text style={styles.headText}>
-                        Nombre: {event.name}
+                        {event.name}
                     </Text>
                     
                     <Text style={styles.propertyText}>
-                        <AntDesign name='calendar' size={20} color='white'/> Fecha: {event.event_date}
+                        <AntDesign name='calendar' size={20} color='white'/> Día del evento: {event.event_date}
                     </Text>
 
                     <Text style={styles.title}>ESTATUS DE ORDENES </Text>
@@ -90,8 +90,9 @@ const styles = StyleSheet.create({
     },
     headText: {
         marginBottom: 30,
-        fontSize: 20,
-        textAlign: 'center'
+        fontSize: 26,
+        textAlign: 'center',
+        fontWeight: 'bold'
     },
     title: {
         marginBottom: 30,

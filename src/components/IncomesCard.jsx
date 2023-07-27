@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
-const IncomesCard = ({ event, fourthData }) => {
+const IncomesCard = ({ events, fourthData }) => {
   return (
     <View style={styles.cardContainer}>
       <Card containerStyle={styles.card}>

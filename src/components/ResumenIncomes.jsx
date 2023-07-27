@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, FlatList, StyleSheet } from 'react-native';
 import { APIContext } from '../components/APIContext.js';
 import IncomesCard from "../components/IncomesCard.jsx";
@@ -11,15 +11,27 @@ const ResumenIncomes = () => {
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  useEffect(() => {
+    if (filteredEvents.length > 0) {
+      setSelectedEvent(filteredEvents[0].name);
+    }
+  }, [filteredEvents]);
+
+
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
     setSelectedEvent(itemValue);
   };
 
+
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredFourthData = selectedEvent ? fourthData.filter((_, index) => events[index].name === selectedEvent) : fourthData;
 
   const dropdownItems = events.map(event => ({ label: event.name, value: event.name }));
+
+  console.log(filteredEvents[0].name)
+
+  
 
   return (
     <View>

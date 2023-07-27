@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, FlatList, StyleSheet } from 'react-native';
 import { APIContext } from '../components/APIContext.js';
 import VentasCard from "../components/VentasCard.jsx";
@@ -10,6 +10,13 @@ const MisVentas = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
+
+  useEffect(() => {
+    if (filteredEvents.length > 0) {
+      setSelectedEvent(filteredEvents[0].name);
+    }
+  }, [filteredEvents]);
+  
 
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
