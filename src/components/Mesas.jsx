@@ -1,18 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView  } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-const Sillas = () => {
+const Mesas = () => {
   const { events, token } = useContext(APIContext);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [articleDropdownOpen, setArticleDropdownOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedIDEvent, setSelectedIDEvent] = useState(null);
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [articulosData, setArticulosData] = useState([]);
   const [showArticleDropdown, setShowArticleDropdown] = useState(false);
-  const [sillasImageUrl, setSillasImageUrl] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para controlar la carga
+  const [mesasImageUrl, setMesasImageUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticulosData = async () => {
@@ -24,7 +25,8 @@ const Sillas = () => {
           try {
             const response = await fetch(articuloApiUrl);
             const articulosData = await response.json();
-            return { event: event.name, articulosData: articulosData.articulos };
+
+            return { event: event.name, articulosData: articulosData.articulos, id_event: event.id_event };
           } catch (error) {
             console.error('Error fetching data for event:', event.name, error);
             return null;
@@ -44,6 +46,7 @@ const Sillas = () => {
     setShowArticleDropdown(true);
   };
 
+
   const handleArticleChange = (articleValue) => {
     setSelectedArticle(articleValue);
   };
@@ -54,28 +57,28 @@ const Sillas = () => {
   }));
 
   // Filter articles based on selected event
-  const dropdownArticleItems = articulosData.find(
-    (data) => data && data.event === selectedEvent
-  )?.articulosData.map((articulo) => ({
-    label: articulo.name,
-    value: articulo.id_article.toString(),
-  })) || [];
+  const dropdownArticleItems =
+    articulosData.find((data) => data && data.event === selectedEvent)?.articulosData.map((articulo) => ({
+      label: articulo.name,
+      value: articulo.id_article.toString(),
+    })) || [];
 
   useEffect(() => {
     if (selectedArticle) {
-      const fetchSillasData = async () => {
-        const sillasApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EspacioSillas&key=${token}&id_article=${selectedArticle}`;
+      const fetchmesasData = async () => {
+        const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
         try {
-          const response = await fetch(sillasApiUrl);
-          const sillasData = await response.json();
-          setSillasImageUrl(sillasData.image);
-          console.log(sillasApiUrl)
+          const response = await fetch(mesasApiUrl);
+          const mesasData = await response.json();
+          setMesasImageUrl(mesasData.image);
+          console.log(mesasImageUrl)
+          console.log(mesasApiUrl)
         } catch (error) {
-          console.error('Error fetching sillas data:', error);
+          console.error('Error fetching mesas data:', error);
         }
       };
 
-      fetchSillasData();
+      fetchmesasData();
     }
   }, [selectedEvent, selectedArticle, token]);
 
@@ -84,13 +87,10 @@ const Sillas = () => {
       {/* Mostrar pantalla de carga si articulosData está cargando */}
       {loading && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
-        <Image
-          style={{ width: 400, height: 400 }}
-          source={require("../../assets/defaultImage.png")}
-        />
-        <ActivityIndicator size={120} />
-      </View>
+          <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
+          <Image style={{ width: 400, height: 400 }} source={require('../../assets/defaultImage.png')} />
+          <ActivityIndicator size={120} />
+        </View>
       )}
 
       {/* Renderizar el contenido si articulosData ha cargado */}
@@ -122,26 +122,26 @@ const Sillas = () => {
                 placeholder="Seleccione un artículo"
               />
             </View>
-            
           )}
         </View>
       )}
 
-<ScrollView style={styles.container}> 
-{sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
+      <ScrollView style={styles.container}>
+        {mesasImageUrl === 'https://www.makeidsystems.com/makeid/images/difusion/' ? (
           <View style={styles.messageContainer}>
             <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
           </View>
-        ) : sillasImageUrl && (
-          // Show the image if sillasImageUrl exists and is not the specific URL
+        ) : mesasImageUrl && (
+          // Show the image if mesasImageUrl exists and is not the specific URL
           <View style={styles.imageContainer}>
-            <Image source={{ uri: sillasImageUrl }} style={styles.image} />
+            <Image source={{ uri: mesasImageUrl }} style={styles.image} />
           </View>
         )}
-        </ScrollView>
+      </ScrollView>
     </>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -208,12 +208,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sillas;
 
-
-
-
-
-
-
-
+export default Mesas;

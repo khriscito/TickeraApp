@@ -17,6 +17,7 @@ import { Button } from '@rneui/themed';
 import ResumenIncomes from './src/components/ResumenIncomes.jsx';
 import { AntDesign } from '@expo/vector-icons';
 import ReportesDescargables from './src/components/ReportesDescargables.jsx';
+import Mesas from './src/components/Mesas.jsx';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -173,11 +174,20 @@ function DrawerNavigator() {
           <AntDesign name="team" size={25} color={'white'} />
         ),
       }}/>
+
+<Drawer.Screen name="Mesas" component={Mesas} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="profile" size={25} color={'white'} />
+        ),
+      }}/>
     </Drawer.Navigator>
 
     
   );
 }
+
+
 
 
 

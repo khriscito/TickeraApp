@@ -77,6 +77,8 @@ export const APIProvider = ({ children }) => {
     }
   }, [token]);
 
+  console.log(token)
+
 
   const logout = () => {
     setToken(null);
