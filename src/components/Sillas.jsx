@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView  } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Center } from 'native-base';
 
 const Sillas = () => {
   const { events, token } = useContext(APIContext);
@@ -12,7 +13,9 @@ const Sillas = () => {
   const [articulosData, setArticulosData] = useState([]);
   const [showArticleDropdown, setShowArticleDropdown] = useState(false);
   const [sillasImageUrl, setSillasImageUrl] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para controlar la carga
+  const [loading, setLoading] = useState(true);
+  const [sillasData, setSillasData] = useState([]);
+
 
   useEffect(() => {
     const fetchArticulosData = async () => {
@@ -69,7 +72,7 @@ const Sillas = () => {
           const response = await fetch(sillasApiUrl);
           const sillasData = await response.json();
           setSillasImageUrl(sillasData.image);
-          console.log(sillasApiUrl)
+          setSillasData(sillasData.array);
         } catch (error) {
           console.error('Error fetching sillas data:', error);
         }
@@ -78,6 +81,10 @@ const Sillas = () => {
       fetchSillasData();
     }
   }, [selectedEvent, selectedArticle, token]);
+
+  sillasData.map((row) => console.log(row.length));
+
+
 
   return (
     <>
@@ -127,21 +134,37 @@ const Sillas = () => {
         </View>
       )}
 
-<ScrollView style={styles.container}> 
-{sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
+
+<ScrollView style={styles.container}>
+        {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
           <View style={styles.messageContainer}>
             <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
           </View>
-        ) : sillasImageUrl && (
-          // Show the image if sillasImageUrl exists and is not the specific URL
+        ) : (
           <View style={styles.imageContainer}>
             <Image source={{ uri: sillasImageUrl }} style={styles.image} />
           </View>
         )}
-        </ScrollView>
+        {sillasImageUrl && (
+          <View style={styles.sillasContainer}>
+            {sillasData.map((row, rowIndex) => (
+              <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
+                {row.map((chair, chairIndex) => (
+                  <View
+                    key={`${rowIndex}-${chairIndex}`}
+                    style={{ width: 6, height: 15, backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0" ? "green" : chair.sold == "2"? "blue":"red", margin: 1 }}
+                  >
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -171,6 +194,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   image: {
@@ -205,6 +230,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
+  },
+  sillasContainer: {
+    flexDirection: 'column',
+    margin: 5,
+    marginTop: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+  },
+  row: {
+    flexDirection: 'column',
   },
 });
 
