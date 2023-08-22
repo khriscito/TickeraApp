@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView  } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
 import { APIContext } from './APIContext';
+import { ScrollView } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Center } from 'native-base';
+import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 const Sillas = () => {
   const { events, token } = useContext(APIContext);
@@ -15,6 +16,10 @@ const Sillas = () => {
   const [sillasImageUrl, setSillasImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sillasData, setSillasData] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedChair, setSelectedChair] = useState(null);
+
+
 
 
   useEffect(() => {
@@ -82,7 +87,19 @@ const Sillas = () => {
     }
   }, [selectedEvent, selectedArticle, token]);
 
-  sillasData.map((row) => console.log(row.length));
+  const handleChairPress = (chair) => {
+    setSelectedChair(chair);
+    setModalVisible(true);
+    const updatedSillasData = sillasData.map((row) =>
+    row.map((c) =>
+      c == chair
+        ? { ...c, isSelected: true }
+        : { ...c, isSelected: false }
+    )
+  );
+  setSillasData(updatedSillasData);
+  };
+
 
 
 
@@ -96,7 +113,6 @@ const Sillas = () => {
           style={{ width: 400, height: 400 }}
           source={require("../../assets/defaultImage.png")}
         />
-        <ActivityIndicator size={120} />
       </View>
       )}
 
@@ -135,32 +151,73 @@ const Sillas = () => {
       )}
 
 
-<ScrollView style={styles.container}>
-        {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
-          <View style={styles.messageContainer}>
-            <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
-          </View>
-        ) : (
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: sillasImageUrl }} style={styles.image} />
-          </View>
-        )}
-        {sillasImageUrl && (
-          <View style={styles.sillasContainer}>
-            {sillasData.map((row, rowIndex) => (
-              <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
-                {row.map((chair, chairIndex) => (
-                  <View
-                    key={`${rowIndex}-${chairIndex}`}
-                    style={{ width: 6, height: 15, backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0" ? "green" : chair.sold == "2"? "blue":"red", margin: 1 }}
-                  >
-                  </View>
-                ))}
+<ScrollView style={styles.container} >
+  {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
+    <View style={styles.messageContainer}>
+      <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
+    </View>
+  ) : (
+    <View style={styles.imageContainer}>
+      <Image source={{ uri: sillasImageUrl }} style={styles.image} />
+    </View>
+  )}
+  {sillasImageUrl && (
+    <View style={styles.sillasContainer}>
+      <ReactNativeZoomableView
+        maxZoom={1.1}
+        minZoom={0.5}
+        zoomStep={0.5}
+        initialZoom={1}
+        bindToBorders={true}
+      >
+        {sillasData.map((row, rowIndex) => (
+          <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
+            {row.map((chair, chairIndex) => (
+              <View
+                key={`${rowIndex}-${chairIndex}`}
+                style={{ width: 6, height: 15, backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0" ? "green" : chair.sold == "2"? "blue":"red", margin: 1 }}
+              >
+                <TouchableOpacity
+                key={`${rowIndex}-${chairIndex}`}
+                style={{
+                  width: 6,
+                  height: 15,
+                  backgroundColor: chair.isSelected ? "yellow": chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
+                  margin: 1,
+                }}
+                onPress={() => handleChairPress(chair)} // Handle chair press
+              />
               </View>
             ))}
           </View>
-        )}
-      </ScrollView>
+        ))}
+      </ReactNativeZoomableView>
+    </View>
+  )}
+</ScrollView>
+<Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {selectedChair && (
+              <>
+                <Text style={styles.modalTitle}>{selectedChair.name}</Text>
+                <Text>Status: {selectedChair.status}</Text>
+                <TouchableOpacity
+                  style={styles.modalCloseButton}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.modalCloseButtonText}>Close</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -170,7 +227,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-    marginTop: 10,
+    marginTop: 5,
   },
   dropdownEvento: {
     zIndex: 1100, 
@@ -233,16 +290,40 @@ const styles = StyleSheet.create({
   },
   sillasContainer: {
     flexDirection: 'column',
-    margin: 5,
-    marginTop: 20,
-    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    
+    height: 600
   },
   row: {
     flexDirection: 'column',
   },
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 8,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalCloseButton: {
+    marginTop: 20,
+    alignSelf: "flex-end",
+  },
+  modalCloseButtonText: {
+    color: "blue",
+    fontWeight: "bold",
+  },
+
 });
 
 export default Sillas;
