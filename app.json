@@ -2,7 +2,7 @@
   "expo": {
     "name": "app-productores",
     "slug": "app-ticket",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/defaultImageicon.png",
     "userInterfaceStyle": "light",
