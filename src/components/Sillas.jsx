@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions } from 'react-native';
 import { APIContext } from './APIContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
-import ReactNativeZoomableView from '@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView';
 
 const Sillas = () => {
   const { events, token } = useContext(APIContext);
@@ -18,6 +17,7 @@ const Sillas = () => {
   const [sillasData, setSillasData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState(null);
+  const { width, height } = Dimensions.get('window');
 
 
 
@@ -89,23 +89,14 @@ const Sillas = () => {
 
   const handleChairPress = (chair) => {
     setSelectedChair(chair);
+    console.log(selectedChair)
     setModalVisible(true);
-    const updatedSillasData = sillasData.map((row) =>
-    row.map((c) =>
-      c == chair
-        ? { ...c, isSelected: true }
-        : { ...c, isSelected: false }
-    )
-  );
-  setSillasData(updatedSillasData);
   };
 
-
-
+  const chairSize = Math.floor(width / (sillasData[0]?.length || 1)) - 2;
 
   return (
     <>
-      {/* Mostrar pantalla de carga si articulosData está cargando */}
       {loading && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
@@ -151,7 +142,7 @@ const Sillas = () => {
       )}
 
 
-<ScrollView style={styles.container} >
+<ScrollView style={styles.container}>
   {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
     <View style={styles.messageContainer}>
       <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
@@ -163,35 +154,22 @@ const Sillas = () => {
   )}
   {sillasImageUrl && (
     <View style={styles.sillasContainer}>
-      <ReactNativeZoomableView
-        maxZoom={1.1}
-        minZoom={0.5}
-        zoomStep={0.5}
-        initialZoom={1}
-        bindToBorders={true}
-      >
-        {sillasData.map((row, rowIndex) => (
-          <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
-            {row.map((chair, chairIndex) => (
-              <View
-                key={`${rowIndex}-${chairIndex}`}
-                style={{ width: 6, height: 15, backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0" ? "green" : chair.sold == "2"? "blue":"red", margin: 1 }}
-              >
-                <TouchableOpacity
-                key={`${rowIndex}-${chairIndex}`}
-                style={{
-                  width: 6,
-                  height: 15,
-                  backgroundColor: chair.isSelected ? "yellow": chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
-                  margin: 1,
-                }}
-                onPress={() => handleChairPress(chair)} // Handle chair press
-              />
-              </View>
-            ))}
-          </View>
-        ))}
-      </ReactNativeZoomableView>
+      {sillasData.map((row, rowIndex) => (
+        <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
+          {row.map((chair, chairIndex) => (
+            <TouchableOpacity
+              key={`${rowIndex}-${chairIndex}`}
+              style={{
+                width: chairSize,
+                height: chairSize,
+                backgroundColor: chair == selectedChair ? "white" : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
+                margin: 1
+              }}
+              onPress={() => handleChairPress(chair)}
+            />
+          ))}
+        </View>
+      ))}
     </View>
   )}
 </ScrollView>
@@ -206,7 +184,7 @@ const Sillas = () => {
             {selectedChair && (
               <>
                 <Text style={styles.modalTitle}>{selectedChair.name}</Text>
-                <Text>Status: {selectedChair.status}</Text>
+                <Text>Status:{selectedChair.sold == 0 ? " Disponible" : selectedChair.sold == 2 ? " En validación" : " Ocupado"}</Text>
                 <TouchableOpacity
                   style={styles.modalCloseButton}
                   onPress={() => setModalVisible(false)}
@@ -292,7 +270,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 600
+    margin: 20
   },
   row: {
     flexDirection: 'column',
