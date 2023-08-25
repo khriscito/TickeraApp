@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, Alert, Appearance  } from 'react-native';
+import { StyleSheet, View, Text, Alert, StatusBar } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -90,8 +90,6 @@ function CustomDrawerContent(props) {
       ]
     );
   };
-
-  Appearance.setColorScheme('dark');
 
   return (
     <View style={{ flex: 1}}>
@@ -196,9 +194,13 @@ function DrawerNavigator() {
 export default function App() {
   return (
     <APIProvider>
+       <StatusBar
+        barStyle="light-content"
+        backgroundColor="#000000"
+        translucent={true}
+      />
       <NavigationContainer>
-        <Stack.Navigator   screenOptions={{
-    cardStyle: { backgroundColor: '#FFFFFF' }
+        <Stack.Navigator   screenOptions={{cardStyle: { backgroundColor: '#000000' }
   }}>
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
