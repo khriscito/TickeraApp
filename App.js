@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, Alert  } from 'react-native';
+import { StyleSheet, View, Text, Alert, Appearance  } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -90,6 +90,8 @@ function CustomDrawerContent(props) {
       ]
     );
   };
+
+  Appearance.setColorScheme('dark');
 
   return (
     <View style={{ flex: 1}}>
@@ -195,7 +197,9 @@ export default function App() {
   return (
     <APIProvider>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator   screenOptions={{
+    cardStyle: { backgroundColor: '#FFFFFF' }
+  }}>
           <Stack.Screen name="Main" component={MainScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Landing" component={LandingScreen} />

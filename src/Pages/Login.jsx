@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, KeyboardAvoidingView, Platform } from 'react-native'
 import { Button } from '@rneui/themed';
 import StyledText from '../components/StyledText.jsx'
 import { Formik, useField } from "formik";
@@ -96,6 +96,10 @@ const Login = ({ navigation }) => {
   };
 
   return (
+    <KeyboardAvoidingView 
+    behavior={Platform.OS === "ios" ? "padding" : "height"} 
+    style={{ flex: 1 }}
+  >
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
       <Formik
         validationSchema={loginValidationSchema}
@@ -147,6 +151,7 @@ const Login = ({ navigation }) => {
         }}
       </Formik>
     </ImageBackground>
+    </KeyboardAvoidingView>
   );
 };
 
