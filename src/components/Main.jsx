@@ -24,7 +24,8 @@ backgroundColor: 'blue',
 width: 200,
 height: 50,
 padding: 10,
-borderRadius: 30
+borderRadius: 30,
+marginTop: 30
 }} containerStyle={{
 justifyContent: 'center',
 alignItems: 'center'

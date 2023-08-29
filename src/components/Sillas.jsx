@@ -1,8 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect,  } from 'react';
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions } from 'react-native';
 import { APIContext } from './APIContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ZoomableScrollView from './ZoomableScrollView.jsx';
+
 
 const Sillas = () => {
   const { events, token } = useContext(APIContext);
@@ -95,6 +97,8 @@ const Sillas = () => {
 
   const chairSize = Math.floor(width / (sillasData[0]?.length || 1)) - 2;
 
+
+
   return (
     <>
       {loading && (
@@ -142,7 +146,7 @@ const Sillas = () => {
       )}
 
 
-<ScrollView style={styles.container}>
+<ZoomableScrollView style={styles.container} >
   {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
     <View style={styles.messageContainer}>
       <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
@@ -172,7 +176,7 @@ const Sillas = () => {
       ))}
     </View>
   )}
-</ScrollView>
+</ZoomableScrollView>
 <Modal
         animationType="slide"
         transparent={true}
@@ -218,7 +222,7 @@ const styles = StyleSheet.create({
   },
   dropdownArticulo: {
     zIndex: 1001, 
-    marginBottom: 40,
+    marginBottom: 1,
     backgroundColor: '#fff', 
     paddingVertical: 10, 
     paddingHorizontal: 15, 
@@ -228,7 +232,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -270,7 +274,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20
+    marginBottom: 20
   },
   row: {
     flexDirection: 'column',
