@@ -70,6 +70,7 @@ const Graficas = () => {
     return dataSet.map((data, index) => ({
       name: labels[index],
       population: data,
+      cant: dataSet[index],
       color: colors[index % colors.length], // Use the colors array
       legendFontColor: '#7F7F7F',
       legendFontSize: 15,
@@ -124,6 +125,7 @@ const Graficas = () => {
     
   const screenWidth = Dimensions.get('window').width;
 
+
   return (
     <>
       <View style={styles.dropdownContainer}>
@@ -152,7 +154,7 @@ const Graficas = () => {
   <PieChart
     data={transformDataArticulo(filteredfifthData)}
     width={screenWidth}
-    height={280}
+    height={285}
     chartConfig={chartConfig}
     accessor={'population'}
     backgroundColor={'transparent'}
@@ -165,7 +167,7 @@ const Graficas = () => {
         {transformDataArticulo(filteredfifthData).map((item, index) => (
           <View key={index} style={styles.legendItem}>
             <View style={[styles.colorIndicator, { backgroundColor: item.color }]} />
-            <Text style={styles.legendLabel}>{item.name}</Text>
+            <Text style={styles.legendLabel}>{item.name}</Text><Text style={[styles.cant, { color: item.color }]}>({item.cant})</Text>
           </View>
         ))}
       </View>
@@ -188,6 +190,12 @@ const Graficas = () => {
 
 
 const styles = StyleSheet.create({
+cant: {
+marginLeft: 10,
+fontSize: 16,
+fontWeight: 'bold'
+},
+
   dropdownContainer: {
     position: 'absolute',
     zIndex: 9999,
@@ -226,7 +234,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   legendLabel: {
-    fontSize: 15,
+    fontSize: 14,
   },
 });
 

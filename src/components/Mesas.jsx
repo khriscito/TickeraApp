@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -14,6 +14,8 @@ const Mesas = () => {
   const [showArticleDropdown, setShowArticleDropdown] = useState(false);
   const [mesasImageUrl, setMesasImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [mesasData, setMesasData] = useState([]);
+
 
   useEffect(() => {
     const fetchArticulosData = async () => {
@@ -65,20 +67,20 @@ const Mesas = () => {
 
   useEffect(() => {
     if (selectedArticle) {
-      const fetchmesasData = async () => {
+      const fetchMesasData = async () => {
         const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
         try {
           const response = await fetch(mesasApiUrl);
           const mesasData = await response.json();
           setMesasImageUrl(mesasData.image);
-          console.log(mesasImageUrl)
-          console.log(mesasApiUrl)
+          setMesasData(mesasData.array);
+          console.log(mesasData)
         } catch (error) {
           console.error('Error fetching mesas data:', error);
         }
       };
 
-      fetchmesasData();
+      fetchMesasData();
     }
   }, [selectedEvent, selectedArticle, token]);
 
@@ -134,9 +136,21 @@ const Mesas = () => {
         ) : mesasImageUrl && (
           // Show the image if mesasImageUrl exists and is not the specific URL
           <View style={styles.imageContainer}>
-            <Image source={{ uri: mesasImageUrl }} style={styles.image} />
-          </View>
+            <Image source={{ uri: mesasImageUrl }} style={styles.image} />            
+          </View>       
         )}
+{mesasData && mesasData.map((mesa, index) => (
+  <>
+  <Text>{mesa.mesa}</Text>
+  <View key={index}>
+    {mesa.sillas.map((silla, sillaIndex) => (
+      <View key={sillaIndex} style={styles.silla}>
+        <Text>{silla.name_chair}</Text>
+      </View>
+    ))}
+  </View>
+  </>
+))}
       </ScrollView>
     </>
   );
@@ -205,6 +219,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
+  },
+  mesasContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20
+  },
+  silla: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'blue',
   },
 });
 

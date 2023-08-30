@@ -40,7 +40,7 @@ export const APIProvider = ({ children }) => {
               fetch(fifthApiUrl),
 
             ]);
-
+console.log(fifthApiUrl)
             const thirdData = await thirdResponse.json();
             const fourthData = await fourthResponse.json();
             const fifthData = await fifthResponse.json();

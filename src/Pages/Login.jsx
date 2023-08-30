@@ -75,10 +75,12 @@ const Login = ({ navigation }) => {
         headers: {
           "Content-Type": "application/json",
         }
+
       });
       setLoading(false);
       const data = await response.json();
       setApiResponse(data);
+
 
       if (data.success) {
         setError(null);
@@ -97,7 +99,7 @@ const Login = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView 
-    behavior={Platform.OS === "ios" ? "padding" : "height"} 
+    behavior={Platform.OS === "ios" ? "padding" : "default"} 
     style={{ flex: 1 }}
   >
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
@@ -121,13 +123,13 @@ const Login = ({ navigation }) => {
               <FormikInputValue
                 name='email'
                 placeholder='Correo electrónico'
-                onFocus={handleFormInteract} // Set formInteracted to true when the email input is focused
+                onFocus={handleFormInteract}
               />
               <FormikInputValue
                 name='password'
                 placeholder='Contraseña'
                 secureTextEntry
-                onFocus={handleFormInteract} // Set formInteracted to true when the password input is focused
+                onFocus={handleFormInteract} 
               />
               {error && <StyledText style={styles.error}>{error}</StyledText>}
               <Button
@@ -138,6 +140,7 @@ const Login = ({ navigation }) => {
                   height: 50,
                   padding: 10,
                   borderRadius: 30
+                  
                 }}
                 containerStyle={{
                   justifyContent: 'center',

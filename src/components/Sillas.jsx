@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect,  } from 'react';
 import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions } from 'react-native';
 import { APIContext } from './APIContext';
-import { ScrollView } from 'react-native-gesture-handler';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
 
@@ -44,7 +43,6 @@ const Sillas = () => {
       setArticulosData(data);
       setLoading(false);
     };
-
     fetchArticulosData();
   }, [events, token]);
 
@@ -159,7 +157,7 @@ const Sillas = () => {
   {sillasImageUrl && (
     <View style={styles.sillasContainer}>
       {sillasData.map((row, rowIndex) => (
-        <View style={styles.rowContainer} key={rowIndex} flexDirection="row">
+        <View key={rowIndex} flexDirection="row">
           {row.map((chair, chairIndex) => (
             <TouchableOpacity
               key={`${rowIndex}-${chairIndex}`}
