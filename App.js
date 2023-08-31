@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { StyleSheet, View, Text, Alert, StatusBar } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, DarkTheme } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import Main from './src/components/Main.jsx';
@@ -196,7 +196,7 @@ export default function App() {
         backgroundColor="#000000"
         translucent={true}
       />
-      <NavigationContainer>
+      <NavigationContainer theme={DarkTheme}>
         <Stack.Navigator   screenOptions={{cardStyle: { backgroundColor: '#000000' }
   }}>
           <Stack.Screen name="Main" component={MainScreen} />

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView, } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -19,7 +19,7 @@ const Mesas = () => {
 
   useEffect(() => {
     const fetchArticulosData = async () => {
-      setLoading(true); // Iniciar la carga
+      setLoading(true);
 
       const data = await Promise.all(
         events.map(async (event) => {
@@ -58,7 +58,6 @@ const Mesas = () => {
     value: event.name,
   }));
 
-  // Filter articles based on selected event
   const dropdownArticleItems =
     articulosData.find((data) => data && data.event === selectedEvent)?.articulosData.map((articulo) => ({
       label: articulo.name,
@@ -74,7 +73,7 @@ const Mesas = () => {
           const mesasData = await response.json();
           setMesasImageUrl(mesasData.image);
           setMesasData(mesasData.array);
-          console.log(mesasData)
+          console.log(mesasApiUrl)
         } catch (error) {
           console.error('Error fetching mesas data:', error);
         }
@@ -86,7 +85,6 @@ const Mesas = () => {
 
   return (
     <>
-      {/* Mostrar pantalla de carga si articulosData está cargando */}
       {loading && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
@@ -94,8 +92,6 @@ const Mesas = () => {
           <ActivityIndicator size={120} />
         </View>
       )}
-
-      {/* Renderizar el contenido si articulosData ha cargado */}
       {!loading && (
         <View style={styles.container}>
           {/* DropdownPicker for Event */}
@@ -110,8 +106,6 @@ const Mesas = () => {
               placeholder="Seleccione su evento"
             />
           </View>
-
-          {/* DropdownPicker for Article */}
           {showArticleDropdown && (
             <View style={styles.dropdownArticulo}>
               <Text style={styles.label}>Artículos:</Text>
@@ -134,23 +128,53 @@ const Mesas = () => {
             <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
           </View>
         ) : mesasImageUrl && (
-          // Show the image if mesasImageUrl exists and is not the specific URL
           <View style={styles.imageContainer}>
             <Image source={{ uri: mesasImageUrl }} style={styles.image} />            
           </View>       
         )}
-{mesasData && mesasData.map((mesa, index) => (
-  <>
-  <Text>{mesa.mesa}</Text>
-  <View key={index}>
-    {mesa.sillas.map((silla, sillaIndex) => (
-      <View key={sillaIndex} style={styles.silla}>
-        <Text>{silla.name_chair}</Text>
+<View style={styles.mesasContainer}>
+        {mesasData.map((mesa, index) => (
+          <View key={`mesa-${index}`} style={styles.tableContainer}>
+            <View style={styles.chairsContainer}>
+              <View style={styles.row}>
+                {mesa.sillas.slice(0, 4).map((silla, sillaIndex) => (
+                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                >
+        <Text style={styles.chairText}>{silla.name_chair}</Text>
+
+                  </View>
+                ))}
+              </View>
+              <View style={styles.chairRight}>
+                <View > 
+                {mesa.sillas.slice(4, 6).map((silla, sillaIndex) => (
+                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                  >
+  <Text style={styles.chairText}>{silla.name_chair}</Text>
+                  </View>
+                ))}
+                </View>
+              </View>
+              <View style={styles.row}>
+                {mesa.sillas.slice(6, 10).map((silla, sillaIndex) => (
+                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                >
+        <Text style={styles.chairText}>{silla.name_chair}</Text>
+                  </View>
+                ))}
+              </View>
+              <View style={styles.row}>
+                {mesa.sillas.slice(10, 12 ).map((silla, sillaIndex) => (
+                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                >
+        <Text style={styles.chairText}>{silla.name_chair}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </View>
+        ))}
       </View>
-    ))}
-  </View>
-  </>
-))}
       </ScrollView>
     </>
   );
@@ -221,15 +245,59 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   mesasContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 20
+    flexWrap: 'wrap',
+    marginTop: 10,
   },
   silla: {
     width: 50,
     height: 50,
     backgroundColor: 'blue',
+  },
+  tableContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 10,
+  },
+  tableText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  chairsContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  chair: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 2,
+  },
+  chairText: {
+    color: 'white',
+  },
+
+  noChair: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 2,
+  },
+
+  chairRight: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 });
 
