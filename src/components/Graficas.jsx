@@ -154,7 +154,7 @@ const Graficas = () => {
   <PieChart
     data={transformDataArticulo(filteredfifthData)}
     width={screenWidth}
-    height={285}
+    height={287}
     chartConfig={chartConfig}
     accessor={'population'}
     backgroundColor={'transparent'}
@@ -176,7 +176,7 @@ const Graficas = () => {
   <PieChart
     data={transformDataForPieChart(filteredfifthData)}
     width={screenWidth}
-    height={280}
+    height={250}
     chartConfig={chartConfig}
     accessor={'population'}
     backgroundColor={'transparent'}

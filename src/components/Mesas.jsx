@@ -138,17 +138,36 @@ const Mesas = () => {
             <View style={styles.chairsContainer}>
               <View style={styles.row}>
                 {mesa.sillas.slice(0, 4).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                  <View key={`silla-${sillaIndex}`} style={{
+                    width: 60,
+                    height:60,
+                    backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
+                  }}
                 >
-        <Text style={styles.chairText}>{silla.name_chair}</Text>
-
+                <Text style={styles.chairText}>{silla.name_chair}</Text>
+                 </View>
+                ))}
+              </View>
+              <View style={styles.chairLeft}>
+              <View>
+                {mesa.sillas.slice(8, 10 ).map((silla, sillaIndex) => (
+                  <View key={`silla-${sillaIndex}`} style={{
+                    width: 60,
+                    height:60,
+                    backgroundColor:  "grey"
+                  }}
+                >
                   </View>
                 ))}
               </View>
-              <View style={styles.chairRight}>
-                <View > 
+              <Text style={styles.tableName}>{mesa.mesa}</Text>
+                <View> 
                 {mesa.sillas.slice(4, 6).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                  <View key={`silla-${sillaIndex}`} style={{
+                    width: 60,
+                    height:60,
+                    backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
+                  }}
                   >
   <Text style={styles.chairText}>{silla.name_chair}</Text>
                   </View>
@@ -157,15 +176,11 @@ const Mesas = () => {
               </View>
               <View style={styles.row}>
                 {mesa.sillas.slice(6, 10).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
-                >
-        <Text style={styles.chairText}>{silla.name_chair}</Text>
-                  </View>
-                ))}
-              </View>
-              <View style={styles.row}>
-                {mesa.sillas.slice(10, 12 ).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={[styles.chair]}
+                  <View key={`silla-${sillaIndex}`} style={{
+                    width: 60,
+                    height:60,
+                    backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
+                  }}
                 >
         <Text style={styles.chairText}>{silla.name_chair}</Text>
                   </View>
@@ -258,7 +273,7 @@ const styles = StyleSheet.create({
   tableContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
+    margin: 30,
   },
   tableText: {
     textAlign: 'center',
@@ -271,12 +286,11 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   chair: {
     width: 50,
     height: 50,
-    backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 2,
@@ -296,9 +310,17 @@ const styles = StyleSheet.create({
 
   chairRight: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  chairLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tableName: {
+    marginHorizontal:60,
+fontSize: 30,
+fontWeight: 'bold' 
+  }
 });
 
 

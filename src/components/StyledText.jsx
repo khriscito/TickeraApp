@@ -29,7 +29,7 @@ container:{
     padding:20,
     paddingBottom: 5,
     paddingTop: 5,
-    marginBottom: 10
+    marginBottom: 30
 },
 error:{
     color:'red',

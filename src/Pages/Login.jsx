@@ -99,7 +99,7 @@ const Login = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView 
-    behavior={Platform.OS === "ios" ? "padding" : "default"} 
+    behavior={Platform.OS === "ios" ? "height" : "default"} 
     style={{ flex: 1 }}
   >
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
@@ -139,7 +139,8 @@ const Login = ({ navigation }) => {
                   width: 200,
                   height: 50,
                   padding: 10,
-                  borderRadius: 30
+                  borderRadius: 30,
+                  marginBottom: 10
                   
                 }}
                 containerStyle={{
