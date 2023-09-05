@@ -238,6 +238,7 @@ fontWeight: 'bold'
   },
   legendLabel: {
     fontSize: 14,
+    color: "white"
   },
 });
 

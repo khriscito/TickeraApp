@@ -101,7 +101,7 @@ const Login = ({ navigation }) => {
     <KeyboardAvoidingView 
     behavior={Platform.OS === "ios" ? "position" : "default"} 
     style={{ flex: 1 }}
-    keyboardVerticalOffset={50}
+    keyboardVerticalOffset={150}
   >
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>
       <Formik
