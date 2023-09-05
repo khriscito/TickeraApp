@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Image, StyleSheet, PanResponder, Animated } from 'react-native';
 import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 const ZoomableScrollView = ({ children }) => {
   const [scale, setScale] = useState(1);
@@ -15,7 +16,7 @@ const ZoomableScrollView = ({ children }) => {
     if (doubleTapDetected) {
       timer = setTimeout(() => {
         setDoubleTapDetected(false);
-      }, 100); // Restablecer el estado después de 500 ms (ajusta el tiempo según tus necesidades)
+      }, 100); 
     }
     return () => clearTimeout(timer);
   }, [doubleTapDetected]);
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ZoomableScrollView;
+export default gestureHandlerRootHOC(ZoomableScrollView);
 
 
 

@@ -99,7 +99,7 @@ const Login = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView 
-    behavior={Platform.OS === "ios" ? "height" : "default"} 
+    behavior={Platform.OS === "ios" ? "position" : "default"} 
     style={{ flex: 1 }}
   >
     <ImageBackground source={image} style={{ flex: 1, resizeMode: 'cover' }}>

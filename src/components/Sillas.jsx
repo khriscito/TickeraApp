@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect,  } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
+
 
 
 const Sillas = () => {
@@ -23,9 +24,10 @@ const Sillas = () => {
 
 
 
+
   useEffect(() => {
     const fetchArticulosData = async () => {
-      setLoading(true); // Iniciar la carga
+      setLoading(true);
 
       const data = await Promise.all(
         events.map(async (event) => {
@@ -54,14 +56,14 @@ const Sillas = () => {
 
   const handleArticleChange = (articleValue) => {
     setSelectedArticle(articleValue);
-  };
+    setSillasImageUrl("")
+    };
 
   const dropdownEventItems = events.map((event) => ({
     label: event.name,
     value: event.name,
   }));
 
-  // Filter articles based on selected event
   const dropdownArticleItems = articulosData.find(
     (data) => data && data.event === selectedEvent
   )?.articulosData.map((articulo) => ({
@@ -70,6 +72,7 @@ const Sillas = () => {
   })) || [];
 
   useEffect(() => {
+
     if (selectedArticle) {
       const fetchSillasData = async () => {
         const sillasApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EspacioSillas&key=${token}&id_article=${selectedArticle}`;
@@ -82,7 +85,6 @@ const Sillas = () => {
           console.error('Error fetching sillas data:', error);
         }
       };
-
       fetchSillasData();
     }
   }, [selectedEvent, selectedArticle, token]);
@@ -142,19 +144,20 @@ const Sillas = () => {
           )}
         </View>
       )}
-
-
-<ZoomableScrollView style={styles.container} >
   {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
-    <View style={styles.messageContainer}>
-      <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
-    </View>
-  ) : (
+  <View style={styles.messageContainer}>
+    <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
+  </View>
+) : !sillasImageUrl && selectedEvent && selectedArticle ? (
+  <>
+    <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
+    <ActivityIndicator size={120} />
+  </>
+) : (
+  <ZoomableScrollView style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: sillasImageUrl }} style={styles.image} />
     </View>
-  )}
-  {sillasImageUrl && (
     <View style={styles.sillasContainer}>
       {sillasData.map((row, rowIndex) => (
         <View key={rowIndex} flexDirection="row">
@@ -164,8 +167,8 @@ const Sillas = () => {
               style={{
                 width: chairSize,
                 height: chairSize,
-                backgroundColor: chair == selectedChair ? "white" : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
-                margin: 1
+                backgroundColor: chair === selectedChair? "white": chair.status === "0" ? "transparent": chair.sold === "0"? "green": chair.sold === "2"? "blue": "red",
+                margin: 1,
               }}
               onPress={() => handleChairPress(chair)}
             />
@@ -173,8 +176,10 @@ const Sillas = () => {
         </View>
       ))}
     </View>
-  )}
-</ZoomableScrollView>
+  </ZoomableScrollView>
+)}
+
+
 <Modal
         animationType="slide"
         transparent={true}
@@ -302,6 +307,12 @@ const styles = StyleSheet.create({
   modalCloseButtonText: {
     color: "blue",
     fontWeight: "bold",
+  },
+  loading: {
+    margin: 5,
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center',
   },
 
 });

@@ -51,6 +51,7 @@ const Mesas = () => {
 
   const handleArticleChange = (articleValue) => {
     setSelectedArticle(articleValue);
+    setMesasImageUrl("")
   };
 
   const dropdownEventItems = events.map((event) => ({
@@ -82,6 +83,8 @@ const Mesas = () => {
       fetchMesasData();
     }
   }, [selectedEvent, selectedArticle, token]);
+
+  console.log(mesasImageUrl)
 
   return (
     <>
@@ -121,18 +124,23 @@ const Mesas = () => {
           )}
         </View>
       )}
-
-      <ScrollView style={styles.container}>
-        {mesasImageUrl === 'https://www.makeidsystems.com/makeid/images/difusion/' ? (
-          <View style={styles.messageContainer}>
-            <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
-          </View>
-        ) : mesasImageUrl && (
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: mesasImageUrl }} style={styles.image} />            
-          </View>       
-        )}
-<View style={styles.mesasContainer}>
+  
+  <View style={styles.container}>
+  {!mesasImageUrl && selectedEvent && selectedArticle ? (
+  <>
+    <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
+    <ActivityIndicator size={120} />
+  </>
+) : mesasImageUrl === 'https://www.makeidsystems.com/makeid/images/difusion/' ? (
+  <View style={styles.messageContainer}>
+    <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
+  </View>
+) : (
+    <ScrollView>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: mesasImageUrl }} style={styles.image} />
+      </View>
+      <View style={styles.mesasContainer}>
         {mesasData.map((mesa, index) => (
           <View key={`mesa-${index}`} style={styles.tableContainer}>
             <View style={styles.chairsContainer}>
@@ -140,49 +148,45 @@ const Mesas = () => {
                 {mesa.sillas.slice(0, 4).map((silla, sillaIndex) => (
                   <View key={`silla-${sillaIndex}`} style={{
                     width: 60,
-                    height:60,
+                    height: 60,
                     backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                  }}
-                >
-                <Text style={styles.chairText}>{silla.name_chair}</Text>
-                 </View>
+                  }}>
+                    <Text style={styles.chairText}>{silla.name_chair}</Text>
+                  </View>
                 ))}
               </View>
               <View style={styles.chairLeft}>
-              <View>
-                {mesa.sillas.slice(8, 10 ).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={{
-                    width: 60,
-                    height:60,
-                    backgroundColor:  "grey"
-                  }}
-                >
-                  </View>
-                ))}
-              </View>
-              <Text style={styles.tableName}>{mesa.mesa}</Text>
-                <View> 
-                {mesa.sillas.slice(4, 6).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={{
-                    width: 60,
-                    height:60,
-                    backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                  }}
-                  >
-  <Text style={styles.chairText}>{silla.name_chair}</Text>
-                  </View>
-                ))}
+                <View>
+                  {mesa.sillas.slice(8, 10).map((silla, sillaIndex) => (
+                    <View key={`silla-${sillaIndex}`} style={{
+                      width: 60,
+                      height: 60,
+                      backgroundColor: "grey"
+                    }}>
+                    </View>
+                  ))}
+                </View>
+                <Text style={styles.tableName}>{mesa.mesa}</Text>
+                <View>
+                  {mesa.sillas.slice(4, 6).map((silla, sillaIndex) => (
+                    <View key={`silla-${sillaIndex}`} style={{
+                      width: 60,
+                      height: 60,
+                      backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
+                    }}>
+                      <Text style={styles.chairText}>{silla.name_chair}</Text>
+                    </View>
+                  ))}
                 </View>
               </View>
               <View style={styles.row}>
                 {mesa.sillas.slice(6, 10).map((silla, sillaIndex) => (
                   <View key={`silla-${sillaIndex}`} style={{
                     width: 60,
-                    height:60,
+                    height: 60,
                     backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                  }}
-                >
-        <Text style={styles.chairText}>{silla.name_chair}</Text>
+                  }}>
+                    <Text style={styles.chairText}>{silla.name_chair}</Text>
                   </View>
                 ))}
               </View>
@@ -190,10 +194,13 @@ const Mesas = () => {
           </View>
         ))}
       </View>
-      </ScrollView>
-    </>
-  );
-};
+    </ScrollView>
+  )}
+</View>
+</>
+)}
+
+  
 
 
 const styles = StyleSheet.create({
@@ -318,9 +325,16 @@ const styles = StyleSheet.create({
   },
   tableName: {
     marginHorizontal:60,
-fontSize: 30,
-fontWeight: 'bold' 
-  }
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  loading: {
+    margin: 5,
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center',
+  },
 });
 
 

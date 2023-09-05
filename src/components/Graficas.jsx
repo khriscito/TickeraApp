@@ -207,6 +207,7 @@ fontWeight: 'bold'
     fontWeight: 'bold',
     fontSize: 25,
     textAlign: 'center',
+    color: 'white'
 },
   cardContainer: {
     marginTop: 25
@@ -222,6 +223,7 @@ fontWeight: 'bold'
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: "white",
   },
   legendItem: {
     flexDirection: 'row',
