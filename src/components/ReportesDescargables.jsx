@@ -111,7 +111,11 @@ const ReportesDescargables = () => {
             padding: 10,
             borderRadius: 30,
           }}
-          containerStyle={styles.buttonContainer}
+          containerStyle={{
+            ...styles.buttonContainer,
+            overflow: 'hidden',
+            borderRadius: 30,
+          }}
           raised
           onPress={handleDownloadReportSemanal} 
         />
@@ -128,7 +132,11 @@ const ReportesDescargables = () => {
             padding: 10,
             borderRadius: 30,
           }}
-          containerStyle={styles.buttonContainer}
+          containerStyle={{
+            ...styles.buttonContainer,
+            overflow: 'hidden',
+            borderRadius: 30,
+          }}
           raised
           onPress={handleDownloadReportDiaAnterior} // Attach the onPress handler to the function
         />
@@ -145,7 +153,11 @@ const ReportesDescargables = () => {
             padding: 10,
             borderRadius: 30,
           }}
-          containerStyle={styles.buttonContainer}
+          containerStyle={{
+            ...styles.buttonContainer,
+            overflow: 'hidden',
+            borderRadius: 30,
+          }}
           raised
           onPress={handleDownloadReportOnline} // Attach the onPress handler to the function
         />
@@ -163,7 +175,11 @@ const ReportesDescargables = () => {
             padding: 10,
             borderRadius: 30,
           }}
-          containerStyle={styles.buttonContainer}
+          containerStyle={{
+            ...styles.buttonContainer,
+            overflow: 'hidden',
+            borderRadius: 30,
+          }}
           raised
           onPress={handleDownloadReportDiario} // Attach the onPress handler to the function
         />
@@ -182,7 +198,11 @@ const ReportesDescargables = () => {
             padding: 10,
             borderRadius: 30,
           }}
-          containerStyle={styles.buttonContainer}
+          containerStyle={{
+            ...styles.buttonContainer,
+            overflow: 'hidden',
+            borderRadius: 30,
+          }}
           raised
           onPress={handleDownloadReportSillas} // Attach the onPress handler to the function
         />
@@ -203,7 +223,8 @@ const styles = StyleSheet.create({
 },
   buttonContainer: {
     alignItems: 'center',
-    marginTop: 40
+    marginTop: 40,
+    backgroundColor: "black"
   },
   dropdownContainer: {
     position: 'absolute',

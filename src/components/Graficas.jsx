@@ -229,6 +229,7 @@ fontWeight: 'bold'
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
+    color: "white"
   },
   colorIndicator: {
     width: 15,
