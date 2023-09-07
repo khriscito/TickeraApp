@@ -24,56 +24,56 @@ const EventCard = ({ event, thirdData }) => {
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='team' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Aforo:</Text>
+                            <Text style={styles.orderLabel}>Total Aforo:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.aforo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='profile' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Total tickets:</Text>
+                            <Text style={styles.orderLabel}>Tickets vendidos:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.ordenes || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='closesquareo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Total tickets bloqueados:</Text>
+                            <Text style={styles.orderLabel}>Asientos bloqueados:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.bloqueo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='carryout' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Total tickets del día:</Text>
+                            <Text style={styles.orderLabel}>Tickets vendidos hoy:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDia || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='back' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Tickets de ayer:</Text>
+                            <Text style={styles.orderLabel}>Tickets vendidos ayer:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesAyer || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='smileo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Tickets de cortesía:</Text>
+                            <Text style={styles.orderLabel}>Tickets en cortesía:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesCortesia || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='minuscircleo' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Tickets por descuento:</Text>
+                            <Text style={styles.orderLabel}>Tickets con descuento:</Text>
                         </View>
                         <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDescuento || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='shoppingcart' size={20} color='white'/>
-                            <Text style={styles.orderLabel}>Total de tickets para la venta:</Text>
+                            <Text style={styles.orderLabel}>Disponibles para la venta:</Text>
                         </View>
                         <Text style={styles.orderText}>{(ordenesVenta).toLocaleString('es-ES')}</Text>
                     </View>
