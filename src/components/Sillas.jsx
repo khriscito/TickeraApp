@@ -91,7 +91,6 @@ const Sillas = () => {
 
   const handleChairPress = (chair) => {
     setSelectedChair(chair);
-    console.log(selectedChair)
     setModalVisible(true);
   };
 
@@ -164,12 +163,14 @@ const Sillas = () => {
           {row.map((chair, chairIndex) => (
             <TouchableOpacity
               key={`${rowIndex}-${chairIndex}`}
+
               style={{
                 width: chairSize,
                 height: chairSize,
-                backgroundColor: chair === selectedChair? "white": chair.status === "0" ? "transparent": chair.sold === "0"? "green": chair.sold === "2"? "blue": "red",
+                backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0"? "green": chair.sold == "2"? "blue": "red",
                 margin: 1,
               }}
+              
               onPress={() => handleChairPress(chair)}
             />
           ))}

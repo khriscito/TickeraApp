@@ -10,13 +10,14 @@ const MisVentas = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-  useEffect(() => {
-    if (filteredEvents.length > 0) {
-      setSelectedEvent(filteredEvents[0].name);
-    }
-  }, [filteredEvents]);
   
+  const totalData = {
+    vendidos: 0,
+    ocupadas: 0,
+    verificacion: 0,
+    pagadas: 0,
+  };
+
 
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
@@ -41,17 +42,22 @@ const MisVentas = () => {
         />
       </View>
 
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(event) => event.id_event.toString()}
-        renderItem={({ item, index }) => (
-          <View key={item.id_event}
-          style={styles.cardContainer}
-          >
-            <VentasCard event={item} secondData={filteredSecondData[index]} key={item.id_event} />
-          </View>
-        )}
-      />
+      {selectedEvent ? (
+        <FlatList
+          data={filteredEvents}
+          keyExtractor={(event) => event.id_event.toString()}
+          renderItem={({ item, index }) => (
+            <View key={item.id_event} style={styles.cardContainer}>
+              <VentasCard event={item} secondData={filteredSecondData[index]} key={item.id_event} />
+            </View>
+          )}
+        />
+      ) : (
+        // Muestra una sola tarjeta con los datos predeterminados
+        <View style={styles.cardContainer}>
+          <VentasCard event={{ name: 'Sin evento seleccionado' }} secondData={totalData} />
+        </View>
+      )}
     </View>
   );
 };

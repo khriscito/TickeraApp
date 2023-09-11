@@ -24,12 +24,6 @@ const Graficas = () => {
     "#FFFF99", "#FFCCFF", "#CCFFFF", "#FFCCCC", "#CCCCCC"
   ];
 
-  useEffect(() => {
-    if (filteredEvents.length > 0) {
-      setSelectedEvent(filteredEvents[0].name);
-    }
-  }, [filteredEvents]);
-
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
     setSelectedEvent(itemValue);
@@ -138,7 +132,10 @@ const Graficas = () => {
           placeholder="Seleccione su evento"
         />
       </View>
-      <ScrollView>
+
+      {selectedEvent ?
+      
+      ( <ScrollView>
   <Text style={styles.title}>Por 7 días:</Text>
   <PieChart
     data={transformDataFecha(filteredfifthData)}
@@ -162,6 +159,7 @@ const Graficas = () => {
     style={{ marginVertical: 40, marginHorizontal: 80}}
     hasLegend={false}
   />
+
         <View style={styles.legendContainer}>
         <Text style={styles.legendTitle}>Leyenda:</Text>
         {transformDataArticulo(filteredfifthData).map((item, index) => (
@@ -184,6 +182,14 @@ const Graficas = () => {
     paddingLeft={'15'}
   />
 </ScrollView>
+)
+
+:
+
+(<ScrollView>
+<Text style={styles.noEvent}>No se ha seleccionado ningún evento, por favor seleccione un evento...</Text>
+</ScrollView>)
+}   
     </>
   );
 };
@@ -240,6 +246,14 @@ fontWeight: 'bold'
     fontSize: 14,
     color: "white"
   },
+  noEvent: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 150,
+    color: "white",
+  }
 });
 
 export default Graficas;

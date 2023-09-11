@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { APIContext } from '../components/APIContext.js';
 import VentaResumenCard from "../components/VentaResumenCard.jsx";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -11,11 +11,17 @@ const VentaResumen = () => {
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  useEffect(() => {
-    if (filteredEvents.length > 0) {
-      setSelectedEvent(filteredEvents[0].name);
-    }
-  }, [filteredEvents]);
+  const totalData = {
+    aforo: 0,
+    tickets: 0,
+    bloqueados: 0, 
+    ticketsDia: 0,
+    ticketsAyer: 0,
+    cortesia: 0,
+    descuento: 0,
+    venta: "0" , 
+  };
+
   
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
@@ -39,18 +45,22 @@ const VentaResumen = () => {
           placeholder="Seleccione su evento"
         />
       </View>
-
+      {selectedEvent ? (
       <FlatList
-        data={filteredEvents}
-        keyExtractor={(event) => event.id_event.toString()}
-        renderItem={({ item, index }) => (
-          <View key={item.id_event}
-          style={styles.cardContainer}
-          >
+      data={filteredEvents}
+      keyExtractor={(event) => event.id_event.toString()}
+      renderItem={({ item, index }) => (
+        <View key={item.id_event}
+        style={styles.cardContainer}
+        >
             <VentaResumenCard event={item} thirdData={filteredthirdData[index]} key={item.id_event} />
           </View>
         )}
-      />
+        />):(
+        <ScrollView style={styles.cardContainer}>
+        <VentaResumenCard event={{ name: 'Sin evento seleccionado' }} thirdData={totalData} />
+      </ScrollView>
+    )}
     </View>
   );
 };

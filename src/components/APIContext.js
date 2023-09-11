@@ -32,7 +32,10 @@ export const APIProvider = ({ children }) => {
             const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
             const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
             const fifthApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/reporteriagraficaApi&id_event=${event.id_event}&key=${token}`;
+
+            console.log(fourthApiUrl)
             
+
 
             const [thirdResponse, fourthResponse, fifthResponse] = await Promise.all([
               fetch(thirdApiUrl),
@@ -40,14 +43,14 @@ export const APIProvider = ({ children }) => {
               fetch(fifthApiUrl),
 
             ]);
-console.log(fifthApiUrl)
             const thirdData = await thirdResponse.json();
             const fourthData = await fourthResponse.json();
             const fifthData = await fifthResponse.json();
 
-
             return { thirdData, fourthData, fifthData, };
           });
+
+
 
           const restOfApisData = await Promise.all(restOfApisPromises);
 

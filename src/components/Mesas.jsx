@@ -74,7 +74,7 @@ const Mesas = () => {
           const mesasData = await response.json();
           setMesasImageUrl(mesasData.image);
           setMesasData(mesasData.array);
-          console.log(mesasApiUrl)
+
         } catch (error) {
           console.error('Error fetching mesas data:', error);
         }

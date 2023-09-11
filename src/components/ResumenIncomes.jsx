@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { APIContext } from '../components/APIContext.js';
 import IncomesCard from "../components/IncomesCard.jsx";
 import DropDownPicker from 'react-native-dropdown-picker';
+
 
 const ResumenIncomes = () => {
   const { events, fourthData } = useContext(APIContext);
@@ -11,11 +12,11 @@ const ResumenIncomes = () => {
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  useEffect(() => {
-    if (filteredEvents.length > 0) {
-      setSelectedEvent(filteredEvents[0].name);
-    }
-  }, [filteredEvents]);
+  const totalData = {
+    Recaudado: 0,
+    RecaudadoHoy: 0,
+    precioCard: 0,
+  };
 
 
   const handleDropdownChange = (itemValue) => {
@@ -28,9 +29,6 @@ const ResumenIncomes = () => {
   const filteredFourthData = selectedEvent ? fourthData.filter((_, index) => events[index].name === selectedEvent) : fourthData;
 
   const dropdownItems = events.map(event => ({ label: event.name, value: event.name }));
-
-  console.log(filteredEvents[0].name)
-
   
 
   return (
@@ -45,7 +43,7 @@ const ResumenIncomes = () => {
           placeholder="Seleccione su evento"
         />
       </View>
-
+      {selectedEvent ? (
       <FlatList
         data={filteredEvents}
         keyExtractor={(event) => event.id_event.toString()}
@@ -56,7 +54,12 @@ const ResumenIncomes = () => {
             <IncomesCard event={item} fourthData={filteredFourthData[index]} key={item.id_event} />
           </View>
         )}
-      />
+      />):
+      (
+        <ScrollView style={styles.cardContainer}>
+          <IncomesCard event={{ name: 'Sin evento seleccionado' }} fourthData={totalData} />
+        </ScrollView>
+      )}
     </View>
   );
 };
