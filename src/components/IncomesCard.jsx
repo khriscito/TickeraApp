@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import { Card } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
 const IncomesCard = ({ events, fourthData }) => {
-  let totalIngresoSegunTipoPago = 0;
+  const [totalIngresoSegunTipoPago, setTotalIngresoSegunTipoPago] = useState(0);
+
+  useEffect(() => {
+    if (fourthData && fourthData.html) {
+      const total = fourthData.html.reduce((accumulator, item) => {
+        return accumulator + parseFloat(item.total);
+      }, 0);
+
+      setTotalIngresoSegunTipoPago(total);
+    }
+  }, [fourthData]);
 
   const precioCard = fourthData && fourthData.html ? (
     <Card containerStyle={styles.card}>
@@ -14,9 +24,7 @@ const IncomesCard = ({ events, fourthData }) => {
       <Text style={[styles.cardText, styles.leftAlign]}>
         Total de ingreso según tipo de pago
       </Text>
-      <Text style={[styles.cardValue]}>
-        {(parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $
-      </Text>
+
       <Text style={[styles.cardText, styles.leftAlign]}>
         Métodos de Pago:
       </Text>
@@ -26,12 +34,14 @@ const IncomesCard = ({ events, fourthData }) => {
           <Text style={styles.methodValue}>{item.total} $</Text>
         </View>
       ))}
+      <View style={styles.total}>
+        <Text style={styles.methodText}>Total:</Text>
+        <Text style={styles.methodValue}>
+          {totalIngresoSegunTipoPago.toLocaleString('es-ES')} $
+        </Text>
+      </View>
     </Card>
   ) : null;
-
-  if (precioCard) {
-    totalIngresoSegunTipoPago = parseFloat(fourthData.recaudado) || 0;
-  }
 
   return (
     <View style={styles.cardContainer}>
@@ -86,17 +96,6 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
       </Card>
       {precioCard}
-      {!precioCard && (
-        <Card containerStyle={styles.card}>
-          <Text style={styles.cardValue}>
-            <AntDesign name='creditcard' size={40} color='white' />
-          </Text>
-          <Text style={[styles.cardText, styles.leftAlign]}>
-            Total de ingreso según tipo de pago:
-          </Text>
-          <Text style={[styles.cardValue]}> {(totalIngresoSegunTipoPago).toLocaleString('es-ES')} $</Text>
-        </Card>
-      )}
     </View>
   );
 }
@@ -140,8 +139,15 @@ const styles = StyleSheet.create({
   methodValue: {
     fontSize: 16,
   },
+  total: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20
+  },
 });
 
 export default IncomesCard;
+
 
 

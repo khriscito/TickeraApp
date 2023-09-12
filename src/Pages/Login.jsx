@@ -20,7 +20,7 @@ const initialValues = {
 
 const styles = StyleSheet.create({
   error: {
-    color: 'blue',
+    color: 'white',
     fontSize: 12,
     marginBottom: 1,
     marginTop: -5
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     flex: 1,
-    color: 'white', // Ajusta el color del texto al blanco
+    color: 'white',
   },
   passwordIcon: {
     marginLeft: 1,

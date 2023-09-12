@@ -174,6 +174,7 @@ const ReportesDescargables = () => {
             height: 50,
             padding: 10,
             borderRadius: 30,
+            overflow: 'hidden',
           }}
           containerStyle={{
             ...styles.buttonContainer,

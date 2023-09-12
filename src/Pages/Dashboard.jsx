@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
+    color: 'white'
   },
   header: {
     fontWeight: 'bold',

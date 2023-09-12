@@ -92,35 +92,37 @@ function CustomDrawerContent(props) {
   };
 
   return (
-    <View style={{ flex: 1}}>
-
-    <DrawerContentScrollView {...props}>
-      <View style={styles.profileContainer}>
-    <AntDesign name="user" size={30} color="white" /><Text style={styles.profile}>{nameLastname}</Text>
-      </View>
-      <DrawerItemList {...props} />
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView {...props}>
+        <View style={styles.profileContainer}>
+          <AntDesign name="user" size={30} color="white" />
+          <Text style={styles.profile}>{nameLastname}</Text>
+        </View>
+        <DrawerItemList {...props} />
       </DrawerContentScrollView>
-
-      <Button
-        title="    Cerrar Sesión"
-        icon={<AntDesign name="lock" size={25} color="white" />}
-        buttonStyle={{
-          backgroundColor: 'red',
-          width: 200,
-          height: 50,
-          padding: 10,
-          borderRadius: 30
-        }}
-        containerStyle={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 20,
-          marginBottom: 30,
-        }}
-        raised
-        onPress={handleLogout}
+      
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Cerrar Sesión"
+          icon={<AntDesign name="lock" size={25} color="white" />}
+          buttonStyle={{
+            backgroundColor: 'red',
+            paddingHorizontal: 20,
+            borderRadius: 30,
+            width: 200,
+            height: 50
+          }}
+          containerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 30,
+            marginBottom: 40
+                    }}
+          raised
+          onPress={handleLogout}
         />
-</View>
+      </View>
+    </View>
   );
 }
 
@@ -229,6 +231,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
     paddingHorizontal: 10,
+  },
+    profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: 'black',
+  },
+  profile: {
+    color: 'white',
+    marginLeft: 10,
+    fontSize: 16,
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
   },
 });
 

@@ -247,6 +247,7 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: 'white'
   },
 
   messageContainer: {
@@ -258,13 +259,8 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 50
-  },
-  loading: {
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 30,
-    textAlign: 'center',
+    marginTop: 50,
+    color: 'white'
   },
   mesasContainer: {
     flexDirection: 'row',
@@ -334,6 +330,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
+    color: 'white'
   },
 });
 

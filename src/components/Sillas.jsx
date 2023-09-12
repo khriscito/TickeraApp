@@ -261,18 +261,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    color: 'white'
   },
 
   messageText: {
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 50
-  },
-  loading: {
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 30,
-    textAlign: 'center',
   },
   sillasContainer: {
     flexDirection: 'column',
@@ -314,6 +309,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     textAlign: 'center',
+    color: 'white'
   },
 
 });
