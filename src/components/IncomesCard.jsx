@@ -50,10 +50,46 @@ const IncomesCard = ({ events, fourthData }) => {
           <AntDesign name='wallet' size={40} color='white' />
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>
-          Total dinero recaudado
+          Recaudación total $: 
         </Text>
         <Text style={[styles.cardValue]}>
           {(parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $
+        </Text>
+      </Card>      
+      <Card containerStyle={styles.card}>
+        <Text style={styles.cardValue}>
+          <AntDesign name='creditcard' size={40} color='white' />
+        </Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Recaudación total BSS</Text>
+        <Text style={[styles.cardValue]}>
+          {(parseFloat(fourthData.recaudadobs) || 0).toLocaleString('es-ES')} BSS
+        </Text>
+      </Card>
+      <Card containerStyle={styles.card}>
+        <Text style={styles.cardValue}>
+          <AntDesign name='creditcard' size={40} color='white' />
+        </Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>BS equivalente con contización</Text>
+        <Text style={[styles.cardValue]}>
+          {(parseFloat(fourthData.recaudadocoti) || 0).toLocaleString('es-ES')} $
+        </Text>
+      </Card>
+      <Card containerStyle={styles.card}>
+        <Text style={styles.cardValue}>
+          <AntDesign name='creditcard' size={40} color='white' />
+        </Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Perdida $ por inflación:</Text>
+        <Text style={[styles.cardValue]}>
+          {(parseFloat(fourthData.recaudadocoper) || 0).toLocaleString('es-ES')} $
+        </Text>
+      </Card>
+      <Card containerStyle={styles.card}>
+        <Text style={styles.cardValue}>
+          <AntDesign name='creditcard' size={40} color='white' />
+        </Text>
+        <Text style={[styles.cardText, styles.leftAlign]}>Total $:</Text>
+        <Text style={[styles.cardValue]}>
+          {(parseFloat(fourthData.recaudadocoti) + parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
 
@@ -64,35 +100,6 @@ const IncomesCard = ({ events, fourthData }) => {
         <Text style={[styles.cardText, styles.leftAlign]}>Total recaudado hoy:</Text>
         <Text style={[styles.cardValue]}>
           {(parseFloat(fourthData.recaudadoDia) || 0).toLocaleString('es-ES')} $
-        </Text>
-      </Card>
-      <Card containerStyle={styles.card}>
-        <Text style={styles.cardValue}>
-          <AntDesign name='creditcard' size={40} color='white' />
-        </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>BS equivalente a cotización:</Text>
-        <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadobs) || 0).toLocaleString('es-ES')} BSS
-        </Text>
-      </Card>
-
-      <Card containerStyle={styles.card}>
-        <Text style={styles.cardValue}>
-          <AntDesign name='creditcard' size={40} color='white' />
-        </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Perdida $ por inflación:</Text>
-        <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadocoper) || 0).toLocaleString('es-ES')} $
-        </Text>
-      </Card>
-
-      <Card containerStyle={styles.card}>
-        <Text style={styles.cardValue}>
-          <AntDesign name='creditcard' size={40} color='white' />
-        </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Recaudado total divisas:</Text>
-        <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadocoti) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
       {precioCard}

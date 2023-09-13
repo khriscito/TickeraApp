@@ -20,6 +20,8 @@ const VentaResumen = () => {
     cortesia: 0,
     descuento: 0,
     venta: "0" , 
+    taquilla: 0,
+    articulo: 0
   };
 
   
