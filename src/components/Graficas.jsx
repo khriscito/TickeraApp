@@ -95,13 +95,15 @@ const Graficas = () => {
         color: getRandomColor(), // Asignar un color aleatorio
         legendFontColor: '#7F7F7F',
         legendFontSize: 15,
+        cant: response?.taquilla || 0,
       },
       {
         name: 'Web',
         population: response?.web || 0, 
         color: getRandomColor(), // Asignar un color aleatorio
         legendFontColor: '#7F7F7F',
-        legendFontSize: 15,
+        legendFontSize: 15, 
+        cant: response?.web || 0, 
       },
     ];
   };
@@ -118,8 +120,6 @@ const Graficas = () => {
   
     
   const screenWidth = Dimensions.get('window').width;
-
-
   return (
     <>
       <View style={styles.dropdownContainer}>
@@ -146,7 +146,20 @@ const Graficas = () => {
     backgroundColor={'transparent'}
     paddingLeft={'15'}
     style={{ marginVertical: 60 }}
+    hasLegend={false}
   />
+
+<View style={styles.legendContainer}>
+        <Text style={styles.legendTitle}>Leyenda:</Text>
+        {transformDataFecha(filteredfifthData).map((item, index) => (
+          <View key={index} style={styles.legendItem}>
+            <View style={[styles.colorIndicator, { backgroundColor: item.color }]} />
+            <Text style={styles.legendLabel}>{item.name}</Text><Text style={[styles.cant, { color: item.color }]}>({item.cant})</Text>
+          </View>
+        ))}
+
+      </View>
+
   <Text style={styles.title}>Por articulo:</Text>
   <PieChart
     data={transformDataArticulo(filteredfifthData)}
@@ -177,10 +190,21 @@ const Graficas = () => {
     height={250}
     chartConfig={chartConfig}
     accessor={'population'}
-    backgroundColor={'transparent'}
-    
+    backgroundColor={'transparent'}    
     paddingLeft={'15'}
+    hasLegend={false}
   />
+
+<View style={styles.legendContainer}>
+        <Text style={styles.legendTitle}>Leyenda:</Text>
+        {transformDataForPieChart(filteredfifthData).map((item, index) => (
+          <View key={index} style={styles.legendItem}>
+            <View style={[styles.colorIndicator, { backgroundColor: item.color }]} />
+            <Text style={styles.legendLabel}>{item.name}</Text><Text style={[styles.cant, { color: item.color }]}>({item.cant})</Text>
+          </View>
+        ))}
+      </View>
+
 </ScrollView>
 )
 
