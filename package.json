@@ -1,6 +1,6 @@
 {
   "name": "app-ticket",
-  "version": "1.1.1",
+  "version": "1.1.7",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -35,7 +35,6 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-gestures": "^0.3.0",
-    "react-native-image-zoom": "^0.32.0",
     "react-native-pie": "^1.1.2",
     "react-native-pinch-zoom-view": "^0.2.0",
     "react-native-reanimated": "~2.14.4",
