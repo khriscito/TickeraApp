@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect,  } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
+import defaultImage from '../../assets/defaultImage.png';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { Platform } from 'react-native';
+
 
 
 
@@ -81,6 +85,8 @@ const Sillas = () => {
           const sillasData = await response.json();
           setSillasImageUrl(sillasData.image);
           setSillasData(sillasData.array);
+          console.log(sillasApiUrl)
+          console.log(sillasImageUrl)
         } catch (error) {
           console.error('Error fetching sillas data:', error);
         }
@@ -143,7 +149,7 @@ const Sillas = () => {
           )}
         </View>
       )}
-  {sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
+{ sillasImageUrl === "https://makeidsystems.com/makeid/images/espacios/" ? (
   <View style={styles.messageContainer}>
     <Text style={styles.messageText}>Este artículo no tiene espacio asignado</Text>
   </View>
@@ -152,7 +158,7 @@ const Sillas = () => {
     <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
     <ActivityIndicator size={120} />
   </>
-) : (
+) : Platform.OS === 'ios' ? (
   <ZoomableScrollView style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: sillasImageUrl }} style={styles.image} />
@@ -163,14 +169,12 @@ const Sillas = () => {
           {row.map((chair, chairIndex) => (
             <TouchableOpacity
               key={`${rowIndex}-${chairIndex}`}
-
               style={{
                 width: chairSize,
                 height: chairSize,
-                backgroundColor: chair.status == "0" ? "transparent": chair.sold == "0"? "green": chair.sold == "2"? "blue": "red",
+                backgroundColor: chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
                 margin: 1,
               }}
-              
               onPress={() => handleChairPress(chair)}
             />
           ))}
@@ -178,7 +182,32 @@ const Sillas = () => {
       ))}
     </View>
   </ZoomableScrollView>
+) : (
+  <ScrollView style={styles.container}>
+    <View style={styles.imageContainer}>
+      <Image source={{ uri: sillasImageUrl }} style={styles.image} />
+    </View>
+    <View style={styles.sillasContainer}>
+      {sillasData.map((row, rowIndex) => (
+        <View key={rowIndex} flexDirection="row">
+          {row.map((chair, chairIndex) => (
+            <TouchableOpacity
+              key={`${rowIndex}-${chairIndex}`}
+              style={{
+                width: chairSize,
+                height: chairSize,
+                backgroundColor: chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
+                margin: 1,
+              }}
+              onPress={() => handleChairPress(chair)}
+            />
+          ))}
+        </View>
+      ))}
+    </View>
+  </ScrollView>
 )}
+
 
 
 <Modal

@@ -22,6 +22,7 @@ const ResumenIncomes = () => {
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);
     setSelectedEvent(itemValue);
+    console.log(selectedEvent)
   };
 
 

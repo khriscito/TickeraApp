@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Image, StyleSheet, PanResponder, Animated } from 'react-native';
-import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler';
-import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler} from 'react-native-gesture-handler';
 
 const ZoomableScrollView = ({ children }) => {
   const [scale, setScale] = useState(1);
@@ -40,21 +39,11 @@ const ZoomableScrollView = ({ children }) => {
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
-    onPanResponderMove: (event, gestureState) => {
-      const { dx, dy } = gestureState;
-      // Check if the movement is large enough to be considered a valid pan gesture
-      if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-        // Update a temporary variable
-        const newPan = { x: pan.x._value + dx, y: pan.y._value + dy };
-        // Apply the changes to the pan value
-        pan.setValue(newPan);
-      }
-    },
     onPanResponderRelease: () => {
       Animated.spring(pan, { toValue: { x: 0, y: 0 }, useNativeDriver: false }).start();
+      scrollRef.current.setNativeProps({ scrollEnabled: true });
     },
   });
-  
 
   const scrollRef = useRef(null);
 
@@ -131,7 +120,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default gestureHandlerRootHOC(ZoomableScrollView);
+export default ZoomableScrollView
 
 
 

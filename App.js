@@ -18,6 +18,8 @@ import ResumenIncomes from './src/components/ResumenIncomes.jsx';
 import { AntDesign } from '@expo/vector-icons';
 import ReportesDescargables from './src/components/ReportesDescargables.jsx';
 import Mesas from './src/components/Mesas.jsx';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -192,6 +194,7 @@ function DrawerNavigator() {
 
 export default function App() {
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <APIProvider>
        <StatusBar
         barStyle="light-content"
@@ -208,6 +211,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </APIProvider>
+    </GestureHandlerRootView>
   );
 }
 
