@@ -24,6 +24,7 @@ const MisVentas = () => {
     setSelectedEvent(itemValue);
   };
 
+
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredSecondData = selectedEvent ? secondData.filter((_, index) => events[index].name === selectedEvent) : secondData;
 
@@ -53,7 +54,6 @@ const MisVentas = () => {
           )}
         />
       ) : (
-        // Muestra una sola tarjeta con los datos predeterminados
         <View style={styles.cardContainer}>
           <VentasCard event={{ name: 'Sin evento seleccionado' }} secondData={totalData} />
         </View>

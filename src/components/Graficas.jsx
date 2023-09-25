@@ -4,8 +4,9 @@ import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { PieChart } from 'react-native-chart-kit';
 
+
 const Graficas = () => {
-  const { events, fifthDataArray } = useContext(APIContext);
+  const { events, token } = useContext(APIContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -23,6 +24,28 @@ const Graficas = () => {
     "#99CCFF", "#FFCC99", "#CCFF99", "#FF99FF", "#99FF99",
     "#FFFF99", "#FFCCFF", "#CCFFFF", "#FFCCCC", "#CCCCCC"
   ];
+
+  const [fifthDataArray, setFifthDataArray] = useState([]);
+
+  useEffect(() => {
+    const fetchfifthData = async () => {
+      try {
+        const fifthDataPromises = events.map(async (event) => {
+          const fifthApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/reporteriagraficaApi&id_event=${event.id_event}&key=${token}`;
+          const response = await fetch(fifthApiUrl);
+          const fifthEventData = await response.json();
+          return fifthEventData;
+        });
+        const allfifthData = await Promise.all(fifthDataPromises);
+        setFifthDataArray(allfifthData);
+
+      } catch (error) {
+        console.error('Error fetching fifth data:', error);
+        setIsLoading(true);
+      }
+    };
+    fetchfifthData();
+  }, [events, token]);
 
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);

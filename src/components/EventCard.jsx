@@ -6,7 +6,9 @@ import defaultImage from '../../assets/defaultImage.png';
 
 const EventCard = ({ event, thirdData }) => {
     const imageSource = event.url ? { uri: event.image } : defaultImage;
-    const ordenesVenta = thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesAyer - thirdData.ordenesCortesia - thirdData.ordenesDescuento;
+    const ordenesVenta = thirdData
+  ? thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesAyer - thirdData.ordenesCortesia - thirdData.ordenesDescuento
+  : 0;
     return (
         <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 80 }}>
             <View key={event.id_event} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -26,49 +28,49 @@ const EventCard = ({ event, thirdData }) => {
                         <AntDesign name='team' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Total Aforo:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.aforo || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.aforo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='profile' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Tickets vendidos:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenes || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenes || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='closesquareo' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Asientos bloqueados:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.bloqueo || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.bloqueo || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='carryout' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Tickets vendidos hoy:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDia || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenesDia || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='back' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Tickets vendidos ayer:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesAyer || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenesAyer || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='smileo' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Tickets en cortesía:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesCortesia || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenesCortesia || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>
                         <AntDesign name='minuscircleo' size={20} color='white'/>
                             <Text style={styles.orderLabel}>Tickets con descuento:</Text>
                         </View>
-                        <Text style={styles.orderText}>{(parseFloat(thirdData.ordenesDescuento || 0)).toLocaleString('es-ES')}</Text>
+                        <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenesDescuento || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                     <View style={styles.orderContainer}>
                         <View style={styles.orderLeft}>

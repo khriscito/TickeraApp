@@ -38,22 +38,6 @@ const VentasCard = ({ event, secondData }) => {
         <Text style={[styles.cardText, styles.leftAlign]}>Órdenes pagadas:</Text>
         <Text style={[styles.cardValue]}>{(parseFloat(secondData.pagado || 0)).toLocaleString('es-ES')}</Text>
       </Card>
-
-      {/* <Card containerStyle={styles.card}>
-      <Text style={styles.cardValue}>
-      <AntDesign name='printer' size={40} color='white'/>
-                    </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>Impresas:</Text>
-        <Text style={[styles.cardValue]}>{secondData.impreso}</Text>
-      </Card>
-
-      <Card containerStyle={styles.card}>
-      <Text style={styles.cardValue}>
-      <AntDesign name='closesquare' size={40} color='white'/>
-                    </Text>
-        <Text style={[styles.cardText, styles.leftAlign]}>No impresas:</Text>
-        <Text style={[styles.cardValue]}>{secondData.noimpreso}</Text>
-      </Card> */}
     </View>
   );
 }

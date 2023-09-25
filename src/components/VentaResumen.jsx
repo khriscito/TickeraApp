@@ -5,11 +5,12 @@ import VentaResumenCard from "../components/VentaResumenCard.jsx";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const VentaResumen = () => {
-  const { events, thirdData } = useContext(APIContext);
+  const { events, token } = useContext(APIContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [thirdData, setThirdData] = useState([]);
 
   const totalData = {
     aforo: 0,
@@ -24,6 +25,26 @@ const VentaResumen = () => {
     articulo: 0
   };
 
+
+  useEffect(() => {
+    const fetchThirdData = async () => {
+      try {
+        const thirdDataPromises = events.map(async (event) => {
+          const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
+          const response = await fetch(thirdApiUrl);
+          const thirdEventData = await response.json();
+          return thirdEventData;
+        });
+        const allThirdData = await Promise.all(thirdDataPromises); 
+        setThirdData(allThirdData); 
+
+      } catch (error) {
+        console.error('Error fetching third data:', error);
+        setIsLoading(true);
+      }
+    };
+    fetchThirdData();
+  }, [events, token]);  
   
   const handleDropdownChange = (itemValue) => {
     setValue(itemValue);

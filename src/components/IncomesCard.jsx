@@ -28,7 +28,7 @@ const IncomesCard = ({ events, fourthData }) => {
       <Text style={[styles.cardText, styles.leftAlign]}>
         Métodos de Pago:
       </Text>
-      {fourthData.html.map((item, index) => (
+      {fourthData?.html.map((item, index) => (
         <View key={index} style={styles.methodRow}>
           <Text style={styles.methodText}>{item.metodo}:</Text>
           <Text style={styles.methodValue}>{item.total} $</Text>
@@ -53,7 +53,7 @@ const IncomesCard = ({ events, fourthData }) => {
           Recaudación total $: 
         </Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $
+          {(parseFloat(fourthData?.recaudado) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>      
       <Card containerStyle={styles.card}>
@@ -62,7 +62,7 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>Recaudación total BSS</Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadobs) || 0).toLocaleString('es-ES')} BSS
+          {(parseFloat(fourthData?.recaudadobs) || 0).toLocaleString('es-ES')} BSS
         </Text>
       </Card>
       <Card containerStyle={styles.card}>
@@ -71,7 +71,7 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>BS equivalente con contización</Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadocoti) || 0).toLocaleString('es-ES')} $
+          {(parseFloat(fourthData?.recaudadocoti) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
       <Card containerStyle={styles.card}>
@@ -80,7 +80,7 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>Perdida $ por inflación:</Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadocoper) || 0).toLocaleString('es-ES')} $
+          {(parseFloat(fourthData?.recaudadocoper) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
       <Card containerStyle={styles.card}>
@@ -89,7 +89,7 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>Total $:</Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadocoti) + parseFloat(fourthData.recaudado) || 0).toLocaleString('es-ES')} $
+          {(parseFloat(fourthData?.recaudadocoti) + parseFloat(fourthData?.recaudado) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
 
@@ -99,7 +99,7 @@ const IncomesCard = ({ events, fourthData }) => {
         </Text>
         <Text style={[styles.cardText, styles.leftAlign]}>Total recaudado hoy:</Text>
         <Text style={[styles.cardValue]}>
-          {(parseFloat(fourthData.recaudadoDia) || 0).toLocaleString('es-ES')} $
+          {(parseFloat(fourthData?.recaudadoDia) || 0).toLocaleString('es-ES')} $
         </Text>
       </Card>
       {precioCard}

@@ -6,17 +6,38 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 
 const ResumenIncomes = () => {
-  const { events, fourthData } = useContext(APIContext);
+  const { events, token } = useContext(APIContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [fourthData, setFourthData] = useState([]);
 
   const totalData = {
     Recaudado: 0,
     RecaudadoHoy: 0,
     precioCard: 0,
   };
+
+  useEffect(() => {
+    const fetchFourthData = async () => {
+      try {
+        const fourthDataPromises = events.map(async (event) => {
+          const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
+          const response = await fetch(fourthApiUrl);
+          const fourthEventData = await response.json();
+          return fourthEventData;
+        });
+        const allfourthData = await Promise.all(fourthDataPromises); 
+        setFourthData(allfourthData); 
+
+      } catch (error) {
+        console.error('Error fetching fourth data:', error);
+        setIsLoading(true);
+      }
+    };
+    fetchFourthData();
+  }, [events, token]);  
 
 
   const handleDropdownChange = (itemValue) => {

@@ -5,8 +5,9 @@ import { APIContext } from '../components/APIContext.js';
 import EventCard from "../components/EventCard.jsx";
 
 const Dashboard = ({ navigation }) => {
-  const { token, events, secondData, nameLastname, thirdData, setThirdData } = useContext(APIContext);
+  const { token, events } = useContext(APIContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [thirdData, setThirdData] = useState([]);
 
   useEffect(() => {
     const fetchThirdData = async () => {
@@ -14,29 +15,25 @@ const Dashboard = ({ navigation }) => {
         const thirdDataPromises = events.map(async (event) => {
           const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
           const response = await fetch(thirdApiUrl);
-          return response.json();
+          const thirdEventData = await response.json();
+          setIsLoading(false);
+          return thirdEventData;
         });
+        const allThirdData = await Promise.all(thirdDataPromises); 
+        setThirdData(allThirdData); 
 
-        const thirdData = await Promise.all(thirdDataPromises);
-        setThirdData(thirdData);
       } catch (error) {
-        // Manejar el error aquí
-        console.error("Error fetching thirdData:", error);
-      } finally {
-        setIsLoading(false);
+        console.error('Error fetching third data:', error);
+        setIsLoading(true);
       }
     };
-
-    if (token && events.length > 0) {
-      setIsLoading(true);
-      fetchThirdData();
-    }
-  }, [token, events]);
+    fetchThirdData();
+  }, [events, token]);  
 
   if (isLoading) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
+        <Text style={styles.loading}>Estamos cargando los datos de la aplicación, por favor espere...</Text>
         <Image
           style={{ width: 400, height: 400 }}
           source={require("../../assets/defaultImage.png")}
@@ -58,14 +55,13 @@ const Dashboard = ({ navigation }) => {
               onPress={() => navigation.navigate('Login')}
             />
           </>
-        ) :
-          (
-            events.map((event, index) => (
-              <View key={event.id_event}>
-                <EventCard event={event} secondData={secondData[index]} thirdData={thirdData[index]} key={event.id_event} />
-              </View>
-            ))
-          )}
+        ) : (
+          events.map((event, index) => (
+            <View key={event.id_event}>
+              <EventCard event={event} thirdData={thirdData[index]} key={event.id_event} />
+            </View>
+          ))
+        )}
       </ScrollView>
     </View>
   );
@@ -89,5 +85,7 @@ const styles = StyleSheet.create({
 });
 
 export default Dashboard;
+
+
 
 

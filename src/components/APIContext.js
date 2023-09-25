@@ -7,10 +7,6 @@ export const APIProvider = ({ children }) => {
   const [nameLastname, setNameLastname] = useState(null);
   const [events, setEvents] = useState([]);
   const [secondData, setSecondData] = useState([]);
-  const [thirdData, setThirdData] = useState([]);
-  const [fourthData, setFourthData] = useState([]);
-  const [fifthDataArray, setFifthDataArray] = useState([]);
-  
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -27,51 +23,9 @@ export const APIProvider = ({ children }) => {
           const secondData = await Promise.all(secondDataPromise);
           setSecondData(secondData);
           setEvents(data.events);
-
-          const restOfApisPromises = data.events.map(async (event) => {
-            const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
-            const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
-            const fifthApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/reporteriagraficaApi&id_event=${event.id_event}&key=${token}`;
-
-            console.log(fourthApiUrl)
-            
-
-
-            const [thirdResponse, fourthResponse, fifthResponse] = await Promise.all([
-              fetch(thirdApiUrl),
-              fetch(fourthApiUrl),
-              fetch(fifthApiUrl),
-
-            ]);
-            const thirdData = await thirdResponse.json();
-            const fourthData = await fourthResponse.json();
-            const fifthData = await fifthResponse.json();
-
-            return { thirdData, fourthData, fifthData, };
-          });
-
-
-
-          const restOfApisData = await Promise.all(restOfApisPromises);
-
-          const thirdDataArray = [];
-          const fourthDataArray = [];
-          const fifthDataArray = [];
-
-
-          restOfApisData.forEach(({ thirdData, fourthData, fifthData,  }) => { // Update the destructuring here
-            thirdDataArray.push(thirdData);
-            fourthDataArray.push(fourthData);
-            fifthDataArray.push(fifthData);
-          });
-
-          setThirdData(thirdDataArray);
-          setFourthData(fourthDataArray);
-          setFifthDataArray(fifthDataArray);
-          
         }
       } catch (error) {
-        // Handle the error here
+        // Manejar errores aquí
       }
     };
 
@@ -80,18 +34,11 @@ export const APIProvider = ({ children }) => {
     }
   }, [token]);
 
-  console.log(token)
-
-
   const logout = () => {
     setToken(null);
     setNameLastname(null);
     setEvents([]);
     setSecondData([]);
-    setThirdData([]);
-    setFourthData([]);
-    setFifthDataArray([]);
-    
   };
 
   return (
@@ -103,16 +50,13 @@ export const APIProvider = ({ children }) => {
         setNameLastname,
         events,
         secondData,
-        thirdData,
-        fourthData,
-        fifthDataArray,
         logout,
-        setThirdData
       }}
     >
       {children}
     </APIContext.Provider>
   );
 };
+
 
 
