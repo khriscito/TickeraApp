@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect,  } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
@@ -158,7 +158,7 @@ const Sillas = () => {
     <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
     <ActivityIndicator size={120} />
   </>
-) : Platform.OS === 'ios' ? (
+):(
   <ZoomableScrollView style={styles.container}>
     <View style={styles.imageContainer}>
       <Image source={{ uri: sillasImageUrl }} style={styles.image} />
@@ -182,30 +182,6 @@ const Sillas = () => {
       ))}
     </View>
   </ZoomableScrollView>
-) : (
-  <ScrollView style={styles.container}>
-    <View style={styles.imageContainer}>
-      <Image source={{ uri: sillasImageUrl }} style={styles.image} />
-    </View>
-    <View style={styles.sillasContainer}>
-      {sillasData.map((row, rowIndex) => (
-        <View key={rowIndex} flexDirection="row">
-          {row.map((chair, chairIndex) => (
-            <TouchableOpacity
-              key={`${rowIndex}-${chairIndex}`}
-              style={{
-                width: chairSize,
-                height: chairSize,
-                backgroundColor: chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
-                margin: 1,
-              }}
-              onPress={() => handleChairPress(chair)}
-            />
-          ))}
-        </View>
-      ))}
-    </View>
-  </ScrollView>
 )}
 
 
@@ -240,7 +216,7 @@ const Sillas = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     position: 'relative',
     marginTop: 5,
   },
@@ -302,7 +278,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20
+    marginBottom: 20,
+  flexGrow: 1
   },
   row: {
     flexDirection: 'column',
