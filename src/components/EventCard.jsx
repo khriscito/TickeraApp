@@ -10,8 +10,8 @@ const EventCard = ({ event, thirdData }) => {
   ? thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesAyer - thirdData.ordenesCortesia - thirdData.ordenesDescuento
   : 0;
     return (
-        <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 80 }}>
-            <View key={event.id_event} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 60 }}>
+            <View key={event.id_event}>
                 <Image source={imageSource} style={{ width: 300, height: 300 }} resizeMode="contain" />
                 <View>
                     <Text style={styles.headText}>
@@ -80,6 +80,21 @@ const EventCard = ({ event, thirdData }) => {
                         <Text style={styles.orderText}>{(ordenesVenta).toLocaleString('es-ES')}</Text>
                     </View>
                 </View>
+                <View style={styles.orderContainer}>
+                        <View style={styles.orderLeft}>
+                            <Text style={styles.orderCenter}>Venta por artículo</Text>
+                    </View>
+                    </View>
+                    <View style={styles.methodRow}>
+    <Text style={[styles.articuloValue, styles.leftAlign,]}>Artículo</Text>
+    <Text style={[styles.articuloValue, styles.rightAlign,]}>Cantidad</Text>
+  </View>
+  {thirdData?.html && thirdData?.html2.map((item, index) => (
+    <View key={index} style={styles.methodRow}>
+      <Text style={[styles.articuloValue, styles.leftAlign,]}> {item.articulo}:</Text>
+      <Text style={[styles.articuloValue, styles.rightAlign,]}> {item.cantidad}</Text>
+    </View>
+  ))}                        
             </View>
         </Card>
     );
@@ -106,6 +121,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 30,
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center'
     },
     orderLeft: {
         flexDirection: 'row',
@@ -116,11 +134,48 @@ const styles = StyleSheet.create({
         color: 'white',
         marginLeft: 5,
     },
+    orderCenter: {
+        color: 'white',
+        alignItems: 'center',
+        fontSize: 25,
+        fontWeight: 'bold',
+    },
     orderText: {
         color: 'white',
         textAlign: 'right',
         flex: 1,
     },
+    cardValue: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        margin: 5,
+      },
+      cardText: {
+        fontSize: 18, 
+        fontWeight: 'bold', 
+        textAlign: 'left',
+        alignSelf: 'flex-start',
+        margin: 5
+      },
+      articuloValue: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        margin: 5,
+      },
+      methodRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10
+      },
+      leftAlign: {
+        alignSelf: 'flex-start',
+      },
+      rightAlign: {
+        alignSelf: 'flex-end', 
+      },      
 });
 
 export default EventCard;
