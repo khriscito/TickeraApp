@@ -138,10 +138,10 @@ function DrawerNavigator() {
             <AntDesign name="dashboard" size={25} color={'white'} />
           ),
         }}/>
-      <Drawer.Screen name="Eventos" component={EventResume} 
+      <Drawer.Screen name="Eventos Resumidos" component={EventResume} 
       options={{
         drawerIcon: ({ color, size }) => (
-          <AntDesign name="shoppingcart" size={25} color={'white'} />
+          <AntDesign name="carryout" size={25} color={'white'} />
         ),
       }}/>
       <Drawer.Screen name="Estatus Ordenes" component={MisVentas} 
