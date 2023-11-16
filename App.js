@@ -11,6 +11,7 @@ import MisVentas from './src/components/MisVentas.jsx';
 import VentaResumen from './src/components/VentaResumen.jsx';
 import Graficas from './src/components/Graficas.jsx';
 import Sillas from './src/components/Sillas.jsx'
+import EventResume from './src/components/EventsResume.jsx';
 import { APIProvider, APIContext } from './src/components/APIContext.js';
 import { BackHandler } from 'react-native';
 import { Button } from '@rneui/themed';
@@ -137,6 +138,12 @@ function DrawerNavigator() {
             <AntDesign name="dashboard" size={25} color={'white'} />
           ),
         }}/>
+      <Drawer.Screen name="Eventos" component={EventResume} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="shoppingcart" size={25} color={'white'} />
+        ),
+      }}/>
       <Drawer.Screen name="Estatus Ordenes" component={MisVentas} 
       options={{
         drawerIcon: ({ color, size }) => (
