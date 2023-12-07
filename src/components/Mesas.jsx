@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator, ScrollView,TouchableOpacity, Modal } from 'react-native';
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -15,6 +15,9 @@ const Mesas = () => {
   const [mesasImageUrl, setMesasImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mesasData, setMesasData] = useState([]);
+  const [selectedMesa, setSelectedMesa] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedSilla, setSelectedSilla] = useState(null);
 
 
   useEffect(() => {
@@ -65,6 +68,8 @@ const Mesas = () => {
       value: articulo.id_article.toString(),
     })) || [];
 
+console.log(selectedArticle)
+
   useEffect(() => {
     if (selectedArticle) {
       const fetchMesasData = async () => {
@@ -84,7 +89,13 @@ const Mesas = () => {
     }
   }, [selectedEvent, selectedArticle, token]);
 
-  console.log(mesasImageUrl)
+
+
+  const handleMesaPress = (mesa, silla) => {
+    setSelectedMesa(mesa);
+    setModalVisible(true);
+    setSelectedSilla(silla);
+  };
 
   return (
     <>
@@ -146,17 +157,18 @@ const Mesas = () => {
             <View style={styles.chairsContainer}>
               <View style={styles.row}>
                 {mesa.sillas.slice(0, 4).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={{
+                  <TouchableOpacity                   
+                  key={`silla-${sillaIndex}`} style={{
                     width: 60,
                     height: 60,
                     backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                  }}>
-                    <Text style={styles.chairText}>{silla.name_chair}</Text>
-                  </View>
+                  }}
+                  onPress={() => handleMesaPress(mesa, silla)}                  
+                  ><Text style={styles.chairText}>{silla.name_chair}</Text></TouchableOpacity>
                 ))}
               </View>
               <View style={styles.chairLeft}>
-                <View>
+                <TouchableOpacity>
                   {mesa.sillas.slice(8, 10).map((silla, sillaIndex) => (
                     <View key={`silla-${sillaIndex}`} style={{
                       width: 60,
@@ -165,29 +177,30 @@ const Mesas = () => {
                     }}>
                     </View>
                   ))}
-                </View>
+                </TouchableOpacity>
                 <Text style={styles.tableName}>{mesa.mesa}</Text>
                 <View>
                   {mesa.sillas.slice(4, 6).map((silla, sillaIndex) => (
-                    <View key={`silla-${sillaIndex}`} style={{
+                    <TouchableOpacity key={`silla-${sillaIndex}`} style={{
                       width: 60,
                       height: 60,
                       backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                    }}>
+                    }}onPress={() => handleMesaPress(mesa, silla)}>
                       <Text style={styles.chairText}>{silla.name_chair}</Text>
-                    </View>
+                    </TouchableOpacity>
                   ))}
                 </View>
               </View>
               <View style={styles.row}>
                 {mesa.sillas.slice(6, 10).map((silla, sillaIndex) => (
-                  <View key={`silla-${sillaIndex}`} style={{
+                  <TouchableOpacity key={`silla-${sillaIndex}`} style={{
                     width: 60,
                     height: 60,
                     backgroundColor: silla.status == "1" ? "green" : silla.status == "2" ? "red" : silla.status == "3" ? "blue" : "grey",
-                  }}>
+                  }}
+                  onPress={() => handleMesaPress(mesa, silla)} >
                     <Text style={styles.chairText}>{silla.name_chair}</Text>
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
@@ -197,8 +210,34 @@ const Mesas = () => {
     </ScrollView>
   )}
 </View>
+
+<Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+          {selectedMesa && selectedSilla && (
+  <>
+    <Text style={styles.modalTitle}>{selectedMesa.mesa}</Text>
+    <Text>Status de la silla: {selectedSilla.name_chair}: {selectedSilla.status == "1" ? "Disponible" : selectedSilla.status == "2" ? "Ocupado" : "En validación"}</Text>
+    <TouchableOpacity
+      style={styles.modalCloseButton}
+      onPress={() => setModalVisible(false)}
+    >
+      <Text style={styles.modalCloseButtonText}>Close</Text>
+    </TouchableOpacity>
+  </>
+)}
+          </View>
+        </View>
+      </Modal>
 </>
 )}
+
+
 
   
 
@@ -331,6 +370,31 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     color: 'white'
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 8,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalCloseButton: {
+    marginTop: 20,
+    alignSelf: "flex-end",
+  },
+  modalCloseButtonText: {
+    color: "blue",
+    fontWeight: "bold",
   },
 });
 

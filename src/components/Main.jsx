@@ -1,5 +1,5 @@
 import React from "react";
-import {View} from 'react-native'
+import {View, Text, StyleSheet, Image} from 'react-native'
 import { Button } from '@rneui/themed';
 import StyledText from './StyledText.jsx'
 import { Dimensions } from 'react-native';
@@ -7,17 +7,19 @@ import { ImageBackground } from 'react-native';
 let screenWidth = Dimensions.get('window').width;
 let screenHeight = Dimensions.get('window').height;
 
-
 const Main = ({navigation}) => {
 const image = require('../../assets/background.jpg');
 return(
   <ImageBackground source={image} style={{flex: 1, resizeMode: 'cover'}}>
   <View style={{width: screenWidth, height: screenHeight, flex:1, justifyContent: 'flex-end'}}>
-    <StyledText fontWeight='bold' fontSize="heading" color="secondary">¿Preparado para disfrutar del mejor evento de tu vida?</StyledText>
+    <Text style={styles.landing}>Tu ventana personalizada a los mejores eventos y espectáculos en un solo lugar.</Text>
+    <Image
+          style={{ width: 400, height: 400 }}
+          source={require("../../assets/defaultImage.png")}
+        />
     <View style={{flex: 1, justifyContent: 'flex-end'}}>
-    <StyledText fontWeight='bold' fontSize="subheading" color="secondary">Ingresa aquí para la gestión de todos los eventos</StyledText>
+    <Text style={styles.landing}>Ingresa aquí para la gestión de todos los eventos</Text>
     <Button
-
 title="Ir al Login"
 buttonStyle={{
 backgroundColor: 'blue',
@@ -31,14 +33,21 @@ marginBottom: 40
 justifyContent: 'center',
 alignItems: 'center'
 }}
-raised
         onPress={() => navigation.navigate('Login')}
         />
         </View>
       </View>
-      </ImageBackground>
-    )
+      </ImageBackground>     
+      )    
 }
+const styles = StyleSheet.create({
+  landing: {
+    margin: 10,
+    marginTop: 25,
+    fontSize: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },})
 
 
 

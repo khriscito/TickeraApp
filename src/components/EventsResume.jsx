@@ -12,8 +12,14 @@ const EventResume = ({ navigation }) => {
  const [loadingMore, setLoadingMore] = useState(false);
  const [scrollOffset, setScrollOffset] = useState(0);
  const EventCardMemoized = memo(EventCardResume);
+ const [isDataEmpty, setIsDataEmpty] = useState(false);
 
  const fetchThirdData = async (offset = 0) => {
+  if (!events || events.length == 0) {
+    setIsLoading(false);
+    setIsDataEmpty(true);
+    return;
+  }
   try {
     setLoadingMore(true);
     const thirdDataPromises = events.map(async (event, index) => {
@@ -55,6 +61,12 @@ const loadMoreData = () => {
      </View>
    );
  }
+ else if (isDataEmpty) {
+  return (
+    <View >
+      <Text style={styles.loading}>No hay eventos para mostrar</Text>
+    </View>
+  );}
 
  return (
    <View>

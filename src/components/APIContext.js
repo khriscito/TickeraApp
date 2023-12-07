@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { event } from 'react-native-reanimated';
 
 export const APIContext = createContext();
 
@@ -25,7 +26,7 @@ export const APIProvider = ({ children }) => {
           setEvents(data.events);
         }
       } catch (error) {
-        // Manejar errores aquí
+
       }
     };
 
@@ -40,6 +41,7 @@ export const APIProvider = ({ children }) => {
     setEvents([]);
     setSecondData([]);
   };
+  console.log(token)
 
   return (
     <APIContext.Provider

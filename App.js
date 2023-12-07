@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { StyleSheet, View, Text, Alert, StatusBar } from 'react-native';
+import React, { useEffect, useContext,} from 'react';
+import { StyleSheet, View, Text, Alert, StatusBar, Linking } from 'react-native';
 import { NavigationContainer, useNavigation, DarkTheme } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -104,6 +104,13 @@ function CustomDrawerContent(props) {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       
+<View style={styles.termsContainer}><Text 
+    style={{color: 'blue', fontSize: 18}}
+    onPress={() => Linking.openURL('https://www.makeidsystems.com/makeid/index.php?r=site/politicas')}
+>
+    Términos y condiciones 
+</Text></View>
+
       <View style={styles.buttonContainer}>
         <Button
           title="Cerrar Sesión"
@@ -260,5 +267,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
+  termsContainer:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15
+  }
 });
 
