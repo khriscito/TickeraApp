@@ -11,7 +11,7 @@ import { Platform } from 'react-native';
 
 
 const Sillas = () => {
-  const { events, token } = useContext(APIContext);
+  const { events, token, http } = useContext(APIContext);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [articleDropdownOpen, setArticleDropdownOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -32,13 +32,15 @@ const Sillas = () => {
   useEffect(() => {
     const fetchArticulosData = async () => {
       setLoading(true);
-
+      
       const data = await Promise.all(
         events.map(async (event) => {
-          const articuloApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ArticleEventApi&key=${token}&id_event=${event.id_event}`;
+          //const articuloApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ArticleEventApi&key=${token}&id_event=${event.id_event}`;
           try {
-            const response = await fetch(articuloApiUrl);
-            const articulosData = await response.json();
+            
+            //const response = await fetch(articuloApiUrl);
+            //const articulosData = await response.json();
+            const articulosData = await http('site/ArticleEventApi',{id_event:event.id_event},true);
             return { event: event.name, articulosData: articulosData.articulos };
           } catch (error) {
             console.error('Error fetching data for event:', event.name, error);
@@ -50,7 +52,7 @@ const Sillas = () => {
       setLoading(false);
     };
     fetchArticulosData();
-  }, [events, token]);
+  }, [events, token,http]);
 
   const handleEventChange = (eventValue) => {
     setSelectedEvent(eventValue);
@@ -68,12 +70,12 @@ const Sillas = () => {
     value: event.name,
   }));
 
-  const dropdownArticleItems = articulosData.find(
-    (data) => data && data.event === selectedEvent
+  const dropdownArticleItems = articulosData.find( 
+    (data) => data && data.event == selectedEvent
   )?.articulosData.map((articulo) => ({
     label: articulo.name,
     value: articulo.id_article.toString(),
-  })) || [];
+  })) ?? [];
 
   useEffect(() => {
 

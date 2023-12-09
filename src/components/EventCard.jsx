@@ -7,7 +7,7 @@ import defaultImage from '../../assets/defaultImage.png';
 const EventCard = ({ event, thirdData }) => {
     const imageSource = event.url ? { uri: event.image } : defaultImage;
     const ordenesVenta = thirdData
-  ? thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesAyer - thirdData.ordenesCortesia - thirdData.ordenesDescuento
+  ? thirdData.aforo - thirdData.ordenes - thirdData.bloqueo - thirdData.ordenesDia - thirdData.ordenesCortesia - thirdData.ordenesDescuento
   : 0;
     return (
         <Card containerStyle={{ margin: 10, backgroundColor: '#a6a6a6', borderRadius: 60 }}>

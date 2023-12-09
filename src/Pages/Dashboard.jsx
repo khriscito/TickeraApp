@@ -5,82 +5,99 @@ import { APIContext } from '../components/APIContext.js';
 import EventCard from "../components/EventCard.jsx";
 
 const Dashboard = ({ navigation }) => {
-  const { token, events } = useContext(APIContext);
+  const { token, events,readyEvents } = useContext(APIContext);
   const [isLoading, setIsLoading] = useState(true);
   const [thirdData, setThirdData] = useState([]);
   const [page, setPage] = useState(1);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(null);
   const [scrollOffset, setScrollOffset] = useState(0);
+  const [readyData, setreadyData] = useState(false);
   const EventCardMemoized = memo(EventCard);
-  const [isDataEmpty, setIsDataEmpty] = useState(null);
+
+  useEffect(() => {
+    console.log('scrollOffset', scrollOffset);
+    const fetchData = async () => {
+      try {
+        console.log('--------------------');
+        console.log('isLoading: ', isLoading);
+        console.log('readyData: ', readyData);
+        await fetchThirdData(scrollOffset);
+        console.log('isLoading: ', isLoading);
+        console.log('readyData: ', readyData);
+        console.log('--------------------');
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      } finally {
+      }
+    };
+
+    fetchData();
+  }, [events, token, scrollOffset]);
+
+  /*useEffect(() => {
+    if (events.length === 0) {
+      setLoadingMore(false); 
+    }
+  }, [events]);*/
 
   const fetchThirdData = async (offset = 0) => {
     try {
+      
       setLoadingMore(true);
-      const thirdDataPromises = events.map(async (event, index) => {
-        if (index >= offset && index < offset + 10) {
-          const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}&page=${page}`;
-          const response = await fetch(thirdApiUrl);
-          const thirdEventData = await response.json();
-          return thirdEventData;
-        }
+      setIsLoading(true);
+     
+      
+      const thirdDataPromises = events.slice(offset, offset + 10).map(async (event) => {
+        setreadyData(false)
+        const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}&page=${page}`;
+        const response = await fetch(thirdApiUrl);
+        const thirdEventData = await response.json();
+        setreadyData(true)
+
+        return thirdEventData;
       });
       const allThirdData = await Promise.all(thirdDataPromises);
       setThirdData((prevData) => [...prevData, ...allThirdData]);
-  
-      if (events.length == 0) {
-        setIsDataEmpty(true);
-      }
-      else {setIsDataEmpty(false) }
+     
+      return true;
     } catch (error) {
       console.error('Error fetching third data:', error);
+      return false;
     } finally {
       setLoadingMore(false);
+      setIsLoading(false);
+
     }
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    fetchThirdData(scrollOffset)
-      .then(() => setIsLoading(false));
-  }, [events, token, scrollOffset]);
-
   const loadMoreData = () => {
-    setScrollOffset((prevOffset) => prevOffset + 10);
+    if (!loadingMore && events.length > 0) {
+      setScrollOffset((prevOffset) => prevOffset + 10);
+    }
   };
 
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.loading}>Estamos cargando los datos de la aplicación, por favor espere...</Text>
-        <Image
-          style={{ width: 400, height: 400 }}
-          source={require("../../assets/defaultImage.png")}
-        />
-        <ActivityIndicator size={120} />
-      </View>
-    );
-  } else if (isDataEmpty) {
-    return (
-      <View>
-        <Text style={styles.loading}>No hay eventos para mostrar</Text>
-      </View>
-    );
-  } else{
-
   return (
     <View>
-      <Text style={styles.header}>Resumen de tus eventos</Text>
-      {!token || token === null ? (
-        <>
-          <StyledText>Solo puedes ingresar si has iniciado sesión previamente</StyledText>
-          <Button
-            title="Regresar a Login"
-            onPress={() => navigation.navigate('Login')}
+      <View><Text style={styles.header}>Resumen de tus eventos</Text></View>
+      {(!readyEvents && events.length == 0) && (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={styles.loading}>Estamos cargando los datos de la aplicación, por favor espere...</Text>
+          <Image
+            style={{ width: 400, height: 400 }}
+            source={require("../../assets/defaultImage.png")}
           />
-        </>
-      ) : (
+          <ActivityIndicator size={120} />
+        </View>
+      )}
+
+      {readyEvents && events.length == 0 && (
+        <View>
+          <Text style={styles.loading}>No hay eventos para mostrar</Text>
+        </View>
+      )}
+
+      {readyEvents && events.length > 0 && (
         <FlatList
           data={events}
           onEndReached={loadMoreData}
@@ -96,7 +113,7 @@ const Dashboard = ({ navigation }) => {
           )}
           ListFooterComponent={() => (
             loadingMore && (
-              <View style={{ paddingVertical: 20, flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{ paddingVertical: 20, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Image
                   style={{ width: 200, height: 200 }}
                   source={require("../../assets/defaultImage.png")}
@@ -110,7 +127,9 @@ const Dashboard = ({ navigation }) => {
       )}
     </View>
   );
-}};
+};
+
+
 
 const styles = StyleSheet.create({
   loading: {
@@ -130,6 +149,7 @@ const styles = StyleSheet.create({
 });
 
 export default Dashboard;
+
 
 
 

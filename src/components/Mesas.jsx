@@ -21,7 +21,15 @@ const Mesas = () => {
 
 
   useEffect(() => {
+
+    
     const fetchArticulosData = async () => {
+      if(events.length == 0){
+        return
+      }
+      console.log('-----------------------')
+      console.log('estoy en fetchArticulosData')
+      console.log('-----------------------')
       setLoading(true);
 
       const data = await Promise.all(
@@ -33,7 +41,7 @@ const Mesas = () => {
 
             return { event: event.name, articulosData: articulosData.articulos, id_event: event.id_event };
           } catch (error) {
-            console.error('Error fetching data for event:', event.name, error);
+            console.log('Error fetching data for event:', event.name, error);
             return null;
           }
         })
@@ -66,12 +74,15 @@ const Mesas = () => {
     articulosData.find((data) => data && data.event === selectedEvent)?.articulosData.map((articulo) => ({
       label: articulo.name,
       value: articulo.id_article.toString(),
-    })) || [];
+    })) ?? [];
 
 console.log(selectedArticle)
 
   useEffect(() => {
     if (selectedArticle) {
+      console.log('-----------------------')
+      console.log('if (selectedArticle)')
+      console.log('-----------------------')
       const fetchMesasData = async () => {
         const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
         try {
@@ -81,7 +92,7 @@ console.log(selectedArticle)
           setMesasData(mesasData.array);
 
         } catch (error) {
-          console.error('Error fetching mesas data:', error);
+          console.log('Error fetching mesas data:', error);
         }
       };
 

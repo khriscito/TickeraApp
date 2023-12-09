@@ -87,7 +87,9 @@ function CustomDrawerContent(props) {
           style: "cancel"
         },
         { text: "OK", onPress: () => {
-            logout();
+            logout(
+
+            );
             navigation.navigate('Main');
         }}
       ]
@@ -135,8 +137,23 @@ function CustomDrawerContent(props) {
     </View>
   );
 }
+function middleware(navigation)
+ {
+  // Tu código de middleware aquí
+  //console.log('Navegando a:', route);
 
-function DrawerNavigator() {
+
+}
+function DrawerNavigator({navigation}) {
+  const { token } = useContext(APIContext);
+  //middleware(navigation)
+  /*useEffect(() => {
+    const unsubscribe = navigation.addListener('focus',middleware(navigation));
+
+    return unsubscribe;
+  }, [navigation]);*/
+
+
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={props => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="Dashboard" component={DashboardScreen}          
@@ -193,7 +210,8 @@ function DrawerNavigator() {
         ),
       }}/>
 
-<Drawer.Screen name="Mesas" component={Mesas} 
+<Drawer.Screen name="Mesas" component={Mesas}
+    navigation={navigation}	
       options={{
         drawerIcon: ({ color, size }) => (
           <AntDesign name="profile" size={25} color={'white'} />
