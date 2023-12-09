@@ -28,7 +28,10 @@ const VentaResumen = () => {
 
   useEffect(() => {
     const fetchThirdData = async () => {
-      try {
+      if(!token){
+        return
+      }
+       try {
         const thirdDataPromises = events.map(async (event) => {
           const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
           const response = await fetch(thirdApiUrl);
@@ -51,6 +54,9 @@ const VentaResumen = () => {
     setSelectedEvent(itemValue);
   };
 
+  if(!token){
+    return
+  }
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredthirdData = selectedEvent ? thirdData.filter((_, index) => events[index].name === selectedEvent) : thirdData;
 

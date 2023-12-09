@@ -15,16 +15,8 @@ const Dashboard = ({ navigation }) => {
   const EventCardMemoized = memo(EventCard);
 
   useEffect(() => {
-    console.log('scrollOffset', scrollOffset);
     const fetchData = async () => {
       try {
-        console.log('--------------------');
-        console.log('isLoading: ', isLoading);
-        console.log('readyData: ', readyData);
-        await fetchThirdData(scrollOffset);
-        console.log('isLoading: ', isLoading);
-        console.log('readyData: ', readyData);
-        console.log('--------------------');
       } catch (error) {
         console.log('Error fetching data:', error);
       } finally {
@@ -33,12 +25,6 @@ const Dashboard = ({ navigation }) => {
 
     fetchData();
   }, [events, token, scrollOffset]);
-
-  /*useEffect(() => {
-    if (events.length === 0) {
-      setLoadingMore(false); 
-    }
-  }, [events]);*/
 
   const fetchThirdData = async (offset = 0) => {
     try {
@@ -149,7 +135,6 @@ const styles = StyleSheet.create({
 });
 
 export default Dashboard;
-
 
 
 

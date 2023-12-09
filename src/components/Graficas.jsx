@@ -29,6 +29,9 @@ const Graficas = () => {
 
   useEffect(() => {
     const fetchfifthData = async () => {
+      if(!token){
+        return
+      }
       try {
         const fifthDataPromises = events.map(async (event) => {
           const fifthApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/reporteriagraficaApi&id_event=${event.id_event}&key=${token}`;
@@ -51,7 +54,10 @@ const Graficas = () => {
     setValue(itemValue);
     setSelectedEvent(itemValue);
   };
-
+  
+  if(!token){
+    return
+  }
   const filteredEvents = selectedEvent
     ? events.filter((event) => event.name === selectedEvent)
     : events;

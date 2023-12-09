@@ -5,7 +5,7 @@ import VentasCard from "../components/VentasCard.jsx";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const MisVentas = () => {
-  const { events, secondData } = useContext(APIContext);
+  const { events, secondData,token } = useContext(APIContext);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -24,7 +24,9 @@ const MisVentas = () => {
     setSelectedEvent(itemValue);
   };
 
-
+  if(!token){
+    return
+  }
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredSecondData = selectedEvent ? secondData.filter((_, index) => events[index].name === selectedEvent) : secondData;
 

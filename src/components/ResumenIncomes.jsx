@@ -21,6 +21,9 @@ const ResumenIncomes = () => {
 
   useEffect(() => {
     const fetchFourthData = async () => {
+      if(!token){
+        return
+      }
       try {
         const fourthDataPromises = events.map(async (event) => {
           const fourthApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/incomesresumen&key=${token}&id_event=${event.id_event}`;
@@ -46,7 +49,10 @@ const ResumenIncomes = () => {
     console.log(selectedEvent)
   };
 
-
+  if(!token){
+    return
+    // 
+  }
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredFourthData = selectedEvent ? fourthData.filter((_, index) => events[index].name === selectedEvent) : fourthData;
 
