@@ -28,23 +28,18 @@ const EventsResume = ({ navigation }) => {
 
   const fetchThirdData = async (offset = 0) => {
     try {
-      
       setLoadingMore(true);
-      setIsLoading(true);
-     
-      
+      setIsLoading(true);   
       const thirdDataPromises = events.slice(offset, offset + 10).map(async (event) => {
         setreadyData(false)
         const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}&page=${page}`;
         const response = await fetch(thirdApiUrl);
         const thirdEventData = await response.json();
         setreadyData(true)
-
         return thirdEventData;
       });
       const allThirdData = await Promise.all(thirdDataPromises);
       setThirdData((prevData) => [...prevData, ...allThirdData]);
-     
       return true;
     } catch (error) {
       console.error('Error fetching third data:', error);
@@ -52,9 +47,13 @@ const EventsResume = ({ navigation }) => {
     } finally {
       setLoadingMore(false);
       setIsLoading(false);
-
     }
-  };
+   };
+   
+   useEffect(() => {
+    fetchThirdData();
+   }, [events, token]);
+   
 
   const loadMoreData = () => {
     if (!loadingMore && events.length > 0) {
