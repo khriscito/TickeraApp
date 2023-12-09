@@ -21,20 +21,15 @@ const Mesas = () => {
 
 
   useEffect(() => {
-
-    
     const fetchArticulosData = async () => {
-      if(events.length == 0){
+      if(!token){
         return
       }
-      console.log('-----------------------')
-      console.log('estoy en fetchArticulosData')
-      console.log('-----------------------')
       setLoading(true);
-
       const data = await Promise.all(
         events.map(async (event) => {
           const articuloApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ArticleEventApi&key=${token}&id_event=${event.id_event}`;
+          console.log(event.id_event)
           try {
             const response = await fetch(articuloApiUrl);
             const articulosData = await response.json();
@@ -76,13 +71,10 @@ const Mesas = () => {
       value: articulo.id_article.toString(),
     })) ?? [];
 
-console.log(selectedArticle)
+
 
   useEffect(() => {
     if (selectedArticle) {
-      console.log('-----------------------')
-      console.log('if (selectedArticle)')
-      console.log('-----------------------')
       const fetchMesasData = async () => {
         const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
         try {
@@ -119,7 +111,6 @@ console.log(selectedArticle)
       )}
       {!loading && (
         <View style={styles.container}>
-          {/* DropdownPicker for Event */}
           <View style={styles.dropdownEvento}>
             <Text style={styles.label}>Eventos:</Text>
             <DropDownPicker

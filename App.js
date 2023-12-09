@@ -137,22 +137,9 @@ function CustomDrawerContent(props) {
     </View>
   );
 }
-function middleware(navigation)
- {
-  // Tu código de middleware aquí
-  //console.log('Navegando a:', route);
 
-
-}
-function DrawerNavigator({navigation}) {
-  const { token } = useContext(APIContext);
-  //middleware(navigation)
-  /*useEffect(() => {
-    const unsubscribe = navigation.addListener('focus',middleware(navigation));
-
-    return unsubscribe;
-  }, [navigation]);*/
-
+function DrawerNavigator() {
+  
 
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={props => <CustomDrawerContent {...props} />}>
@@ -211,7 +198,7 @@ function DrawerNavigator({navigation}) {
       }}/>
 
 <Drawer.Screen name="Mesas" component={Mesas}
-    navigation={navigation}	
+    
       options={{
         drawerIcon: ({ color, size }) => (
           <AntDesign name="profile" size={25} color={'white'} />

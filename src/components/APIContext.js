@@ -9,7 +9,6 @@ export const APIProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
   const [readyEvents, setReadyEvents] = useState(false);
   const [secondData, setSecondData] = useState([]);
-  //const navigation = useNavigation();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -26,7 +25,6 @@ export const APIProvider = ({ children }) => {
           const secondData = await Promise.all(secondDataPromise);
           setSecondData(secondData);
           setEvents(data.events);
-          //setEvents([]);
           setReadyEvents(true);
         }
       } catch (error) {
@@ -46,34 +44,6 @@ export const APIProvider = ({ children }) => {
     setSecondData([]);
   };
   console.log(token)
-
-  const http = (controller='',params= {} , isAuth = false) => {
-      return new Promise(async(resolve, reject) => {
-          try{
-
-            let url = `https://makeidsystems.com/makeid/index.php?r=${controller}`
-
-            for(let key in params) {
-              url += `&${key}=${params[key]}`
-            }
-              if(isAuth){
-                if(!token){
-                  //navigation.navigate('Main');
-                }
-                
-                url += `&key=${token}`
-              }
-              const response = await fetch(url);
-              const res = await response.json();
-
-                
-              resolve(res)
-          }catch(e){
-              reject(e)
-          }
-      })
-
-  }
   return (
     <APIContext.Provider
       value={{
@@ -84,7 +54,6 @@ export const APIProvider = ({ children }) => {
         events,
         secondData,
         logout,
-        http,
         readyEvents
       }}
     >

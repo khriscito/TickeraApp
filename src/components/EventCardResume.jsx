@@ -16,12 +16,14 @@ const EventCardResume = ({ event, thirdData }) => {
                         <AntDesign name='profile' size={40} color='white'/>
                             <Text style={styles.orderLabel}>Tickets vendidos:</Text>
                         </View>
+                        {console.log(thirdData)}
                         <Text style={styles.orderText}>{(parseFloat(thirdData?.ordenes || 0)).toLocaleString('es-ES')}</Text>
                     </View>
                 </View>
             </View>
         </Card>
     );
+
 }
 
 const styles = StyleSheet.create({
