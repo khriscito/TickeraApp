@@ -3,7 +3,6 @@ import { View, Button, FlatList, ActivityIndicator, Text, StyleSheet, Image } fr
 import StyledText from '../components/StyledText.jsx';
 import { APIContext } from '../components/APIContext.js';
 import EventCardResume from "./EventCardResume.jsx";
-
 const EventResume = ({ navigation }) => {
  const { token, events } = useContext(APIContext);
  const [isLoading, setIsLoading] = useState(true);
@@ -24,11 +23,13 @@ const EventResume = ({ navigation }) => {
     setLoadingMore(true);
     const thirdDataPromises = events.map(async (event, index) => {
       if (index >= offset && index < offset + 10) {
-        const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}&page=${page}`;
+        const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}`;
+        console.log(event.id_event)
         const response = await fetch(thirdApiUrl);
         const thirdEventData = await response.json();
         setIsLoading(false);
         return thirdEventData;
+
       }
     });
     const allThirdData = await Promise.all(thirdDataPromises); 
@@ -40,15 +41,12 @@ const EventResume = ({ navigation }) => {
     setLoadingMore(false);
   }
 };
-
 useEffect(() => {
   fetchThirdData(scrollOffset);
 }, [events, token, scrollOffset]);
-
 const loadMoreData = () => {
   setScrollOffset(prevOffset => prevOffset + 10);
 };
-
  if (isLoading) {
    return (
      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -110,7 +108,6 @@ const loadMoreData = () => {
    </View>
  );
 };
-
 const styles = StyleSheet.create({
   loading: {
     margin: 5,
@@ -127,5 +124,4 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
 export default EventResume;

@@ -29,11 +29,9 @@ const Mesas = () => {
       const data = await Promise.all(
         events.map(async (event) => {
           const articuloApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ArticleEventApi&key=${token}&id_event=${event.id_event}`;
-          console.log(event.id_event)
           try {
             const response = await fetch(articuloApiUrl);
             const articulosData = await response.json();
-
             return { event: event.name, articulosData: articulosData.articulos, id_event: event.id_event };
           } catch (error) {
             console.log('Error fetching data for event:', event.name, error);
@@ -77,11 +75,27 @@ const Mesas = () => {
     if (selectedArticle) {
       const fetchMesasData = async () => {
         const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
+        console.log(selectedArticle)
         try {
           const response = await fetch(mesasApiUrl);
-          const mesasData = await response.json();
+          const mesasData = (await response.json())
+          
+          const mesasDataA = mesasData.array.map(item => {
+
+            const sillas = item.sillas.sort((a, b) => {
+              const name_chairA = +a.name_chair.split('-')[1];
+              const name_chairB = +b.name_chair.split('-')[1];
+              return name_chairA - name_chairB;
+            })
+            
+            return {
+              ...item,
+              sillas,
+            }
+
+          });
           setMesasImageUrl(mesasData.image);
-          setMesasData(mesasData.array);
+          setMesasData(mesasDataA);
 
         } catch (error) {
           console.log('Error fetching mesas data:', error);

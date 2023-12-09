@@ -3,12 +3,6 @@ import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, Act
 import { APIContext } from './APIContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
-import defaultImage from '../../assets/defaultImage.png';
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Platform } from 'react-native';
-
-
-
 
 const Sillas = () => {
   const { events, token } = useContext(APIContext);
@@ -27,17 +21,19 @@ const Sillas = () => {
 
   useEffect(() => {
     const fetchArticulosData = async () => {
+      if(!token){
+        return
+      }
       setLoading(true);
-
       const data = await Promise.all(
         events.map(async (event) => {
           const articuloApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ArticleEventApi&key=${token}&id_event=${event.id_event}`;
           try {
             const response = await fetch(articuloApiUrl);
             const articulosData = await response.json();
-            return { event: event.name, articulosData: articulosData.articulos };
+            return { event: event.name, articulosData: articulosData.articulos, id_event: event.id_event };
           } catch (error) {
-            console.error('Error fetching data for event:', event.name, error);
+            console.log('Error fetching data for event:', event.name, error);
             return null;
           }
         })
@@ -72,7 +68,9 @@ const Sillas = () => {
   })) || [];
 
   useEffect(() => {
-
+    if(!token){
+      return
+    }
     if (selectedArticle) {
       const fetchSillasData = async () => {
         const sillasApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EspacioSillas&key=${token}&id_article=${selectedArticle}`;
@@ -84,7 +82,7 @@ const Sillas = () => {
           console.log(sillasApiUrl)
           console.log(sillasImageUrl)
         } catch (error) {
-          console.error('Error fetching sillas data:', error);
+          console.log('Error fetching sillas data:', error);
         }
       };
       fetchSillasData();
