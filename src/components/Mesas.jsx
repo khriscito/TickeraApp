@@ -75,7 +75,6 @@ const Mesas = () => {
     if (selectedArticle) {
       const fetchMesasData = async () => {
         const mesasApiUrl = `https://www.makeidsystems.com/makeid/index.php?r=site/ZonaSillas&id_article=${selectedArticle}&key=${token}`;
-        console.log(selectedArticle)
         try {
           const response = await fetch(mesasApiUrl);
           const mesasData = (await response.json())

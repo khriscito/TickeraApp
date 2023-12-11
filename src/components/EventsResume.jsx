@@ -33,6 +33,7 @@ const EventsResume = ({ navigation }) => {
       const thirdDataPromises = events.slice(offset, offset + 10).map(async (event) => {
         setreadyData(false)
         const thirdApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/ventaresumen&key=${token}&id_event=${event.id_event}&page=${page}`;
+        console.log(thirdApiUrl)
         const response = await fetch(thirdApiUrl);
         const thirdEventData = await response.json();
         setreadyData(true)

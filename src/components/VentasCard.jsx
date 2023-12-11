@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 const VentasCard = ({ event, secondData }) => {
   return (
     <View style={styles.cardContainer}>
+      {console.log("soy second data",secondData)}
       <Card containerStyle={styles.card}>
         <Text style={styles.cardValue}>
       <AntDesign name='calendar' size={40} color='white'/>

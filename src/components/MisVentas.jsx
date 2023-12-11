@@ -32,6 +32,8 @@ const MisVentas = () => {
 
   const dropdownItems = events.map(event => ({ label: event.name, value: event.name }));
 
+  console.log('soy second data de mis ventas:', secondData)
+
   return (
     <View>
       <View style={styles.dropdownContainer}>

@@ -2,7 +2,7 @@
   "expo": {
     "name": "MakeTicket Productores",
     "slug": "app-ticket",
-    "version": "1.2",
+    "version": "2",
     "orientation": "portrait",
     "icon": "./assets/defaultImageicon.png",
     "userInterfaceStyle": "dark",
@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/defaultImageicon.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.maketicket.productores"
+      "package": "com.maketicket.productores",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/defaultImage.png"

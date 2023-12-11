@@ -107,14 +107,13 @@ const Login = ({ navigation }) => {
   };
   useEffect(() => {
     if (apiResponse && apiResponse.success) {
-      setToken(apiResponse.data.token);
+      setToken(`${apiResponse.data.token}mono`);
       setNameLastname(apiResponse.data.name_lastname);
       navigation.navigate('Drawer', { screen: 'Dashboard' });
     } else if (apiResponse && !apiResponse.success) {
       setError(apiResponse.status);
     }
   }, [apiResponse, setToken, setNameLastname, navigation]);
-
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
