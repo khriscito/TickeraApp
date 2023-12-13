@@ -107,7 +107,7 @@ const Login = ({ navigation }) => {
   };
   useEffect(() => {
     if (apiResponse && apiResponse.success) {
-      setToken(`${apiResponse.data.token}mono`);
+      setToken(apiResponse.data.token);
       setNameLastname(apiResponse.data.name_lastname);
       navigation.navigate('Drawer', { screen: 'Dashboard' });
     } else if (apiResponse && !apiResponse.success) {
