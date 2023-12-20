@@ -80,6 +80,16 @@ const ReportesDescargables = () => {
     }
   };
 
+
+  const handleDownloadReportAforo = () => {
+    if (selectedEvent) {
+      const selectedEventObject = events.find((event) => event.name === selectedEvent);
+      const url = `https://www.makeidsystems.com/makeid/index.php?r=site/pdfTotal&id_event=${selectedEventObject.id_event}&key=${token}`;
+      Linking.openURL(url);
+    } else {
+      alert('Por favor seleccione un evento primero');
+    }
+  };
  
 
   return (
@@ -187,27 +197,53 @@ const ReportesDescargables = () => {
       </View>
 
 
+
       <View style={styles.buttonContainer}>
 
-        <Button
-          title="   Descargar informe sillas impresas"
-          icon={<AntDesign name="download" size={25} color="white" />}
-          buttonStyle={{
-            backgroundColor: 'green',
-            width: 310,
-            height: 50,
-            padding: 10,
-            borderRadius: 30,
-          }}
-          containerStyle={{
-            ...styles.buttonContainer,
-            overflow: 'hidden',
-            borderRadius: 30,
-          }}
-          raised
-          onPress={handleDownloadReportSillas} // Attach the onPress handler to the function
-        />
-      </View>
+<Button
+  title="   Descargar informe sillas impresas"
+  icon={<AntDesign name="download" size={25} color="white" />}
+  buttonStyle={{
+    backgroundColor: 'green',
+    width: 310,
+    height: 50,
+    padding: 10,
+    borderRadius: 30,
+  }}
+  containerStyle={{
+    ...styles.buttonContainer,
+    overflow: 'hidden',
+    borderRadius: 30,
+  }}
+  raised
+  onPress={handleDownloadReportSillas} // Attach the onPress handler to the function
+/>
+</View>
+
+
+<View style={styles.buttonContainer}>
+
+<Button
+  title="       Descargar informe aforo"
+  icon={<AntDesign name="download" size={25} color="white" />}
+  buttonStyle={{
+    backgroundColor: 'green',
+    width: 310,
+    height: 50,
+    padding: 10,
+    borderRadius: 30,
+  }}
+  containerStyle={{
+    ...styles.buttonContainer,
+    overflow: 'hidden',
+    borderRadius: 30,
+  }}
+  raised
+  onPress={handleDownloadReportAforo} // Attach the onPress handler to the function
+/>
+</View>
+
+
       </ScrollView>
     </View>
  

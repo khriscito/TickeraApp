@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator, TextInput } from 'react-native';
 import { APIContext } from './APIContext.js';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
@@ -19,8 +19,20 @@ const VentasCortesia = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedChair, setSelectedChair] = useState(null);
   const [pressedChairs, setPressedChairs] = useState([]);
+  const [chairID, setChairID] = useState([]);
   const { width, height } = Dimensions.get('window');
   const [cortesiaModal, setCortesiaModal] = useState(false);
+  const [email, setEmail] = useState('');
+  const [cedula, setCedula] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [observaciones, setObservaciones] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [camposValidos, setCamposValidos] = useState(false);
+  const [errorModal,setErrorModal]= useState(false)
+  const [eventID,setEventID]= useState([])
 
 
   useEffect(() => {
@@ -83,8 +95,6 @@ const VentasCortesia = () => {
           const sillasData = await response.json();
           setSillasImageUrl(sillasData.image);
           setSillasData(sillasData.array);
-          console.log(sillasApiUrl)
-          console.log(sillasImageUrl)
         } catch (error) {
           console.log('Error fetching sillas data:', error);
         }
@@ -92,7 +102,6 @@ const VentasCortesia = () => {
       fetchSillasData();
     }
   }, [selectedEvent, selectedArticle, token]);
-
   const handleChairPress = (chair) => {
     setSelectedChair(chair);
     setModalVisible(true);
@@ -102,21 +111,106 @@ const VentasCortesia = () => {
     setCortesiaModal(true);
   };
 
+  const SuccessModal = () => {
+    setSuccessModal(true);
+  };
+
   const chairSize = Math.floor(width / (sillasData[0]?.length || 1)) - 2;
 
   const handleChairPressed = (chair) => {
     setPressedChairs([...pressedChairs, chair.name]);
+    setChairID([...chairID,chair.id_space_chair]);
     setSelectedChair(chair.name);
     setModalVisible(true);
-    console.log(pressedChairs);
-  };
-
-  const handleDeselectChair = () => {
+   };
+   const handleDeselectChair = () => {
     setPressedChairs(pressedChairs.filter((c) => c !== selectedChair.name));
+    setChairID(chairID.filter((c) => c !== selectedChair.id_space_chair));
     setSelectedChair(null);
     setModalVisible(false);
-    console.log(pressedChairs)
-  };
+   };
+   
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  const validarCampos = () => {
+ if (nombre.length >= 2 && apellido.length >= 2 && emailRegex.test(email)) {
+   setCamposValidos(true);
+ } else {
+   setCamposValidos(false);
+ }
+};
+
+
+const validarEntradas = async () => {
+  const url = `https://www.makeidsystems.com/makeid/index.php?r=site/validarSillas&key=${token}&sillas=${chairID}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.success) {
+      setSuccessModal(true);
+      generarEntradas();
+      fetchSillasDataFunction();
+    } else {
+      setErrorModal(true);
+      fetchSillasDataFunction();
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    fetchSillasDataFunction();
+  }
+ };
+
+ const generarEntradas = async () => {
+  const cedulaValue = cedula || 'N/A';
+  const telefonoValue = telefono || 'N/A';
+  const observacionesValue = observaciones || 'N/A';
+ 
+  const url = `https://www.makeidsystems.com/makeid/index.php?r=site/ventaCortesia&key=${token}&email=${email}&name=${nombre}&lastname=${apellido}&phone=${telefonoValue}&cedula=${cedulaValue}&observation=${observacionesValue}&sillas=${chairID}&article=${selectedArticle}`;
+ 
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.success) {
+      setSuccessModal(true);
+      fetchSillasDataFunction();
+    } else {
+      setErrorModal(true);
+      fetchSillasDataFunction();
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+ };
+ 
+
+ const clearFields = () => {
+  setPressedChairs([])
+  setChairID([])
+  setNombre('')
+  setApellido('')
+  setEmail('')
+  setCedula('')
+  setTelefono('') 
+  setObservaciones('')}
+
+
+  const fetchSillasDataFunction = async () => {
+    if (!token) {
+      return
+    }
+    if (selectedArticle) {
+      const sillasApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EspacioSillas&key=${token}&id_article=${selectedArticle}`;
+      try {
+        const response = await fetch(sillasApiUrl);
+        const sillasData = await response.json();
+        setSillasImageUrl(sillasData.image);
+        setSillasData(sillasData.array);
+      } catch (error) {
+        console.log('Error fetching sillas data:', error);
+      }
+    }
+   };
+ 
 
 
   return (
@@ -185,7 +279,7 @@ const VentasCortesia = () => {
                       style={{
                         width: chairSize,
                         height: chairSize,
-                        backgroundColor: pressedChairs.includes(chair.name) ? 'yellow' : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
+                        backgroundColor: pressedChairs.includes(chair.name) ? 'grey' : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
                         margin: 1,
                       }}
                       onPress={() => handleChairPress(chair)}
@@ -199,7 +293,7 @@ const VentasCortesia = () => {
           {pressedChairs.length > 0 && (
             <View style={{ height: 150 }}>
               <Text style={{ color: 'white', fontSize: 16, marginBottom: 10, alignContent: 'center' }}>Sillas seleccionadas:</Text>
-              <Text style={{ color: 'white', fontSize: 13, marginBottom: 15}}>{pressedChairs.join(', ')}</Text>
+              <Text style={{ color: 'white', fontSize: 13, marginBottom: 15 }}>{pressedChairs.join(', ')}</Text>
               <Button
                 title="Comprar Cortesia"
                 titleStyle={{ fontSize: 14 }}
@@ -315,9 +409,61 @@ const VentasCortesia = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
+
+            
             <Text style={styles.modalTitle}>Usted ha seleccionado las sillas:</Text>
             <Text style={{ fontSize: 17, marginBottom: 30 }}>{pressedChairs.join(', ')}</Text>
+            <Text style={styles.modalTitle}>Nombre:</Text>
+            <TextInput
+ style={styles.email}
+ onChangeText={text => {
+   setNombre(text);
+   validarCampos();
+ }}
+ value={nombre}
+/>
+<Text style={styles.modalTitle}>Apellido:</Text>
+<TextInput
+ style={styles.email}
+ onChangeText={text => {
+   setApellido(text);
+   validarCampos();
+ }}
+ value={apellido}
+/>
+
+<Text style={styles.modalTitle}>Correo:</Text>
+            <TextInput
+                style={styles.email}
+                onChangeText={text => {
+                  setEmail(text);
+                  validarCampos();
+                }}
+                onBlur={() => setEmailTouched(true)}
+                value={email}
+              />
+
+
+<Text style={styles.modalTitle}>Cédula:</Text>
+            <TextInput
+                style={styles.email}
+              />
+
+              
+<Text style={styles.modalTitle}>Teléfono:</Text>
+            <TextInput
+                style={styles.email}
+              />
+
+              
+<Text style={styles.modalTitle}>Observación:</Text>
+            <TextInput
+                style={styles.email}
+              />
+
+
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
               <Button
                 title="Regresar"
                 titleStyle={{ fontSize: 14 }}
@@ -352,13 +498,83 @@ const VentasCortesia = () => {
                   alignItems: 'center',
                 }}
                 loading={loading}
-                onPress={() => { console.log('cortesia comprada con exito') }}
+                onPress={() => { { validarEntradas(), setCortesiaModal(false)}  }}
+                disabled={!camposValidos}
+              />
+
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={successModal}
+        onRequestClose={() => setSuccessModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Entradas procesadas con éxito FUNCIONALIDAD EN CONSTRUCCIÓN</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Button
+                title="Regresar"
+                titleStyle={{ fontSize: 14 }}
+                buttonStyle={{
+                  backgroundColor: 'red',
+                  width: 130,
+                  height: 50,
+                  padding: 10,
+                  borderRadius: 30,
+                  marginBottom: 10,
+                }}
+                containerStyle={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                loading={loading}
+                onPress={() => {setSuccessModal(false), clearFields()}}
               />
             </View>
           </View>
         </View>
       </Modal>
-      {console.log('cortesia modal:', cortesiaModal)}
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={errorModal}
+        onRequestClose={() => setErrorModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Error! una de las sillas que ha seleccionada ha sido tomada, por favor intentelo nuevamente</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Button
+                title="Regresar"
+                titleStyle={{ fontSize: 14 }}
+                buttonStyle={{
+                  backgroundColor: 'red',
+                  width: 130,
+                  height: 50,
+                  padding: 10,
+                  borderRadius: 30,
+                  marginBottom: 10,
+                }}
+                containerStyle={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                loading={loading}
+                onPress={() => {setErrorModal(false), clearFields()}}
+                disabled={!camposValidos}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -448,7 +664,7 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 20,
     justifyContent: "center"
@@ -468,10 +684,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white'
   },
-
+  email:{
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1,
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 20,
+    justifyContent: "center"
+  }
 });
 
 export default VentasCortesia;
+
+
+
+
 
 
 
