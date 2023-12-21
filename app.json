@@ -24,7 +24,7 @@
         "backgroundColor": "#000000"
       },
       "package": "com.maketicket.productores",
-      "versionCode": 202
+      "versionCode": 210
     },
     "web": {
       "favicon": "./assets/defaultImage.png"

@@ -132,13 +132,17 @@ const VentasCortesia = () => {
    
   const emailRegex = /\S+@\S+\.\S+/;
 
-  const validarCampos = () => {
- if (nombre.length >= 2 && apellido.length >= 2 && emailRegex.test(email)) {
-   setCamposValidos(true);
- } else {
-   setCamposValidos(false);
- }
-};
+useEffect(() => {
+  console.log("tamaño de nombre", nombre.length)
+  console.log("tamaño de apellido", apellido.length)
+  console.log("verificacion email:", emailRegex.test(email))
+  if (nombre.length >= 3 && apellido.length >= 3 && emailRegex.test(email)) {
+    setCamposValidos(true);
+  } else {
+    setCamposValidos(false);
+  }
+ }, [nombre, apellido, email]);
+
 
 
 const validarEntradas = async () => {
@@ -418,7 +422,6 @@ const validarEntradas = async () => {
  style={styles.email}
  onChangeText={text => {
    setNombre(text);
-   validarCampos();
  }}
  value={nombre}
 />
@@ -427,7 +430,6 @@ const validarEntradas = async () => {
  style={styles.email}
  onChangeText={text => {
    setApellido(text);
-   validarCampos();
  }}
  value={apellido}
 />
@@ -437,7 +439,6 @@ const validarEntradas = async () => {
                 style={styles.email}
                 onChangeText={text => {
                   setEmail(text);
-                  validarCampos();
                 }}
                 onBlur={() => setEmailTouched(true)}
                 value={email}
@@ -480,7 +481,7 @@ const validarEntradas = async () => {
                   alignItems: 'center',
                 }}
                 loading={loading}
-                onPress={() => setCortesiaModal(false)}
+                onPress={() => {setCortesiaModal(false), clearFields()}}
               />
               <Button
                 title="Generar entradas"
