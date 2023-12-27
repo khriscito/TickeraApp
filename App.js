@@ -13,6 +13,7 @@ import Graficas from './src/components/Graficas.jsx';
 import Sillas from './src/components/Sillas.jsx'
 import VentasCortesia from './src/components/VentasCortesia.jsx';
 import EventResume from './src/components/EventsResume.jsx';
+import ListaCortesia from './src/components/ListaCortesia.jsx';
 import { APIProvider, APIContext } from './src/components/APIContext.js';
 import { BackHandler } from 'react-native';
 import { Button } from '@rneui/themed';
@@ -212,6 +213,14 @@ function DrawerNavigator() {
           <AntDesign name="gift" size={25} color={'white'} />
         ),
       }}/>
+
+<Drawer.Screen name="Cortesías generadas" component={ListaCortesia} 
+      options={{
+        drawerIcon: ({ color, size }) => (
+          <AntDesign name="gift" size={25} color={'white'} />
+        ),
+      }}/>
+
 
     </Drawer.Navigator>
 

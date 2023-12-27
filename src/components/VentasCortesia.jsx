@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator, TextInput } from 'react-native';
+import { View, Text, StyleSheet,  Platform, Image, Modal, TouchableOpacity, Dimensions, ActivityIndicator, TextInput } from 'react-native';
 import { APIContext } from './APIContext.js';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ZoomableScrollView from './ZoomableScrollView.jsx';
@@ -133,9 +133,6 @@ const VentasCortesia = () => {
   const emailRegex = /\S+@\S+\.\S+/;
 
 useEffect(() => {
-  console.log("tamaño de nombre", nombre.length)
-  console.log("tamaño de apellido", apellido.length)
-  console.log("verificacion email:", emailRegex.test(email))
   if (nombre.length >= 3 && apellido.length >= 3 && emailRegex.test(email)) {
     setCamposValidos(true);
   } else {
@@ -143,7 +140,16 @@ useEffect(() => {
   }
  }, [nombre, apellido, email]);
 
-
+ const groupedData = sillasData.flat().reduce((acc, chair) => {
+  const match = chair.name.match(/FILA (\w+)/i);
+  if (match) {
+    const fila = match[1];
+    acc[fila] = acc[fila] || [];
+    acc[fila].push(chair);
+  }
+  return acc;
+ }, {});
+ 
 
 const validarEntradas = async () => {
   const url = `https://www.makeidsystems.com/makeid/index.php?r=site/validarSillas&key=${token}&sillas=${chairID}`;
@@ -204,6 +210,7 @@ const validarEntradas = async () => {
     }
     if (selectedArticle) {
       const sillasApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/EspacioSillas&key=${token}&id_article=${selectedArticle}`;
+      
       try {
         const response = await fetch(sillasApiUrl);
         const sillasData = await response.json();
@@ -230,7 +237,7 @@ const validarEntradas = async () => {
       )}
 
       {!loading && (
-        <View style={styles.container}>
+        <View style={[styles.container, { zIndex: 1001 }]}>
           <View style={styles.dropdownEvento}>
             <Text style={styles.label}>Eventos:</Text>
             <DropDownPicker
@@ -271,28 +278,33 @@ const validarEntradas = async () => {
       ) : (
         <>
           <ZoomableScrollView style={styles.container}>
-            <View style={styles.imageContainer}>
-              <Image source={{ uri: sillasImageUrl }} style={styles.image} />
-            </View>
-            <View style={styles.sillasContainer}>
-              {sillasData.map((row, rowIndex) => (
-                <View key={rowIndex} flexDirection="row">
-                  {row.map((chair, chairIndex) => (
-                    <TouchableOpacity
-                      key={`${rowIndex}-${chairIndex}`}
-                      style={{
-                        width: chairSize,
-                        height: chairSize,
-                        backgroundColor: pressedChairs.includes(chair.name) ? 'grey' : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
-                        margin: 1,
-                      }}
-                      onPress={() => handleChairPress(chair)}
-                    />
-                  ))}
-                </View>
-              ))}
-            </View>
-          </ZoomableScrollView>
+   <View style={styles.imageContainer}>
+     <Image source={{ uri: sillasImageUrl }} style={styles.image} />
+   </View>
+   <View style={styles.sillasContainer}>
+   {Object.entries(groupedData).map(([fila, sillas]) => (
+ <View key={fila} style={{ flexDirection: "row", alignItems: "center" }}>
+   <Text style={{ color: 'white', fontSize: 16 }}>{`FILA ${fila}   `}</Text>
+   <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+     {sillas.map((chair, chairIndex) => (
+       <TouchableOpacity
+         key={`${fila}-${chairIndex}`}
+         style={{
+           width: chairSize,
+           height: chairSize,
+           backgroundColor: pressedChairs.includes(chair.name) ? 'grey' : chair.status == "0" ? "transparent" : chair.sold == "0" ? "green" : chair.sold == "2" ? "blue" : "red",
+           margin: 1,
+         }}
+         onPress={() => handleChairPress(chair)}
+       />
+     ))}
+   </View>
+ </View>
+))}
+
+
+   </View>
+ </ZoomableScrollView>
 
           {pressedChairs.length > 0 && (
             <View style={{ height: 150 }}>
@@ -517,7 +529,7 @@ const validarEntradas = async () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Entradas procesadas con éxito FUNCIONALIDAD EN CONSTRUCCIÓN</Text>
+            <Text style={styles.modalTitle}>Entradas procesadas con éxito</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               <Button
                 title="Regresar"
@@ -588,7 +600,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   dropdownEvento: {
-    zIndex: 1100,
+
     marginBottom: 20,
     backgroundColor: '#fff',
     paddingVertical: 10,
@@ -597,7 +609,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   dropdownArticulo: {
-    zIndex: 1001,
     marginBottom: 1,
     backgroundColor: '#fff',
     paddingVertical: 10,
@@ -609,6 +620,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
+    marginBottom: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -646,6 +658,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
+    marginTop: 50,
     flexGrow: 1
   },
   row: {
