@@ -33,6 +33,7 @@ const VentasCortesia = () => {
   const [camposValidos, setCamposValidos] = useState(false);
   const [errorModal,setErrorModal]= useState(false)
   const [eventID,setEventID]= useState([])
+  const [isEmptyArray, setIsEmptyArray] = useState(false);
 
 
   useEffect(() => {
@@ -221,6 +222,16 @@ const validarEntradas = async () => {
       }
     }
    };
+
+
+useEffect(() => {
+ if (sillasData.length == 0) {
+   setIsEmptyArray(true);
+ } else {
+   setIsEmptyArray(false);
+ }
+}, [sillasData]);
+
  
 
 
@@ -275,7 +286,7 @@ const validarEntradas = async () => {
           <Text style={styles.loading}>Estamos cargando los datos de la aplicación por favor espere...</Text>
           <ActivityIndicator size={120} />
         </>
-      ) : (
+      ) :  (
         <>
           <ZoomableScrollView style={styles.container}>
    <View style={styles.imageContainer}>
@@ -284,7 +295,7 @@ const validarEntradas = async () => {
    <View style={styles.sillasContainer}>
    {Object.entries(groupedData).map(([fila, sillas]) => (
  <View key={fila} style={{ flexDirection: "row", alignItems: "center" }}>
-   <Text style={{ color: 'white', fontSize: 16 }}>{`FILA ${fila}   `}</Text>
+   <Text style={{ color: 'white', fontSize: 16 }}>{` ${fila}   `}</Text>
    <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
      {sillas.map((chair, chairIndex) => (
        <TouchableOpacity

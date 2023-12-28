@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { View, FlatList, StyleSheet, ScrollView, Text } from 'react-native';
 import { APIContext } from '../components/APIContext.js';
 import IncomesCard from "../components/IncomesCard.jsx";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -12,6 +12,7 @@ const ListaCortesia = () => {
   const [value, setValue] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [ListaData, setListaData] = useState([]);
+  const [order, setOrder] = useState([]);
 
   const totalData = {
     Orden: 0,
@@ -27,10 +28,8 @@ const ListaCortesia = () => {
       try {
         const ListaDataPromises = events.map(async (event) => {
           const ListaApiUrl = `https://makeidsystems.com/makeid/index.php?r=site/CortesiaList&key=${token}&id_event=${event.id_event}`;
-          console.log('esta es la url:', ListaApiUrl)
           const response = await fetch(ListaApiUrl);
           const ListaEventData = await response.json();
-          console.log(ListaEventData)
           return ListaEventData;
         });
         const allListaData = await Promise.all(ListaDataPromises); 
@@ -50,7 +49,6 @@ const ListaCortesia = () => {
 
   if(!token){
     return
-    // 
   }
   const filteredEvents = selectedEvent ? events.filter(event => event.name === selectedEvent) : events;
   const filteredListaData = selectedEvent ? ListaData.filter((_, index) => events[index].name === selectedEvent) : ListaData;
@@ -70,29 +68,21 @@ const ListaCortesia = () => {
           placeholder="Seleccione su evento"
         />
       </View>
-      {selectedEvent ? (
-      <FlatList
-        data={filteredEvents}
-        keyExtractor={(event) => event.id_event.toString()}
-        renderItem={({ item, index }) => (
-          <View key={item.id_event}
-          style={styles.cardContainer}
-          >
-          <ListaCortesiaCard event={item} listaData={filteredListaData[index]} key={item.id_event} />
-          </View>
-        )}
-      />):
-      (
-        <ScrollView style={styles.cardContainer}>
-          {ListaData.map((item, index) => (
- <View key={index} style={styles.cardContainer}>
-   <ListaCortesiaCard event={events[index]} listaData={item} />
- </View>
-))}
-        </ScrollView>
-      )}
-    </View>
-  );
+      
+      {selectedEvent? (
+     <FlatList
+       data={filteredEvents}
+       keyExtractor={(event) => event.id_event.toString()}
+       renderItem={({ item, index }) => (
+         <View key={item.id_event}
+         style={styles.cardContainer}
+         >
+         <ListaCortesiaCard event={item} listaData={filteredListaData[index]} key={item.id_event} />
+         </View>
+       )}
+     />) : null}
+   </View>
+ );
 };
 
 const styles = StyleSheet.create({
